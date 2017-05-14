@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team.yqby.platform.common.emodel.ServiceErrorCode;
+import team.yqby.platform.common.util.MD5Util;
 import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.mapper.TUserMapper;
@@ -32,9 +33,14 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         //校验用户密码是否正确
         TUser tUser = userList.get(0);
-        if(!tUser.getPassword().equals(userPwd)){
+        if(!tUser.getPassword().equals(MD5Util.MD5Encode(userPwd))){
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10013);
         }
         return tUser;
+    }
+
+    public static void main(String[] args) {
+        String test = MD5Util.MD5Encode("1");
+        System.out.println(test);
     }
 }
