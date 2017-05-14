@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="renderer" content="webkit">
-    <title>管理平台</title>
+    <title>四茂管理平台</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pintuer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
     <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
@@ -44,7 +44,7 @@
             </div>         
             <form id="userLogin" action="${pageContext.request.contextPath}/login" method="post">
             <div class="panel loginbox">
-                <div class="text-center margin-big padding-big-top"><h1>大熊通信管理平台</h1></div>
+                <div class="text-center margin-big padding-big-top"><h1>四茂管理平台</h1></div>
                 <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
                     <div class="form-group">
                         <div class="field field-icon-right">
