@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yqby.platform.mapper.TCustomerMapper" >
+  <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TCustomer" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="wechat_number" property="wechatNumber" jdbcType="VARCHAR" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="createBy" property="createby" jdbcType="BIGINT" />
+    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
+    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, wechat_number, telphone, createBy, createByName, createTime, updateBy, 
+    updateByName, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TCustomerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_customer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_customer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="team.yqby.platform.pojo.TCustomerExample" >
+    delete from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="team.yqby.platform.pojo.TCustomer" >
+    insert into t_customer (id, name, wechat_number, 
+      telphone, createBy, createByName, 
+      createTime, updateBy, updateByName, 
+      updateTime)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{wechatNumber,jdbcType=VARCHAR}, 
+      #{telphone,jdbcType=VARCHAR}, #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TCustomer" >
+    insert into t_customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="wechatNumber != null" >
+        wechat_number,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="createby != null" >
+        createBy,
+      </if>
+      <if test="createbyname != null" >
+        createByName,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updateby != null" >
+        updateBy,
+      </if>
+      <if test="updatebyname != null" >
+        updateByName,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNumber != null" >
+        #{wechatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null" >
+        #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null" >
+        #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null" >
+        #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="team.yqby.platform.pojo.TCustomerExample" resultType="java.lang.Integer" >
+    select count(*) from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_customer
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wechatNumber != null" >
+        wechat_number = #{record.wechatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telphone != null" >
+        telphone = #{record.telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createby != null" >
+        createBy = #{record.createby,jdbcType=BIGINT},
+      </if>
+      <if test="record.createbyname != null" >
+        createByName = #{record.createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null" >
+        updateBy = #{record.updateby,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatebyname != null" >
+        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_customer
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      wechat_number = #{record.wechatNumber,jdbcType=VARCHAR},
+      telphone = #{record.telphone,jdbcType=VARCHAR},
+      createBy = #{record.createby,jdbcType=BIGINT},
+      createByName = #{record.createbyname,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateBy = #{record.updateby,jdbcType=BIGINT},
+      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yqby.platform.pojo.TCustomer" >
+    update t_customer
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNumber != null" >
+        wechat_number = #{wechatNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null" >
+        createBy = #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null" >
+        createByName = #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        updateBy = #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null" >
+        updateByName = #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TCustomer" >
+    update t_customer
+    set name = #{name,jdbcType=VARCHAR},
+      wechat_number = #{wechatNumber,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      createBy = #{createby,jdbcType=BIGINT},
+      createByName = #{createbyname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=BIGINT},
+      updateByName = #{updatebyname,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

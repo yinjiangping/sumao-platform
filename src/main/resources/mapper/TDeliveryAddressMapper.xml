@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team.yqby.platform.mapper.TDeliveryAddressMapper" >
+  <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TDeliveryAddress" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="delivery_address" property="deliveryAddress" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="delivery_name" property="deliveryName" jdbcType="VARCHAR" />
+    <result column="postcodes" property="postcodes" jdbcType="VARCHAR" />
+    <result column="sender_name" property="senderName" jdbcType="VARCHAR" />
+    <result column="sender_tel" property="senderTel" jdbcType="VARCHAR" />
+    <result column="delivery_tel" property="deliveryTel" jdbcType="VARCHAR" />
+    <result column="mail_number" property="mailNumber" jdbcType="VARCHAR" />
+    <result column="mailing_unit" property="mailingUnit" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="sender_address" property="senderAddress" jdbcType="VARCHAR" />
+    <result column="createBy" property="createby" jdbcType="BIGINT" />
+    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
+    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, delivery_address, customer_id, delivery_name, postcodes, sender_name, sender_tel, 
+    delivery_tel, mail_number, mailing_unit, order_id, sender_address, createBy, createByName, 
+    createTime, updateBy, updateByName, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TDeliveryAddressExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_delivery_address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_delivery_address
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_delivery_address
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="team.yqby.platform.pojo.TDeliveryAddressExample" >
+    delete from t_delivery_address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
+    insert into t_delivery_address (id, delivery_address, customer_id, 
+      delivery_name, postcodes, sender_name, 
+      sender_tel, delivery_tel, mail_number, 
+      mailing_unit, order_id, sender_address, 
+      createBy, createByName, createTime, 
+      updateBy, updateByName, updateTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{customerId,jdbcType=BIGINT}, 
+      #{deliveryName,jdbcType=VARCHAR}, #{postcodes,jdbcType=VARCHAR}, #{senderName,jdbcType=VARCHAR}, 
+      #{senderTel,jdbcType=VARCHAR}, #{deliveryTel,jdbcType=VARCHAR}, #{mailNumber,jdbcType=VARCHAR}, 
+      #{mailingUnit,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT}, #{senderAddress,jdbcType=VARCHAR}, 
+      #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
+    insert into t_delivery_address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deliveryAddress != null" >
+        delivery_address,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="deliveryName != null" >
+        delivery_name,
+      </if>
+      <if test="postcodes != null" >
+        postcodes,
+      </if>
+      <if test="senderName != null" >
+        sender_name,
+      </if>
+      <if test="senderTel != null" >
+        sender_tel,
+      </if>
+      <if test="deliveryTel != null" >
+        delivery_tel,
+      </if>
+      <if test="mailNumber != null" >
+        mail_number,
+      </if>
+      <if test="mailingUnit != null" >
+        mailing_unit,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="senderAddress != null" >
+        sender_address,
+      </if>
+      <if test="createby != null" >
+        createBy,
+      </if>
+      <if test="createbyname != null" >
+        createByName,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updateby != null" >
+        updateBy,
+      </if>
+      <if test="updatebyname != null" >
+        updateByName,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryAddress != null" >
+        #{deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryName != null" >
+        #{deliveryName,jdbcType=VARCHAR},
+      </if>
+      <if test="postcodes != null" >
+        #{postcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="senderName != null" >
+        #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderTel != null" >
+        #{senderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTel != null" >
+        #{deliveryTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mailNumber != null" >
+        #{mailNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingUnit != null" >
+        #{mailingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="senderAddress != null" >
+        #{senderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null" >
+        #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null" >
+        #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null" >
+        #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="team.yqby.platform.pojo.TDeliveryAddressExample" resultType="java.lang.Integer" >
+    select count(*) from t_delivery_address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_delivery_address
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.deliveryAddress != null" >
+        delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerId != null" >
+        customer_id = #{record.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deliveryName != null" >
+        delivery_name = #{record.deliveryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcodes != null" >
+        postcodes = #{record.postcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.senderName != null" >
+        sender_name = #{record.senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.senderTel != null" >
+        sender_tel = #{record.senderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryTel != null" >
+        delivery_tel = #{record.deliveryTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailNumber != null" >
+        mail_number = #{record.mailNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mailingUnit != null" >
+        mailing_unit = #{record.mailingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.senderAddress != null" >
+        sender_address = #{record.senderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createby != null" >
+        createBy = #{record.createby,jdbcType=BIGINT},
+      </if>
+      <if test="record.createbyname != null" >
+        createByName = #{record.createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null" >
+        updateBy = #{record.updateby,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatebyname != null" >
+        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_delivery_address
+    set id = #{record.id,jdbcType=BIGINT},
+      delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
+      customer_id = #{record.customerId,jdbcType=BIGINT},
+      delivery_name = #{record.deliveryName,jdbcType=VARCHAR},
+      postcodes = #{record.postcodes,jdbcType=VARCHAR},
+      sender_name = #{record.senderName,jdbcType=VARCHAR},
+      sender_tel = #{record.senderTel,jdbcType=VARCHAR},
+      delivery_tel = #{record.deliveryTel,jdbcType=VARCHAR},
+      mail_number = #{record.mailNumber,jdbcType=VARCHAR},
+      mailing_unit = #{record.mailingUnit,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      sender_address = #{record.senderAddress,jdbcType=VARCHAR},
+      createBy = #{record.createby,jdbcType=BIGINT},
+      createByName = #{record.createbyname,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateBy = #{record.updateby,jdbcType=BIGINT},
+      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
+    update t_delivery_address
+    <set >
+      <if test="deliveryAddress != null" >
+        delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryName != null" >
+        delivery_name = #{deliveryName,jdbcType=VARCHAR},
+      </if>
+      <if test="postcodes != null" >
+        postcodes = #{postcodes,jdbcType=VARCHAR},
+      </if>
+      <if test="senderName != null" >
+        sender_name = #{senderName,jdbcType=VARCHAR},
+      </if>
+      <if test="senderTel != null" >
+        sender_tel = #{senderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryTel != null" >
+        delivery_tel = #{deliveryTel,jdbcType=VARCHAR},
+      </if>
+      <if test="mailNumber != null" >
+        mail_number = #{mailNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mailingUnit != null" >
+        mailing_unit = #{mailingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="senderAddress != null" >
+        sender_address = #{senderAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null" >
+        createBy = #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null" >
+        createByName = #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        updateBy = #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null" >
+        updateByName = #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
+    update t_delivery_address
+    set delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=BIGINT},
+      delivery_name = #{deliveryName,jdbcType=VARCHAR},
+      postcodes = #{postcodes,jdbcType=VARCHAR},
+      sender_name = #{senderName,jdbcType=VARCHAR},
+      sender_tel = #{senderTel,jdbcType=VARCHAR},
+      delivery_tel = #{deliveryTel,jdbcType=VARCHAR},
+      mail_number = #{mailNumber,jdbcType=VARCHAR},
+      mailing_unit = #{mailingUnit,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=BIGINT},
+      sender_address = #{senderAddress,jdbcType=VARCHAR},
+      createBy = #{createby,jdbcType=BIGINT},
+      createByName = #{createbyname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=BIGINT},
+      updateByName = #{updatebyname,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
