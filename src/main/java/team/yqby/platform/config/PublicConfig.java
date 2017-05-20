@@ -21,11 +21,13 @@ public class PublicConfig {
 
     public static final String WX_CREATE_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
-    public static final String PAY_NOTIFY_URL = "http://www.189tel.cn/payCallBack";
+    public static final String PAY_NOTIFY_URL = "http://www.sumaophoto.net/webChat/payCallBack";
 
-    public static final String GOODS_NAME="DY-FlowRecharge";
+    public static final String GOODS_NAME="pay";
 
 
     public static final String APP_SECRET = "abf8b6399d2021c49de6b7e0d0a4ae7e";
+
+    public static final String QINIU_URL="http://oq8naz2op.bkt.clouddn.com";
 
 }
