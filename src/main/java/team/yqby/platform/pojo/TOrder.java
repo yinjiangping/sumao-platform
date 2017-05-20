@@ -27,6 +27,12 @@ public class TOrder {
 
     private Date updatetime;
 
+    private String orderno;
+
+    private String resorderno;
+
+    private String orderamt;
+
     public Long getId() {
         return id;
     }
@@ -40,7 +46,7 @@ public class TOrder {
     }
 
     public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+        this.customerId = customerId == null ? null : customerId.trim();
     }
 
     public Date getPutOrderTime() {
@@ -121,5 +127,29 @@ public class TOrder {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public String getOrderno() {
+        return orderno;
+    }
+
+    public void setOrderno(String orderno) {
+        this.orderno = orderno == null ? null : orderno.trim();
+    }
+
+    public String getResorderno() {
+        return resorderno;
+    }
+
+    public void setResorderno(String resorderno) {
+        this.resorderno = resorderno == null ? null : resorderno.trim();
+    }
+
+    public String getOrderamt() {
+        return orderamt;
+    }
+
+    public void setOrderamt(String orderamt) {
+        this.orderamt = orderamt == null ? null : orderamt.trim();
     }
 }

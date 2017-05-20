@@ -1,39 +1,42 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="team.yqby.platform.mapper.TOrderMapper" >
-  <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TOrder" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
-    <result column="put_order_time" property="putOrderTime" jdbcType="TIMESTAMP" />
-    <result column="refuse_time" property="refuseTime" jdbcType="TIMESTAMP" />
-    <result column="is_pay" property="isPay" jdbcType="TINYINT" />
-    <result column="process" property="process" jdbcType="TINYINT" />
-    <result column="createBy" property="createby" jdbcType="BIGINT" />
-    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
-    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
-    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="team.yqby.platform.mapper.TOrderMapper">
+  <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="put_order_time" jdbcType="TIMESTAMP" property="putOrderTime" />
+    <result column="refuse_time" jdbcType="TIMESTAMP" property="refuseTime" />
+    <result column="is_pay" jdbcType="TINYINT" property="isPay" />
+    <result column="process" jdbcType="TINYINT" property="process" />
+    <result column="createBy" jdbcType="BIGINT" property="createby" />
+    <result column="createByName" jdbcType="VARCHAR" property="createbyname" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateBy" jdbcType="BIGINT" property="updateby" />
+    <result column="updateByName" jdbcType="VARCHAR" property="updatebyname" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="resOrderNo" jdbcType="VARCHAR" property="resorderno" />
+    <result column="orderAmt" jdbcType="VARCHAR" property="orderamt" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -44,25 +47,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -73,182 +76,211 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     id, customer_id, put_order_time, refuse_time, is_pay, process, createBy, createByName, 
-    createTime, updateBy, updateByName, updateTime
+    createTime, updateBy, updateByName, updateTime, orderNo, resOrderNo, orderAmt
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TOrderExample" >
+  <select id="selectByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from t_order
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_order
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="team.yqby.platform.pojo.TOrderExample" >
+  <delete id="deleteByExample" parameterType="team.yqby.platform.pojo.TOrderExample">
     delete from t_order
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="team.yqby.platform.pojo.TOrder" >
+  <insert id="insert" parameterType="team.yqby.platform.pojo.TOrder">
     insert into t_order (id, customer_id, put_order_time, 
       refuse_time, is_pay, process, 
       createBy, createByName, createTime, 
-      updateBy, updateByName, updateTime
+      updateBy, updateByName, updateTime, 
+      orderNo, resOrderNo, orderAmt
       )
-    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP},
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP}, 
       #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=TINYINT}, #{process,jdbcType=TINYINT}, 
       #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{orderno,jdbcType=VARCHAR}, #{resorderno,jdbcType=VARCHAR}, #{orderamt,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder" >
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder">
     insert into t_order
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="customerId != null" >
+      <if test="customerId != null">
         customer_id,
       </if>
-      <if test="putOrderTime != null" >
+      <if test="putOrderTime != null">
         put_order_time,
       </if>
-      <if test="refuseTime != null" >
+      <if test="refuseTime != null">
         refuse_time,
       </if>
-      <if test="isPay != null" >
+      <if test="isPay != null">
         is_pay,
       </if>
-      <if test="process != null" >
+      <if test="process != null">
         process,
       </if>
-      <if test="createby != null" >
+      <if test="createby != null">
         createBy,
       </if>
-      <if test="createbyname != null" >
+      <if test="createbyname != null">
         createByName,
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null">
         createTime,
       </if>
-      <if test="updateby != null" >
+      <if test="updateby != null">
         updateBy,
       </if>
-      <if test="updatebyname != null" >
+      <if test="updatebyname != null">
         updateByName,
       </if>
-      <if test="updatetime != null" >
+      <if test="updatetime != null">
         updateTime,
       </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="resorderno != null">
+        resOrderNo,
+      </if>
+      <if test="orderamt != null">
+        orderAmt,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="customerId != null" >
+      <if test="customerId != null">
         #{customerId,jdbcType=VARCHAR},
       </if>
-      <if test="putOrderTime != null" >
+      <if test="putOrderTime != null">
         #{putOrderTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="refuseTime != null" >
+      <if test="refuseTime != null">
         #{refuseTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isPay != null" >
+      <if test="isPay != null">
         #{isPay,jdbcType=TINYINT},
       </if>
-      <if test="process != null" >
+      <if test="process != null">
         #{process,jdbcType=TINYINT},
       </if>
-      <if test="createby != null" >
+      <if test="createby != null">
         #{createby,jdbcType=BIGINT},
       </if>
-      <if test="createbyname != null" >
+      <if test="createbyname != null">
         #{createbyname,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateby != null" >
+      <if test="updateby != null">
         #{updateby,jdbcType=BIGINT},
       </if>
-      <if test="updatebyname != null" >
+      <if test="updatebyname != null">
         #{updatebyname,jdbcType=VARCHAR},
       </if>
-      <if test="updatetime != null" >
+      <if test="updatetime != null">
         #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="resorderno != null">
+        #{resorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderamt != null">
+        #{orderamt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultType="java.lang.Integer">
     select count(*) from t_order
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update t_order
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.customerId != null" >
+      <if test="record.customerId != null">
         customer_id = #{record.customerId,jdbcType=VARCHAR},
       </if>
-      <if test="record.putOrderTime != null" >
+      <if test="record.putOrderTime != null">
         put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.refuseTime != null" >
+      <if test="record.refuseTime != null">
         refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.isPay != null" >
+      <if test="record.isPay != null">
         is_pay = #{record.isPay,jdbcType=TINYINT},
       </if>
-      <if test="record.process != null" >
+      <if test="record.process != null">
         process = #{record.process,jdbcType=TINYINT},
       </if>
-      <if test="record.createby != null" >
+      <if test="record.createby != null">
         createBy = #{record.createby,jdbcType=BIGINT},
       </if>
-      <if test="record.createbyname != null" >
+      <if test="record.createbyname != null">
         createByName = #{record.createbyname,jdbcType=VARCHAR},
       </if>
-      <if test="record.createtime != null" >
+      <if test="record.createtime != null">
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.updateby != null" >
+      <if test="record.updateby != null">
         updateBy = #{record.updateby,jdbcType=BIGINT},
       </if>
-      <if test="record.updatebyname != null" >
+      <if test="record.updatebyname != null">
         updateByName = #{record.updatebyname,jdbcType=VARCHAR},
       </if>
-      <if test="record.updatetime != null" >
+      <if test="record.updatetime != null">
         updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resorderno != null">
+        resOrderNo = #{record.resorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderamt != null">
+        orderAmt = #{record.orderamt,jdbcType=VARCHAR},
+      </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update t_order
     set id = #{record.id,jdbcType=BIGINT},
       customer_id = #{record.customerId,jdbcType=VARCHAR},
@@ -261,53 +293,736 @@
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateBy = #{record.updateby,jdbcType=BIGINT},
       updateByName = #{record.updatebyname,jdbcType=VARCHAR},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      resOrderNo = #{record.resorderno,jdbcType=VARCHAR},
+      orderAmt = #{record.orderamt,jdbcType=VARCHAR}
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="team.yqby.platform.pojo.TOrder" >
+  <update id="updateByPrimaryKeySelective" parameterType="team.yqby.platform.pojo.TOrder">
     update t_order
-    <set >
-      <if test="customerId != null" >
+    <set>
+      <if test="customerId != null">
         customer_id = #{customerId,jdbcType=VARCHAR},
       </if>
-      <if test="putOrderTime != null" >
+      <if test="putOrderTime != null">
         put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="refuseTime != null" >
+      <if test="refuseTime != null">
         refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isPay != null" >
+      <if test="isPay != null">
         is_pay = #{isPay,jdbcType=TINYINT},
       </if>
-      <if test="process != null" >
+      <if test="process != null">
         process = #{process,jdbcType=TINYINT},
       </if>
-      <if test="createby != null" >
+      <if test="createby != null">
         createBy = #{createby,jdbcType=BIGINT},
       </if>
-      <if test="createbyname != null" >
+      <if test="createbyname != null">
         createByName = #{createbyname,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
+      <if test="createtime != null">
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateby != null" >
+      <if test="updateby != null">
         updateBy = #{updateby,jdbcType=BIGINT},
       </if>
-      <if test="updatebyname != null" >
+      <if test="updatebyname != null">
         updateByName = #{updatebyname,jdbcType=VARCHAR},
       </if>
-      <if test="updatetime != null" >
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="resorderno != null">
+        resOrderNo = #{resorderno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderamt != null">
+        orderAmt = #{orderamt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TOrder">
+    update t_order
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
+      refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
+      is_pay = #{isPay,jdbcType=TINYINT},
+      process = #{process,jdbcType=TINYINT},
+      createBy = #{createby,jdbcType=BIGINT},
+      createByName = #{createbyname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=BIGINT},
+      updateByName = #{updatebyname,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      resOrderNo = #{resorderno,jdbcType=VARCHAR},
+      orderAmt = #{orderamt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+    <result column="put_order_time" jdbcType="TIMESTAMP" property="putOrderTime" />
+    <result column="refuse_time" jdbcType="TIMESTAMP" property="refuseTime" />
+    <result column="is_pay" jdbcType="TINYINT" property="isPay" />
+    <result column="process" jdbcType="TINYINT" property="process" />
+    <result column="createBy" jdbcType="BIGINT" property="createby" />
+    <result column="createByName" jdbcType="VARCHAR" property="createbyname" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateBy" jdbcType="BIGINT" property="updateby" />
+    <result column="updateByName" jdbcType="VARCHAR" property="updatebyname" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="resOrderNo" jdbcType="VARCHAR" property="resorderno" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, customer_id, put_order_time, refuse_time, is_pay, process, createBy, createByName, 
+    createTime, updateBy, updateByName, updateTime, orderNo, resOrderNo
+  </sql>
+  <select id="selectByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="team.yqby.platform.pojo.TOrderExample">
+    delete from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="team.yqby.platform.pojo.TOrder">
+    insert into t_order (id, customer_id, put_order_time, 
+      refuse_time, is_pay, process, 
+      createBy, createByName, createTime, 
+      updateBy, updateByName, updateTime, 
+      orderNo, resOrderNo)
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP}, 
+      #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=TINYINT}, #{process,jdbcType=TINYINT}, 
+      #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{orderno,jdbcType=VARCHAR}, #{resorderno,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="putOrderTime != null">
+        put_order_time,
+      </if>
+      <if test="refuseTime != null">
+        refuse_time,
+      </if>
+      <if test="isPay != null">
+        is_pay,
+      </if>
+      <if test="process != null">
+        process,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="createbyname != null">
+        createByName,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="updatebyname != null">
+        updateByName,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="resorderno != null">
+        resOrderNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="putOrderTime != null">
+        #{putOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refuseTime != null">
+        #{refuseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPay != null">
+        #{isPay,jdbcType=TINYINT},
+      </if>
+      <if test="process != null">
+        #{process,jdbcType=TINYINT},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null">
+        #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null">
+        #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="resorderno != null">
+        #{resorderno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultType="java.lang.Integer">
+    select count(*) from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerId != null">
+        customer_id = #{record.customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.putOrderTime != null">
+        put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.refuseTime != null">
+        refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isPay != null">
+        is_pay = #{record.isPay,jdbcType=TINYINT},
+      </if>
+      <if test="record.process != null">
+        process = #{record.process,jdbcType=TINYINT},
+      </if>
+      <if test="record.createby != null">
+        createBy = #{record.createby,jdbcType=BIGINT},
+      </if>
+      <if test="record.createbyname != null">
+        createByName = #{record.createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        updateBy = #{record.updateby,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatebyname != null">
+        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resorderno != null">
+        resOrderNo = #{record.resorderno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_order
+    set id = #{record.id,jdbcType=BIGINT},
+      customer_id = #{record.customerId,jdbcType=VARCHAR},
+      put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
+      refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
+      is_pay = #{record.isPay,jdbcType=TINYINT},
+      process = #{record.process,jdbcType=TINYINT},
+      createBy = #{record.createby,jdbcType=BIGINT},
+      createByName = #{record.createbyname,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateBy = #{record.updateby,jdbcType=BIGINT},
+      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      resOrderNo = #{record.resorderno,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yqby.platform.pojo.TOrder">
+    update t_order
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="putOrderTime != null">
+        put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refuseTime != null">
+        refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPay != null">
+        is_pay = #{isPay,jdbcType=TINYINT},
+      </if>
+      <if test="process != null">
+        process = #{process,jdbcType=TINYINT},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null">
+        createByName = #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null">
+        updateByName = #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="resorderno != null">
+        resOrderNo = #{resorderno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TOrder">
+    update t_order
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
+      refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
+      is_pay = #{isPay,jdbcType=TINYINT},
+      process = #{process,jdbcType=TINYINT},
+      createBy = #{createby,jdbcType=BIGINT},
+      createByName = #{createbyname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=BIGINT},
+      updateByName = #{updatebyname,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      resOrderNo = #{resorderno,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="put_order_time" jdbcType="TIMESTAMP" property="putOrderTime" />
+    <result column="refuse_time" jdbcType="TIMESTAMP" property="refuseTime" />
+    <result column="is_pay" jdbcType="TINYINT" property="isPay" />
+    <result column="process" jdbcType="TINYINT" property="process" />
+    <result column="createBy" jdbcType="BIGINT" property="createby" />
+    <result column="createByName" jdbcType="VARCHAR" property="createbyname" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateBy" jdbcType="BIGINT" property="updateby" />
+    <result column="updateByName" jdbcType="VARCHAR" property="updatebyname" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, customer_id, put_order_time, refuse_time, is_pay, process, createBy, createByName, 
+    createTime, updateBy, updateByName, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="team.yqby.platform.pojo.TOrderExample">
+    delete from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="team.yqby.platform.pojo.TOrder">
+    insert into t_order (id, customer_id, put_order_time, 
+      refuse_time, is_pay, process, 
+      createBy, createByName, createTime, 
+      updateBy, updateByName, updateTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{putOrderTime,jdbcType=TIMESTAMP}, 
+      #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=TINYINT}, #{process,jdbcType=TINYINT}, 
+      #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="putOrderTime != null">
+        put_order_time,
+      </if>
+      <if test="refuseTime != null">
+        refuse_time,
+      </if>
+      <if test="isPay != null">
+        is_pay,
+      </if>
+      <if test="process != null">
+        process,
+      </if>
+      <if test="createby != null">
+        createBy,
+      </if>
+      <if test="createbyname != null">
+        createByName,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updateby != null">
+        updateBy,
+      </if>
+      <if test="updatebyname != null">
+        updateByName,
+      </if>
+      <if test="updatetime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="putOrderTime != null">
+        #{putOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refuseTime != null">
+        #{refuseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPay != null">
+        #{isPay,jdbcType=TINYINT},
+      </if>
+      <if test="process != null">
+        #{process,jdbcType=TINYINT},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null">
+        #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null">
+        #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultType="java.lang.Integer">
+    select count(*) from t_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerId != null">
+        customer_id = #{record.customerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.putOrderTime != null">
+        put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.refuseTime != null">
+        refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isPay != null">
+        is_pay = #{record.isPay,jdbcType=TINYINT},
+      </if>
+      <if test="record.process != null">
+        process = #{record.process,jdbcType=TINYINT},
+      </if>
+      <if test="record.createby != null">
+        createBy = #{record.createby,jdbcType=BIGINT},
+      </if>
+      <if test="record.createbyname != null">
+        createByName = #{record.createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        updateBy = #{record.updateby,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatebyname != null">
+        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null">
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_order
+    set id = #{record.id,jdbcType=BIGINT},
+      customer_id = #{record.customerId,jdbcType=BIGINT},
+      put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
+      refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
+      is_pay = #{record.isPay,jdbcType=TINYINT},
+      process = #{record.process,jdbcType=TINYINT},
+      createBy = #{record.createby,jdbcType=BIGINT},
+      createByName = #{record.createbyname,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateBy = #{record.updateby,jdbcType=BIGINT},
+      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="team.yqby.platform.pojo.TOrder">
+    update t_order
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=BIGINT},
+      </if>
+      <if test="putOrderTime != null">
+        put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refuseTime != null">
+        refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPay != null">
+        is_pay = #{isPay,jdbcType=TINYINT},
+      </if>
+      <if test="process != null">
+        process = #{process,jdbcType=TINYINT},
+      </if>
+      <if test="createby != null">
+        createBy = #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null">
+        createByName = #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        updateBy = #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null">
+        updateByName = #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
         updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TOrder" >
+  <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TOrder">
     update t_order
-    set customer_id = #{customerId,jdbcType=VARCHAR},
+    set customer_id = #{customerId,jdbcType=BIGINT},
       put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
       refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
       is_pay = #{isPay,jdbcType=TINYINT},

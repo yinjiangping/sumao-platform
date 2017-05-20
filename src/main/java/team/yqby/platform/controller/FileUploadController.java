@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.*;
 
 @Slf4j
@@ -76,16 +75,12 @@ public class FileUploadController {
             tFile.setOrderId(0L);
             tFile.setCreatetime(new Date());
             tFile.setUpdatetime(new Date());
-            return tFileMapper.insertSelective(tFile);
+            tFileMapper.insertSelective(tFile);
+            return tFile.getId().intValue();
         } catch (Exception e) {
             log.error("uploadPic exception,error", e);
         }
         return 0;
-    }
-
-    public static void main(String[] args) {
-        String test = "name.txt";
-        System.out.println(test.substring(test.lastIndexOf(".")));
     }
 
     /**
@@ -100,7 +95,7 @@ public class FileUploadController {
         try {
             //1.判断图片是否已关联订单
             TFile file = tFileMapper.selectByPrimaryKey(fileId);
-            if (file == null || file.getOrderId().longValue() <= 0L) {
+            if (file == null || file.getOrderId().longValue() > 0L) {
                 log.error("origin pic no exists，delete fail!");
                 return false;
             }

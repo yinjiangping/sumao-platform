@@ -23,8 +23,9 @@ public class PublicConfig {
 
     public static final String PAY_NOTIFY_URL = "http://www.sumaophoto.net/webChat/payCallBack";
 
-    public static final String GOODS_NAME="pay";
+    public static final String TRADE_TYPE="JSAPI";
 
+    public static final String GOODS_NAME="photo";
 
     public static final String APP_SECRET = "abf8b6399d2021c49de6b7e0d0a4ae7e";
 
