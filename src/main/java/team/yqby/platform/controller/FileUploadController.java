@@ -52,8 +52,9 @@ public class FileUploadController {
             }
             MultipartFile file = files.get(0);
             String name = file.getName();
-            String saveFilePath = Joiner.on("").join(localPath, format, "_", name);
-            String fileName = Joiner.on("_").join(format,name);
+            String fileType = name.substring(name.lastIndexOf("."));
+            String saveFilePath = Joiner.on("").join(localPath, format, fileType);
+            String fileName = Joiner.on("").join(format,fileType);
             if (!file.isEmpty()) {
                 try {
                     byte[] bytes = file.getBytes();
@@ -80,6 +81,11 @@ public class FileUploadController {
         return 0;
     }
 
+    public static void main(String[] args) {
+        String test = "name.txt";
+        System.out.println(test.substring(test.lastIndexOf(".")));
+    }
+
     /**
      * 删除图片
      *
@@ -92,7 +98,7 @@ public class FileUploadController {
         try {
             //1.判断图片是否已关联订单
             TFile file = tFileMapper.selectByPrimaryKey(fileId);
-            if (file == null && file.getOrderId().longValue() <= 0L) {
+            if (file == null || file.getOrderId().longValue() <= 0L) {
                 log.error("origin pic no exists，delete fail!");
                 return false;
             }
