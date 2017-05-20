@@ -8,7 +8,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 
 
-public class QiNiuUtil {
+public class QiNiuYunUtil {
 
     public static final String ACCESS_KEY = "WVDvbwpHUuosKYdpqzkQUpelbMRyoi37j4I2taVq";
     public static final String SECRET_KEY = "WamqNPWQBYAyDg4cXyZ00KAm0V22hqpqQ9s0qqG3";

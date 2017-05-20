@@ -2,7 +2,7 @@ package team.yqby.platform.manager;
 
 
 import lombok.extern.slf4j.Slf4j;
-import team.yqby.platform.common.util.QiNiuUtil;
+import team.yqby.platform.common.util.QiNiuYunUtil;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class FileUploadThread extends Thread {
     public void run() {
         if(!runFlag){
             try {
-                QiNiuUtil.upload(localFilePath, fileName);
+                QiNiuYunUtil.upload(localFilePath, fileName);
             } catch (IOException e) {
                 log.error("File {} upload QiNiuYun file fail,error",fileName,e);
             }

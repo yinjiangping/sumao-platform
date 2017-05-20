@@ -1,19 +1,16 @@
 package team.yqby.platform.controller;
 
 import com.google.common.base.Joiner;
-import com.qiniu.http.Response;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import team.yqby.platform.common.util.DateUtil;
-import team.yqby.platform.common.util.QiNiuUtil;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
