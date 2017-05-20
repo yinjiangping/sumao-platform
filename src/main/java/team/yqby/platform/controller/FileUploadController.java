@@ -51,7 +51,7 @@ public class FileUploadController {
                 return 0;
             }
             MultipartFile file = files.get(0);
-            String name = file.getName();
+            String name = file.getOriginalFilename();
             String fileType = name.substring(name.lastIndexOf("."));
             String saveFilePath = Joiner.on("").join(localPath, format, fileType);
             String fileName = Joiner.on("").join(format,fileType);
