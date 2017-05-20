@@ -74,6 +74,8 @@ public class FileUploadController {
             tFile.setFileAddress(PublicConfig.QINIU_URL + fileName);
             tFile.setFileName(fileName);
             tFile.setOrderId(0L);
+            tFile.setCreatetime(new Date());
+            tFile.setUpdatetime(new Date());
             return tFileMapper.insertSelective(tFile);
         } catch (Exception e) {
             log.error("uploadPic exception,error", e);
