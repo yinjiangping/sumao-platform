@@ -23,7 +23,6 @@
         <property name="timeBetweenEvictionRunsMillis" value="${jdbcTimeBetweenEvictionRunsMillis}" />
         <property name="numTestsPerEvictionRun" value="${jdbcNumTestsPerEvictionRun}" />
         <property name="minEvictableIdleTimeMillis" value="${jdbcMinEvictableIdleTimeMillis}" />
-        <property name="testConnectionOnCheckout" value="${jdbcMinEvictableIdleTimeMillis}" />
     </bean>
 
     <!-- 配置事务管理器 -->
