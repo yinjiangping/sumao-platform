@@ -5,19 +5,25 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.http.client.utils.DateUtils;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.pojo.TFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -29,29 +35,38 @@ public class FileUploadController {
     private final static String localPath = "/www/web/upload/";
 
     @RequestMapping("/uploadPic")
-    public int uploadPic(@RequestParam("imgsFile") MultipartFile imgsFile, PrintWriter pw) {
+    @ResponseBody
+    public int uploadPic(HttpServletRequest request) {
         try {
             String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
             Random random = new Random();
             for (int i = 0; i < 10; i++) {
                 format += random.nextInt(10);
             }
-            String ext = FilenameUtils.getExtension(imgsFile.getOriginalFilename());
-            String fileName = format + "." + ext;
-            String url = localPath + fileName;
-            String path = "/upload/" + fileName;
-            Client client = new Client();
-            WebResource resource = client.resource(url);
-            byte[] fileByteArray = imgsFile.getBytes();
-            resource.put(fileByteArray);
-            JSONObject jo = new JSONObject();
-            jo.put("url", url);
-            jo.put("path", path);
-            //保存图片到服务器
-            pw.write(jo.toString());
+            List<MultipartFile> files;
+            files = ((MultipartHttpServletRequest) request).getFiles("file");
+            //文件不存在则直接抛出错误
+            if (files == null || files.size() == 0) {
+                log.error("upload file is employ，upload fail!");
+                return 0;
+            }
+            MultipartFile file = files.get(0);
+            String name = file.getName();
+            String saveFilePath = Joiner.on("").join(localPath, format, "_", name);
+            String fileName = Joiner.on("_").join(format,name);
+            if (!file.isEmpty()) {
+                try {
+                    byte[] bytes = file.getBytes();
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(saveFilePath)));
+                    stream.write(bytes);
+                    stream.close();
+                } catch (Exception e) {
+                    log.error("You failed to upload {} =>,{} ", name, e.getMessage());
+                    return 0;
+                }
+            }
             //上传文件七牛云  TODO 改成异步方式
-//            Response res = QiNiuUtil.upload(url, fileName);
-            FileUploadThread fileUploadThread = new FileUploadThread(url, fileName, false);
+            FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
             fileUploadThread.start();
 
             TFile tFile = new TFile();
@@ -60,7 +75,7 @@ public class FileUploadController {
             tFile.setOrderId(0L);
             return tFileMapper.insertSelective(tFile);
         } catch (Exception e) {
-            log.error("paySign exception,error", e);
+            log.error("uploadPic exception,error", e);
         }
         return 0;
     }
@@ -72,7 +87,8 @@ public class FileUploadController {
      * @return
      */
     @RequestMapping(value = "/deletePic")
-    public boolean queryByCode(Long fileId) {
+    @ResponseBody
+    public boolean deletePic(Long fileId) {
         try {
             //1.判断图片是否已关联订单
             TFile file = tFileMapper.selectByPrimaryKey(fileId);
@@ -88,14 +104,9 @@ public class FileUploadController {
             //3.删除本地服务器图片
             new File(Joiner.on("").join(localPath, file.getFileName())).deleteOnExit();
         } catch (Exception e) {
-            log.error("queryByCode exception,error", e);
+            log.error("deletePic exception,error", e);
         }
         return false;
-    }
-
-    public static void main(String[] args) {
-        String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
-        System.out.println(format);
     }
 
 }
