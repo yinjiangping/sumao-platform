@@ -14,8 +14,8 @@
         <property name="url" value="${jdbcUrl}" />
         <property name="username" value="${jdbcUsername}" />
         <property name="password" value="${jdbcPassword}" />
-        <property name="maxActive" value="${dbcp.maxActive}" />
-        <property name="maxIdle" value="${jdbcMaxActive}" />
+        <property name="maxActive" value="${jdbcMaxActive}" />
+        <property name="maxIdle" value="${jdbcMaxIdle}" />
         <property name="minIdle" value="${jdbcMinIdle}" />
         <property name="validationQuery" value="SELECT 1" />
         <property name="testWhileIdle" value="true" />
