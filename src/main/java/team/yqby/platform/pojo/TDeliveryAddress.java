@@ -7,7 +7,7 @@ public class TDeliveryAddress {
 
     private String deliveryAddress;
 
-    private Long customerId;
+    private String customerId;
 
     private String deliveryName;
 
@@ -55,11 +55,11 @@ public class TDeliveryAddress {
         this.deliveryAddress = deliveryAddress == null ? null : deliveryAddress.trim();
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TDeliveryAddress" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="delivery_address" property="deliveryAddress" jdbcType="VARCHAR" />
-    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="delivery_name" property="deliveryName" jdbcType="VARCHAR" />
     <result column="postcodes" property="postcodes" jdbcType="VARCHAR" />
     <result column="sender_name" property="senderName" jdbcType="VARCHAR" />
@@ -122,7 +122,7 @@
       createBy, createByName, createTime, 
       updateBy, updateByName, updateTime
       )
-    values (#{id,jdbcType=BIGINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{customerId,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR},
       #{deliveryName,jdbcType=VARCHAR}, #{postcodes,jdbcType=VARCHAR}, #{senderName,jdbcType=VARCHAR}, 
       #{senderTel,jdbcType=VARCHAR}, #{deliveryTel,jdbcType=VARCHAR}, #{mailNumber,jdbcType=VARCHAR}, 
       #{mailingUnit,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT}, #{senderAddress,jdbcType=VARCHAR}, 
@@ -196,7 +196,7 @@
         #{deliveryAddress,jdbcType=VARCHAR},
       </if>
       <if test="customerId != null" >
-        #{customerId,jdbcType=BIGINT},
+        #{customerId,jdbcType=VARCHAR},
       </if>
       <if test="deliveryName != null" >
         #{deliveryName,jdbcType=VARCHAR},
@@ -261,7 +261,7 @@
         delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
       </if>
       <if test="record.customerId != null" >
-        customer_id = #{record.customerId,jdbcType=BIGINT},
+        customer_id = #{record.customerId,jdbcType=VARCHAR},
       </if>
       <if test="record.deliveryName != null" >
         delivery_name = #{record.deliveryName,jdbcType=VARCHAR},
@@ -317,7 +317,7 @@
     update t_delivery_address
     set id = #{record.id,jdbcType=BIGINT},
       delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
-      customer_id = #{record.customerId,jdbcType=BIGINT},
+      customer_id = #{record.customerId,jdbcType=VARCHAR},
       delivery_name = #{record.deliveryName,jdbcType=VARCHAR},
       postcodes = #{record.postcodes,jdbcType=VARCHAR},
       sender_name = #{record.senderName,jdbcType=VARCHAR},
@@ -344,7 +344,7 @@
         delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
       </if>
       <if test="customerId != null" >
-        customer_id = #{customerId,jdbcType=BIGINT},
+        customer_id = #{customerId,jdbcType=VARCHAR},
       </if>
       <if test="deliveryName != null" >
         delivery_name = #{deliveryName,jdbcType=VARCHAR},
@@ -397,7 +397,7 @@
   <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
     update t_delivery_address
     set delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
-      customer_id = #{customerId,jdbcType=BIGINT},
+      customer_id = #{customerId,jdbcType=VARCHAR},
       delivery_name = #{deliveryName,jdbcType=VARCHAR},
       postcodes = #{postcodes,jdbcType=VARCHAR},
       sender_name = #{senderName,jdbcType=VARCHAR},

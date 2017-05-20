@@ -49,8 +49,6 @@
             <mvc:exclude-mapping path="/styles/**" />
             <mvc:exclude-mapping path="/favicon.ico" />
             <mvc:exclude-mapping path="/j_acegi_security_check" />
-            <mvc:exclude-mapping path="/uploadPic" />
-            <mvc:exclude-mapping path="/deletePic" />
             <bean class="team.yqby.platform.interceptor.SessionInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

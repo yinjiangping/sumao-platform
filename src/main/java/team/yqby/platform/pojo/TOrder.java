@@ -5,7 +5,7 @@ import java.util.Date;
 public class TOrder {
     private Long id;
 
-    private Long customerId;
+    private String customerId;
 
     private Date putOrderTime;
 
@@ -35,11 +35,11 @@ public class TOrder {
         this.id = id;
     }
 
-    public Long getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 

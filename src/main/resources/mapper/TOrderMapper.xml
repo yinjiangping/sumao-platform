@@ -3,7 +3,7 @@
 <mapper namespace="team.yqby.platform.mapper.TOrderMapper" >
   <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TOrder" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="customer_id" property="customerId" jdbcType="BIGINT" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="put_order_time" property="putOrderTime" jdbcType="TIMESTAMP" />
     <result column="refuse_time" property="refuseTime" jdbcType="TIMESTAMP" />
     <result column="is_pay" property="isPay" jdbcType="TINYINT" />
@@ -113,7 +113,7 @@
       createBy, createByName, createTime, 
       updateBy, updateByName, updateTime
       )
-    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=BIGINT}, #{putOrderTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP},
       #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=TINYINT}, #{process,jdbcType=TINYINT}, 
       #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
       #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
@@ -164,7 +164,7 @@
         #{id,jdbcType=BIGINT},
       </if>
       <if test="customerId != null" >
-        #{customerId,jdbcType=BIGINT},
+        #{customerId,jdbcType=VARCHAR},
       </if>
       <if test="putOrderTime != null" >
         #{putOrderTime,jdbcType=TIMESTAMP},
@@ -211,7 +211,7 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.customerId != null" >
-        customer_id = #{record.customerId,jdbcType=BIGINT},
+        customer_id = #{record.customerId,jdbcType=VARCHAR},
       </if>
       <if test="record.putOrderTime != null" >
         put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
@@ -251,7 +251,7 @@
   <update id="updateByExample" parameterType="map" >
     update t_order
     set id = #{record.id,jdbcType=BIGINT},
-      customer_id = #{record.customerId,jdbcType=BIGINT},
+      customer_id = #{record.customerId,jdbcType=VARCHAR},
       put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
       refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
       is_pay = #{record.isPay,jdbcType=TINYINT},
@@ -270,7 +270,7 @@
     update t_order
     <set >
       <if test="customerId != null" >
-        customer_id = #{customerId,jdbcType=BIGINT},
+        customer_id = #{customerId,jdbcType=VARCHAR},
       </if>
       <if test="putOrderTime != null" >
         put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
@@ -307,7 +307,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="team.yqby.platform.pojo.TOrder" >
     update t_order
-    set customer_id = #{customerId,jdbcType=BIGINT},
+    set customer_id = #{customerId,jdbcType=VARCHAR},
       put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
       refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
       is_pay = #{isPay,jdbcType=TINYINT},

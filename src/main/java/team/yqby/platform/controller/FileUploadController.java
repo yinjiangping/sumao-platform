@@ -15,12 +15,12 @@ import org.springframework.web.multipart.MultipartFile;
 import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.common.util.QiNiuUtil;
 import team.yqby.platform.config.PublicConfig;
+import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.pojo.TFile;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -32,7 +32,7 @@ public class FileUploadController {
     @RequestMapping("/uploadPic")
     public int uploadPic(@RequestParam("imgsFile") MultipartFile imgsFile, PrintWriter pw) {
         try {
-           String format =  DateUtil.format(new Date(),DateUtil.shortDatePattern);
+            String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
             Random random = new Random();
             for (int i = 0; i < 10; i++) {
                 format += random.nextInt(10);
@@ -50,15 +50,16 @@ public class FileUploadController {
             jo.put("path", path);
             //保存图片到服务器
             pw.write(jo.toString());
-            //上传文件七牛云
-            Response res = QiNiuUtil.upload(url, fileName);
-            if (res.isOK()) {
-                TFile tFile = new TFile();
-                tFile.setFileAddress(PublicConfig.QINIU_URL + fileName);
-                tFile.setFileName(fileName);
-                tFile.setOrderId(0L);
-                return tFileMapper.insertSelective(tFile);
-            }
+            //上传文件七牛云  TODO 改成异步方式
+//            Response res = QiNiuUtil.upload(url, fileName);
+            FileUploadThread fileUploadThread = new FileUploadThread(url, fileName, false);
+            fileUploadThread.start();
+
+            TFile tFile = new TFile();
+            tFile.setFileAddress(PublicConfig.QINIU_URL + fileName);
+            tFile.setFileName(fileName);
+            tFile.setOrderId(0L);
+            return tFileMapper.insertSelective(tFile);
         } catch (Exception e) {
             log.error("paySign exception,error", e);
         }
@@ -94,7 +95,7 @@ public class FileUploadController {
     }
 
     public static void main(String[] args) {
-        String format =  DateUtil.format(new Date(),DateUtil.shortDatePattern);
+        String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
         System.out.println(format);
     }
 
