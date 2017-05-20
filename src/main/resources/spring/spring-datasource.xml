@@ -8,21 +8,20 @@
       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd"
        default-lazy-init="true">
 
-    <bean id="anteaterDs" class="org.apache.commons.dbcp.BasicDataSource">
+    <bean id="anteaterDs" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
         <property name="driverClassName" value="${jdbcDriverClassName}" />
         <property name="url" value="${jdbcUrl}" />
         <property name="username" value="${jdbcUsername}" />
         <property name="password" value="${jdbcPassword}" />
-        <property name="initialSize" value="${jdbcInitialSize}" />
+        <property name="maxActive" value="${dbcp.maxActive}" />
+        <property name="maxIdle" value="${jdbcMaxActive}" />
         <property name="minIdle" value="${jdbcMinIdle}" />
-        <property name="maxIdle" value="${jdbcMaxIdle}" />
-        <property name="maxActive" value="${jdbcMaxActive}" />
-        <property name="maxWait" value="${jdbcMaxWait}" />
-        <property name="testOnBorrow" value="${jdbcTestOnBorrow}" />
-        <property name="testWhileIdle" value="${jdbcTestWhileIdle}" />
-        <property name="timeBetweenEvictionRunsMillis" value="${jdbcTimeBetweenEvictionRunsMillis}" />
-        <property name="numTestsPerEvictionRun" value="${jdbcNumTestsPerEvictionRun}" />
-        <property name="minEvictableIdleTimeMillis" value="${jdbcMinEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="testWhileIdle" value="true" />
+        <property name="timeBetweenEvictionRunsMillis" value="300000" />
+        <property name="numTestsPerEvictionRun" value="50" />
+        <property name="minEvictableIdleTimeMillis" value="3600000" />
     </bean>
 
     <!-- 配置事务管理器 -->
