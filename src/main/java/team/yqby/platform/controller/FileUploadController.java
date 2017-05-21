@@ -97,8 +97,8 @@ public class FileUploadController {
         try {
             //1.判断图片是否已关联订单
             TFile file = tFileMapper.selectByPrimaryKey(fileId);
-            if (file == null || StringUtils.isEmpty(file.getOrderId())) {
-                log.error("origin pic no exists，delete fail!");
+            if (file == null || !StringUtils.isEmpty(file.getOrderId())) {
+                log.error("pic does not exist or cannot be deleted!");
                 return false;
             }
             //2.根据图片编号删除图片
