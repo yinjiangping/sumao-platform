@@ -14,11 +14,6 @@ import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.ErrorCodeEnum;
 import team.yqby.platform.service.FlowTicketService;
 
-/**
- * ticket业务
- * Author: luwanchuan
- * Date: 2017/1/8
- */
 @Slf4j
 @Controller
 public class FlowTicketController {

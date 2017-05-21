@@ -23,10 +23,6 @@ import team.yqby.platform.exception.AutoPlatformException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Author: luwanchuan
- * Date: 2017/1/8
- */
 @Service
 @Slf4j
 public class FlowTicketManager {

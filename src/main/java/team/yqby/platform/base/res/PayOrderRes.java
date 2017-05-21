@@ -7,10 +7,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 
-/**
- * Author: luwanchuan
- * Date: 2017/1/8
- */
 @ToString
 @Getter
 @Setter

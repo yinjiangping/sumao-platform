@@ -26,11 +26,6 @@ import team.yqby.platform.service.PayOrderService;
 
 import javax.validation.Valid;
 
-/**
- * ticket业务
- * Author: luwanchuan
- * Date: 2017/1/8
- */
 @Slf4j
 @Controller
 public class PayController {
@@ -43,7 +38,7 @@ public class PayController {
      * @param errors       绑定对象参数错误
      * @return 下单结果
      */
-    @RequestMapping(value = ApiUrls.FLOW_CREATE_ORDER_URL, method = RequestMethod.POST)
+    @RequestMapping(value = ApiUrls.CREATE_ORDER_URL, method = RequestMethod.POST)
     public
     @ResponseBody
     Response<PayOrderRes> createOrder(@Valid @RequestBody PayOrderReq payOrderReq, Errors errors) {

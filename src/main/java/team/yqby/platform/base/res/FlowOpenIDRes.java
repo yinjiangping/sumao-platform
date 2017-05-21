@@ -5,11 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * 获取openID的响应参数
- * Author: luwanchuan
- * Date: 2017/1/8
- */
 @ToString
 @Getter
 @Setter

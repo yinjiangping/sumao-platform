@@ -7,16 +7,10 @@ package team.yqby.platform.config;
  */
 public class ApiUrls {
 
-    //创建流量订单
-    public static final String FLOW_CREATE_ORDER_URL="/order";
+    //创建支付订单
+    public static final String CREATE_ORDER_URL="/createOrder";
 
     //支付回调通知
-    public static final String FLOW_PAY_NOTIFY_URL="/payCallBack";
-
-    //业务回调通知
-    public static final String FLOW_BIZ_NOTIFY_URL="/bizBack";
-
-    //获取授权信息
-    public static final String FLOW_GET_GRANT_URL="/getGrant";
+    public static final String PAY_NOTIFY_URL="/payCallBack";
 
 }

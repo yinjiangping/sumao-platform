@@ -5,11 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/**
- * 异常信息
- * Author: luwanchuan
- * Date: 2017/1/2
- */
 @Getter
 @ToString
 @NoArgsConstructor
