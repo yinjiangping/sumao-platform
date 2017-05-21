@@ -11,8 +11,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum PayFlagEnum {
 
-    STR_0("0", "未支付"),
-    STR_1("1", "已支付");
+    N("N", "未支付"),
+    Y("Y", "已支付");
 
     private String code;
 

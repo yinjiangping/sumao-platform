@@ -23,7 +23,7 @@ public class TDeliveryAddress {
 
     private String mailingUnit;
 
-    private Long orderId;
+    private String isDefault;
 
     private String senderAddress;
 
@@ -60,7 +60,7 @@ public class TDeliveryAddress {
     }
 
     public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+        this.customerId = customerId == null ? null : customerId.trim();
     }
 
     public String getDeliveryName() {
@@ -119,12 +119,12 @@ public class TDeliveryAddress {
         this.mailingUnit = mailingUnit == null ? null : mailingUnit.trim();
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public String getIsDefault() {
+        return isDefault;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault == null ? null : isDefault.trim();
     }
 
     public String getSenderAddress() {

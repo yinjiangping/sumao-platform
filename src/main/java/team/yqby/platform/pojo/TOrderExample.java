@@ -365,52 +365,62 @@ public class TOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsPayEqualTo(Byte value) {
+        public Criteria andIsPayEqualTo(String value) {
             addCriterion("is_pay =", value, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayNotEqualTo(Byte value) {
+        public Criteria andIsPayNotEqualTo(String value) {
             addCriterion("is_pay <>", value, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayGreaterThan(Byte value) {
+        public Criteria andIsPayGreaterThan(String value) {
             addCriterion("is_pay >", value, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsPayGreaterThanOrEqualTo(String value) {
             addCriterion("is_pay >=", value, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayLessThan(Byte value) {
+        public Criteria andIsPayLessThan(String value) {
             addCriterion("is_pay <", value, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayLessThanOrEqualTo(Byte value) {
+        public Criteria andIsPayLessThanOrEqualTo(String value) {
             addCriterion("is_pay <=", value, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayIn(List<Byte> values) {
+        public Criteria andIsPayLike(String value) {
+            addCriterion("is_pay like", value, "isPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPayNotLike(String value) {
+            addCriterion("is_pay not like", value, "isPay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPayIn(List<String> values) {
             addCriterion("is_pay in", values, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayNotIn(List<Byte> values) {
+        public Criteria andIsPayNotIn(List<String> values) {
             addCriterion("is_pay not in", values, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayBetween(Byte value1, Byte value2) {
+        public Criteria andIsPayBetween(String value1, String value2) {
             addCriterion("is_pay between", value1, value2, "isPay");
             return (Criteria) this;
         }
 
-        public Criteria andIsPayNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsPayNotBetween(String value1, String value2) {
             addCriterion("is_pay not between", value1, value2, "isPay");
             return (Criteria) this;
         }
@@ -425,52 +435,62 @@ public class TOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andProcessEqualTo(Byte value) {
+        public Criteria andProcessEqualTo(String value) {
             addCriterion("process =", value, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNotEqualTo(Byte value) {
+        public Criteria andProcessNotEqualTo(String value) {
             addCriterion("process <>", value, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessGreaterThan(Byte value) {
+        public Criteria andProcessGreaterThan(String value) {
             addCriterion("process >", value, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessGreaterThanOrEqualTo(Byte value) {
+        public Criteria andProcessGreaterThanOrEqualTo(String value) {
             addCriterion("process >=", value, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessLessThan(Byte value) {
+        public Criteria andProcessLessThan(String value) {
             addCriterion("process <", value, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessLessThanOrEqualTo(Byte value) {
+        public Criteria andProcessLessThanOrEqualTo(String value) {
             addCriterion("process <=", value, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessIn(List<Byte> values) {
+        public Criteria andProcessLike(String value) {
+            addCriterion("process like", value, "process");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessNotLike(String value) {
+            addCriterion("process not like", value, "process");
+            return (Criteria) this;
+        }
+
+        public Criteria andProcessIn(List<String> values) {
             addCriterion("process in", values, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNotIn(List<Byte> values) {
+        public Criteria andProcessNotIn(List<String> values) {
             addCriterion("process not in", values, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessBetween(Byte value1, Byte value2) {
+        public Criteria andProcessBetween(String value1, String value2) {
             addCriterion("process between", value1, value2, "process");
             return (Criteria) this;
         }
 
-        public Criteria andProcessNotBetween(Byte value1, Byte value2) {
+        public Criteria andProcessNotBetween(String value1, String value2) {
             addCriterion("process not between", value1, value2, "process");
             return (Criteria) this;
         }
@@ -1062,6 +1082,206 @@ public class TOrderExample {
 
         public Criteria andOrderamtNotBetween(String value1, String value2) {
             addCriterion("orderAmt not between", value1, value2, "orderamt");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeIsNull() {
+            addCriterion("resCode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeIsNotNull() {
+            addCriterion("resCode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeEqualTo(String value) {
+            addCriterion("resCode =", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeNotEqualTo(String value) {
+            addCriterion("resCode <>", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeGreaterThan(String value) {
+            addCriterion("resCode >", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeGreaterThanOrEqualTo(String value) {
+            addCriterion("resCode >=", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeLessThan(String value) {
+            addCriterion("resCode <", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeLessThanOrEqualTo(String value) {
+            addCriterion("resCode <=", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeLike(String value) {
+            addCriterion("resCode like", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeNotLike(String value) {
+            addCriterion("resCode not like", value, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeIn(List<String> values) {
+            addCriterion("resCode in", values, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeNotIn(List<String> values) {
+            addCriterion("resCode not in", values, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeBetween(String value1, String value2) {
+            addCriterion("resCode between", value1, value2, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andRescodeNotBetween(String value1, String value2) {
+            addCriterion("resCode not between", value1, value2, "rescode");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescIsNull() {
+            addCriterion("resDesc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescIsNotNull() {
+            addCriterion("resDesc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescEqualTo(String value) {
+            addCriterion("resDesc =", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescNotEqualTo(String value) {
+            addCriterion("resDesc <>", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescGreaterThan(String value) {
+            addCriterion("resDesc >", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescGreaterThanOrEqualTo(String value) {
+            addCriterion("resDesc >=", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescLessThan(String value) {
+            addCriterion("resDesc <", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescLessThanOrEqualTo(String value) {
+            addCriterion("resDesc <=", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescLike(String value) {
+            addCriterion("resDesc like", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescNotLike(String value) {
+            addCriterion("resDesc not like", value, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescIn(List<String> values) {
+            addCriterion("resDesc in", values, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescNotIn(List<String> values) {
+            addCriterion("resDesc not in", values, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescBetween(String value1, String value2) {
+            addCriterion("resDesc between", value1, value2, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andResdescNotBetween(String value1, String value2) {
+            addCriterion("resDesc not between", value1, value2, "resdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidIsNull() {
+            addCriterion("addressId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidIsNotNull() {
+            addCriterion("addressId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidEqualTo(Long value) {
+            addCriterion("addressId =", value, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidNotEqualTo(Long value) {
+            addCriterion("addressId <>", value, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidGreaterThan(Long value) {
+            addCriterion("addressId >", value, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidGreaterThanOrEqualTo(Long value) {
+            addCriterion("addressId >=", value, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidLessThan(Long value) {
+            addCriterion("addressId <", value, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidLessThanOrEqualTo(Long value) {
+            addCriterion("addressId <=", value, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidIn(List<Long> values) {
+            addCriterion("addressId in", values, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidNotIn(List<Long> values) {
+            addCriterion("addressId not in", values, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidBetween(Long value1, Long value2) {
+            addCriterion("addressId between", value1, value2, "addressid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressidNotBetween(Long value1, Long value2) {
+            addCriterion("addressId not between", value1, value2, "addressid");
             return (Criteria) this;
         }
     }

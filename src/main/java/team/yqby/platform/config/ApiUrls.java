@@ -10,6 +10,9 @@ public class ApiUrls {
     //创建支付订单
     public static final String CREATE_ORDER_URL="/createOrder";
 
+    //确认订单信息
+    public static final String CONFIRM_ORDER_URL="/confirmOrder";
+
     //支付回调通知
     public static final String PAY_NOTIFY_URL="/payCallBack";
 

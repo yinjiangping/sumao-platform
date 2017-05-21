@@ -12,7 +12,7 @@
     <result column="delivery_tel" property="deliveryTel" jdbcType="VARCHAR" />
     <result column="mail_number" property="mailNumber" jdbcType="VARCHAR" />
     <result column="mailing_unit" property="mailingUnit" jdbcType="VARCHAR" />
-    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="is_default" property="isDefault" jdbcType="VARCHAR" />
     <result column="sender_address" property="senderAddress" jdbcType="VARCHAR" />
     <result column="createBy" property="createby" jdbcType="BIGINT" />
     <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
@@ -81,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, delivery_address, customer_id, delivery_name, postcodes, sender_name, sender_tel, 
-    delivery_tel, mail_number, mailing_unit, order_id, sender_address, createBy, createByName, 
+    delivery_tel, mail_number, mailing_unit, is_default, sender_address, createBy, createByName, 
     createTime, updateBy, updateByName, updateTime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TDeliveryAddressExample" >
@@ -118,14 +118,14 @@
     insert into t_delivery_address (id, delivery_address, customer_id, 
       delivery_name, postcodes, sender_name, 
       sender_tel, delivery_tel, mail_number, 
-      mailing_unit, order_id, sender_address, 
+      mailing_unit, is_default, sender_address, 
       createBy, createByName, createTime, 
       updateBy, updateByName, updateTime
       )
-    values (#{id,jdbcType=BIGINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR},
+    values (#{id,jdbcType=BIGINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
       #{deliveryName,jdbcType=VARCHAR}, #{postcodes,jdbcType=VARCHAR}, #{senderName,jdbcType=VARCHAR}, 
       #{senderTel,jdbcType=VARCHAR}, #{deliveryTel,jdbcType=VARCHAR}, #{mailNumber,jdbcType=VARCHAR}, 
-      #{mailingUnit,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT}, #{senderAddress,jdbcType=VARCHAR}, 
+      #{mailingUnit,jdbcType=VARCHAR}, #{isDefault,jdbcType=VARCHAR}, #{senderAddress,jdbcType=VARCHAR}, 
       #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
       #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
       )
@@ -163,8 +163,8 @@
       <if test="mailingUnit != null" >
         mailing_unit,
       </if>
-      <if test="orderId != null" >
-        order_id,
+      <if test="isDefault != null" >
+        is_default,
       </if>
       <if test="senderAddress != null" >
         sender_address,
@@ -219,8 +219,8 @@
       <if test="mailingUnit != null" >
         #{mailingUnit,jdbcType=VARCHAR},
       </if>
-      <if test="orderId != null" >
-        #{orderId,jdbcType=BIGINT},
+      <if test="isDefault != null" >
+        #{isDefault,jdbcType=VARCHAR},
       </if>
       <if test="senderAddress != null" >
         #{senderAddress,jdbcType=VARCHAR},
@@ -284,8 +284,8 @@
       <if test="record.mailingUnit != null" >
         mailing_unit = #{record.mailingUnit,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderId != null" >
-        order_id = #{record.orderId,jdbcType=BIGINT},
+      <if test="record.isDefault != null" >
+        is_default = #{record.isDefault,jdbcType=VARCHAR},
       </if>
       <if test="record.senderAddress != null" >
         sender_address = #{record.senderAddress,jdbcType=VARCHAR},
@@ -325,7 +325,7 @@
       delivery_tel = #{record.deliveryTel,jdbcType=VARCHAR},
       mail_number = #{record.mailNumber,jdbcType=VARCHAR},
       mailing_unit = #{record.mailingUnit,jdbcType=VARCHAR},
-      order_id = #{record.orderId,jdbcType=BIGINT},
+      is_default = #{record.isDefault,jdbcType=VARCHAR},
       sender_address = #{record.senderAddress,jdbcType=VARCHAR},
       createBy = #{record.createby,jdbcType=BIGINT},
       createByName = #{record.createbyname,jdbcType=VARCHAR},
@@ -367,8 +367,8 @@
       <if test="mailingUnit != null" >
         mailing_unit = #{mailingUnit,jdbcType=VARCHAR},
       </if>
-      <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=BIGINT},
+      <if test="isDefault != null" >
+        is_default = #{isDefault,jdbcType=VARCHAR},
       </if>
       <if test="senderAddress != null" >
         sender_address = #{senderAddress,jdbcType=VARCHAR},
@@ -405,7 +405,7 @@
       delivery_tel = #{deliveryTel,jdbcType=VARCHAR},
       mail_number = #{mailNumber,jdbcType=VARCHAR},
       mailing_unit = #{mailingUnit,jdbcType=VARCHAR},
-      order_id = #{orderId,jdbcType=BIGINT},
+      is_default = #{isDefault,jdbcType=VARCHAR},
       sender_address = #{senderAddress,jdbcType=VARCHAR},
       createBy = #{createby,jdbcType=BIGINT},
       createByName = #{createbyname,jdbcType=VARCHAR},

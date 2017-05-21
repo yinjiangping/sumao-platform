@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="file_address" property="fileAddress" jdbcType="VARCHAR" />
     <result column="file_name" property="fileName" jdbcType="VARCHAR" />
-    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="createBy" property="createby" jdbcType="BIGINT" />
     <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
@@ -111,7 +111,7 @@
       createTime, updateBy, updateByName, 
       updateTime)
     values (#{id,jdbcType=BIGINT}, #{fileAddress,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{orderId,jdbcType=BIGINT}, #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=VARCHAR}, #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, 
       #{updatetime,jdbcType=TIMESTAMP})
   </insert>
@@ -160,7 +160,7 @@
         #{fileName,jdbcType=VARCHAR},
       </if>
       <if test="orderId != null" >
-        #{orderId,jdbcType=BIGINT},
+        #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="createby != null" >
         #{createby,jdbcType=BIGINT},
@@ -201,7 +201,7 @@
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
       <if test="record.orderId != null" >
-        order_id = #{record.orderId,jdbcType=BIGINT},
+        order_id = #{record.orderId,jdbcType=VARCHAR},
       </if>
       <if test="record.createby != null" >
         createBy = #{record.createby,jdbcType=BIGINT},
@@ -231,7 +231,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       file_address = #{record.fileAddress,jdbcType=VARCHAR},
       file_name = #{record.fileName,jdbcType=VARCHAR},
-      order_id = #{record.orderId,jdbcType=BIGINT},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
       createBy = #{record.createby,jdbcType=BIGINT},
       createByName = #{record.createbyname,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -252,7 +252,7 @@
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
       <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=BIGINT},
+        order_id = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="createby != null" >
         createBy = #{createby,jdbcType=BIGINT},
@@ -279,7 +279,7 @@
     update t_file
     set file_address = #{fileAddress,jdbcType=VARCHAR},
       file_name = #{fileName,jdbcType=VARCHAR},
-      order_id = #{orderId,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=VARCHAR},
       createBy = #{createby,jdbcType=BIGINT},
       createByName = #{createbyname,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},

@@ -9,7 +9,7 @@ public class TFile {
 
     private String fileName;
 
-    private Long orderId;
+    private String orderId;
 
     private Long createby;
 
@@ -47,12 +47,12 @@ public class TFile {
         this.fileName = fileName == null ? null : fileName.trim();
     }
 
-    public Long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     public Long getCreateby() {

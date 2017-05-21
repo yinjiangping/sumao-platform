@@ -6,8 +6,8 @@
     <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="put_order_time" property="putOrderTime" jdbcType="TIMESTAMP" />
     <result column="refuse_time" property="refuseTime" jdbcType="TIMESTAMP" />
-    <result column="is_pay" property="isPay" jdbcType="TINYINT" />
-    <result column="process" property="process" jdbcType="TINYINT" />
+    <result column="is_pay" property="isPay" jdbcType="VARCHAR" />
+    <result column="process" property="process" jdbcType="VARCHAR" />
     <result column="createBy" property="createby" jdbcType="BIGINT" />
     <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
@@ -17,6 +17,9 @@
     <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
     <result column="resOrderNo" property="resorderno" jdbcType="VARCHAR" />
     <result column="orderAmt" property="orderamt" jdbcType="VARCHAR" />
+    <result column="resCode" property="rescode" jdbcType="VARCHAR" />
+    <result column="resDesc" property="resdesc" jdbcType="VARCHAR" />
+    <result column="addressId" property="addressid" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -78,7 +81,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, customer_id, put_order_time, refuse_time, is_pay, process, createBy, createByName, 
-    createTime, updateBy, updateByName, updateTime, orderNo, resOrderNo, orderAmt
+    createTime, updateBy, updateByName, updateTime, orderNo, resOrderNo, orderAmt, resCode, 
+    resDesc, addressId
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TOrderExample" >
     select
@@ -115,13 +119,15 @@
       refuse_time, is_pay, process, 
       createBy, createByName, createTime, 
       updateBy, updateByName, updateTime, 
-      orderNo, resOrderNo, orderAmt
+      orderNo, resOrderNo, orderAmt, 
+      resCode, resDesc, addressId
       )
     values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP}, 
-      #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=TINYINT}, #{process,jdbcType=TINYINT}, 
+      #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=VARCHAR}, #{process,jdbcType=VARCHAR}, 
       #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
       #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
-      #{orderno,jdbcType=VARCHAR}, #{resorderno,jdbcType=VARCHAR}, #{orderamt,jdbcType=VARCHAR}
+      #{orderno,jdbcType=VARCHAR}, #{resorderno,jdbcType=VARCHAR}, #{orderamt,jdbcType=VARCHAR}, 
+      #{rescode,jdbcType=VARCHAR}, #{resdesc,jdbcType=VARCHAR}, #{addressid,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder" >
@@ -172,6 +178,15 @@
       <if test="orderamt != null" >
         orderAmt,
       </if>
+      <if test="rescode != null" >
+        resCode,
+      </if>
+      <if test="resdesc != null" >
+        resDesc,
+      </if>
+      <if test="addressid != null" >
+        addressId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -187,10 +202,10 @@
         #{refuseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isPay != null" >
-        #{isPay,jdbcType=TINYINT},
+        #{isPay,jdbcType=VARCHAR},
       </if>
       <if test="process != null" >
-        #{process,jdbcType=TINYINT},
+        #{process,jdbcType=VARCHAR},
       </if>
       <if test="createby != null" >
         #{createby,jdbcType=BIGINT},
@@ -219,6 +234,15 @@
       <if test="orderamt != null" >
         #{orderamt,jdbcType=VARCHAR},
       </if>
+      <if test="rescode != null" >
+        #{rescode,jdbcType=VARCHAR},
+      </if>
+      <if test="resdesc != null" >
+        #{resdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="addressid != null" >
+        #{addressid,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="team.yqby.platform.pojo.TOrderExample" resultType="java.lang.Integer" >
@@ -243,10 +267,10 @@
         refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.isPay != null" >
-        is_pay = #{record.isPay,jdbcType=TINYINT},
+        is_pay = #{record.isPay,jdbcType=VARCHAR},
       </if>
       <if test="record.process != null" >
-        process = #{record.process,jdbcType=TINYINT},
+        process = #{record.process,jdbcType=VARCHAR},
       </if>
       <if test="record.createby != null" >
         createBy = #{record.createby,jdbcType=BIGINT},
@@ -275,6 +299,15 @@
       <if test="record.orderamt != null" >
         orderAmt = #{record.orderamt,jdbcType=VARCHAR},
       </if>
+      <if test="record.rescode != null" >
+        resCode = #{record.rescode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resdesc != null" >
+        resDesc = #{record.resdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addressid != null" >
+        addressId = #{record.addressid,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -286,8 +319,8 @@
       customer_id = #{record.customerId,jdbcType=VARCHAR},
       put_order_time = #{record.putOrderTime,jdbcType=TIMESTAMP},
       refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
-      is_pay = #{record.isPay,jdbcType=TINYINT},
-      process = #{record.process,jdbcType=TINYINT},
+      is_pay = #{record.isPay,jdbcType=VARCHAR},
+      process = #{record.process,jdbcType=VARCHAR},
       createBy = #{record.createby,jdbcType=BIGINT},
       createByName = #{record.createbyname,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -296,7 +329,10 @@
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       orderNo = #{record.orderno,jdbcType=VARCHAR},
       resOrderNo = #{record.resorderno,jdbcType=VARCHAR},
-      orderAmt = #{record.orderamt,jdbcType=VARCHAR}
+      orderAmt = #{record.orderamt,jdbcType=VARCHAR},
+      resCode = #{record.rescode,jdbcType=VARCHAR},
+      resDesc = #{record.resdesc,jdbcType=VARCHAR},
+      addressId = #{record.addressid,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -314,10 +350,10 @@
         refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="isPay != null" >
-        is_pay = #{isPay,jdbcType=TINYINT},
+        is_pay = #{isPay,jdbcType=VARCHAR},
       </if>
       <if test="process != null" >
-        process = #{process,jdbcType=TINYINT},
+        process = #{process,jdbcType=VARCHAR},
       </if>
       <if test="createby != null" >
         createBy = #{createby,jdbcType=BIGINT},
@@ -346,6 +382,15 @@
       <if test="orderamt != null" >
         orderAmt = #{orderamt,jdbcType=VARCHAR},
       </if>
+      <if test="rescode != null" >
+        resCode = #{rescode,jdbcType=VARCHAR},
+      </if>
+      <if test="resdesc != null" >
+        resDesc = #{resdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="addressid != null" >
+        addressId = #{addressid,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -354,8 +399,8 @@
     set customer_id = #{customerId,jdbcType=VARCHAR},
       put_order_time = #{putOrderTime,jdbcType=TIMESTAMP},
       refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
-      is_pay = #{isPay,jdbcType=TINYINT},
-      process = #{process,jdbcType=TINYINT},
+      is_pay = #{isPay,jdbcType=VARCHAR},
+      process = #{process,jdbcType=VARCHAR},
       createBy = #{createby,jdbcType=BIGINT},
       createByName = #{createbyname,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
@@ -364,7 +409,10 @@
       updateTime = #{updatetime,jdbcType=TIMESTAMP},
       orderNo = #{orderno,jdbcType=VARCHAR},
       resOrderNo = #{resorderno,jdbcType=VARCHAR},
-      orderAmt = #{orderamt,jdbcType=VARCHAR}
+      orderAmt = #{orderamt,jdbcType=VARCHAR},
+      resCode = #{rescode,jdbcType=VARCHAR},
+      resDesc = #{resdesc,jdbcType=VARCHAR},
+      addressId = #{addressid,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

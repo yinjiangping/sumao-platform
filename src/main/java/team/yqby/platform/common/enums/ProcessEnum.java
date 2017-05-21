@@ -11,14 +11,13 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum ProcessEnum {
 
-    INIT("1", "初始状态"),
-    WAIT_PAY("2", "待支付"),
-    ORDER_SUCCESS("3", "下单成功"),
-    ORDER_FAIL("4", "下单失败"),
-    PAY_SUCCESS("5", "支付失败"),
-    PAY_FAIL("6", "支付失败"),
-    BUSINESS_SUCCESS("7", "已发货"),
-    BUSINESS_FAIL("8", "发货失败");
+    INIT("INIT", "初始状态"),
+    WAIT_PAY("WAIT_PAY", "下单成功"),
+    ORDER_FAIL("ORDER_FAIL", "下单失败"),
+    PAY_SUCCESS("PAY_SUCCESS", "支付成功"),
+    PAY_FAIL("PAY_FAIL", "支付失败"),
+    DELIVERY_SUCCESS("DELIVERY_SUCCESS", "已发货"),
+    DELIVERY_FAIL("DELIVERY_FAIL", "发货失败");
 
     private String code;
 

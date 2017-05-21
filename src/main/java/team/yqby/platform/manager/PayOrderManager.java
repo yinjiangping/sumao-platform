@@ -2,9 +2,12 @@ package team.yqby.platform.manager;
 
 import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import team.yqby.platform.base.req.PayNotifyReq;
 import team.yqby.platform.base.req.WeChatCreateOrder;
+import team.yqby.platform.base.res.PayConfirmRes;
 import team.yqby.platform.base.res.PayOrderRes;
 import team.yqby.platform.common.WebCall;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
@@ -12,25 +15,33 @@ import team.yqby.platform.common.enums.*;
 import team.yqby.platform.common.util.*;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.exception.AutoPlatformException;
+import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.mapper.TOrderMapper;
+import team.yqby.platform.pojo.TFile;
+import team.yqby.platform.pojo.TFileExample;
 import team.yqby.platform.pojo.TOrder;
 import team.yqby.platform.pojo.TOrderExample;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
 public class PayOrderManager {
     @Autowired
     private TOrderMapper tOrderMapper;
+    @Autowired
+    private TFileMapper tFileMapper;
 
     /**
      * 支付下单
      *
-     * @param openID    用户编号
+     * @param openID 用户编号
      * @return
      */
-    public String createPayOrder(String openID,String orderAmt) {
+    public String createPayOrder(String openID, String orderAmt) {
         String orderNo = NumberUtil.getOrderNoRandom();
         TOrder tOrder = new TOrder();
         tOrder.setOrderno(orderNo);
@@ -38,13 +49,76 @@ public class PayOrderManager {
         tOrder.setOrderamt(orderAmt);
         tOrder.setCreatetime(new Date());
         tOrder.setUpdatetime(new Date());
-        tOrder.setIsPay(Byte.valueOf(PayFlagEnum.STR_0.getCode()));
-        tOrder.setProcess(Byte.valueOf(ProcessEnum.INIT.getCode()));
+        tOrder.setIsPay(PayFlagEnum.N.getCode());
+        tOrder.setProcess(ProcessEnum.INIT.getCode());
         int i = tOrderMapper.insert(tOrder);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);
         }
         return orderNo;
+    }
+
+    /**
+     * 更新文件信息
+     *
+     * @param fileIds
+     * @param orderNo
+     */
+    public void updateFileOrder(String fileIds, String orderNo) {
+        TFile tFile = new TFile();
+        tFile.setOrderId(orderNo);
+        TFileExample tFileExample = new TFileExample();
+        String[] fileIdStrings = StringUtils.split(fileIds, ",");
+        List<Long> longList = new ArrayList<Long>();
+        for (String str : fileIdStrings) {
+            longList.add(Long.valueOf(str));
+        }
+        tFileExample.createCriteria().andIdIn(longList);
+        int i = tFileMapper.updateByExample(tFile, tFileExample);
+        if (i == 0) {
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);
+        }
+    }
+
+    /**
+     * 校验订单
+     *
+     * @param orderAmt
+     * @param orderNo
+     */
+    public void checkOrder(Long orderAmt, String orderNo, String openID) {
+        TOrderExample tOrderExample = new TOrderExample();
+        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andCustomerIdEqualTo(openID);
+        List<TOrder> tOrderList = tOrderMapper.selectByExample(tOrderExample);
+        if (tOrderList == null || tOrderList.isEmpty()) {
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
+        }
+        if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()){
+            log.error("订单金额被篡改，订单号:{}", orderNo);
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
+        }
+        if (tOrderList.get(0).getProcess().equals(ProcessEnum.PAY_SUCCESS.getCode())) {
+            log.error("订单已支付成功过,订单号:{}", orderNo);
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10010);
+        }
+
+    }
+
+    /**
+     * 更新订单收获地址
+     *
+     * @param addressId
+     * @param orderNo
+     */
+    public void updateOrderAddressId(Long addressId, String orderNo) {
+        TOrder tOrder = new TOrder();
+        tOrder.setAddressid(Long.valueOf(addressId));
+        TOrderExample tOrderExample = new TOrderExample();
+        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
+        int i = tOrderMapper.updateByExample(tOrder, tOrderExample);
+        if (i == 0) {
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20001);
+        }
     }
 
     /**
@@ -75,16 +149,16 @@ public class PayOrderManager {
             String responseXml = WebCall.xmlSyncSend(PublicConfig.WX_CREATE_ORDER_URL, requestXml);
             WeChatXmlUtil weChatXmlUtil = WeChatXmlUtil.fromXML(responseXml);
             //下单成功
-            updateOrderStatus(orderNo, "", TransStatusEnum.WAIT_PAY.getStatus(), "0");
+            updateOrderStatus(orderNo, "", ProcessEnum.WAIT_PAY.getCode(), PayFlagEnum.N.getCode(), weChatXmlUtil.getResult_code(), weChatXmlUtil.getReturn_msg());
             return weChatXmlUtil;
         } catch (AutoPlatformException e) {
             //下单失败
-            updateOrderStatus(orderNo, "", ProcessEnum.ORDER_FAIL.getCode(),"0");
+            updateOrderStatus(orderNo, "", ProcessEnum.ORDER_FAIL.getCode(), PayFlagEnum.N.getCode(), e.getCode(), e.getMessage());
             log.error("createWeChatOrder AutoPlatformException error,", e);
             throw new AutoPlatformException(e.getCode(), e.getMessage());
         } catch (Exception e) {
             //下单失败
-            updateOrderStatus(orderNo, "", ProcessEnum.ORDER_FAIL.getCode(),"0");
+            updateOrderStatus(orderNo, "", ProcessEnum.ORDER_FAIL.getCode(), PayFlagEnum.N.getCode(), ServiceErrorCode.ERROR_CODE_A10003.getResCode(), ServiceErrorCode.ERROR_CODE_A10003.getResDesc());
             log.error("createWeChatOrder AutoPlatformException error,", e);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003.getResCode(), e.getMessage());
         }
@@ -96,21 +170,21 @@ public class PayOrderManager {
      * @param weChatXmlUtil
      * @return
      */
-    public PayOrderRes resultConversion(WeChatXmlUtil weChatXmlUtil) {
+    public PayConfirmRes resultConversion(WeChatXmlUtil weChatXmlUtil) {
         String packageStr = Joiner.on("=").join("prepay_id", weChatXmlUtil.getPrepay_id());
-        PayOrderRes payOrderRes = new PayOrderRes();
-        payOrderRes.setAppId(weChatXmlUtil.getAppid());
-        payOrderRes.setTimeStamp(System.currentTimeMillis());
-        payOrderRes.setNonceStr(MD5Util.MD5Encode(Joiner.on("&").join(weChatXmlUtil.getPrepay_id(), PublicConfig.MCH_KEY)));
-        payOrderRes.setPackage_gjz(packageStr);
-        payOrderRes.setSignType(PublicConfig.SIGN_TYPE);
+        PayConfirmRes payConfirmRes = new PayConfirmRes();
+        payConfirmRes.setAppId(weChatXmlUtil.getAppid());
+        payConfirmRes.setTimeStamp(System.currentTimeMillis());
+        payConfirmRes.setNonceStr(MD5Util.MD5Encode(Joiner.on("&").join(weChatXmlUtil.getPrepay_id(), PublicConfig.MCH_KEY)));
+        payConfirmRes.setPackage_gjz(packageStr);
+        payConfirmRes.setSignType(PublicConfig.SIGN_TYPE);
         try {
-            payOrderRes.setPaySign(WeChatXmlUtil.getSign(BeanToMapUtil.convertBean(payOrderRes, ""), PublicConfig.MCH_KEY));
+            payConfirmRes.setPaySign(WeChatXmlUtil.getSign(BeanToMapUtil.convertBean(payConfirmRes, ""), PublicConfig.MCH_KEY));
         } catch (Exception e) {
             log.error("resultConversion exception,error", e);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003.getResCode(), e.getMessage());
         }
-        return payOrderRes;
+        return payConfirmRes;
     }
 
     /**
@@ -118,17 +192,72 @@ public class PayOrderManager {
      *
      * @param orderNo
      */
-    public void updateOrderStatus(String orderNo, String prePayId, String processStatus,String isPay) {
+    public void updateOrderStatus(String orderNo, String prePayId, String processStatus, String isPay, String resCode, String resDesc) {
         TOrder tOrder = new TOrder();
-        tOrder.setProcess(Byte.valueOf(processStatus));
+        tOrder.setProcess(processStatus);
         tOrder.setResorderno(prePayId);
         tOrder.setUpdatetime(new Date());
-        tOrder.setIsPay(Byte.valueOf(isPay));
+        tOrder.setIsPay(isPay);
+        tOrder.setRescode(resCode);
+        tOrder.setResdesc(resDesc);
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
         int i = tOrderMapper.updateByExample(tOrder, tOrderExample);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10007.getResCode(), ServiceErrorCode.ERROR_CODE_A10007.getResDesc());
         }
+    }
+
+    /**
+     * @param payNotifyReq
+     */
+    public void checkTransSafe(PayNotifyReq payNotifyReq) throws ParseException {
+        //1.校验请求参数
+        if (payNotifyReq == null) {
+            log.error("订单号:{},通知报文有误,对象转换为空", payNotifyReq.getOut_trade_no());
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10004);
+        }
+        //2.校验支付状态
+        if (!PublicConfig.CALL_SUCCESS.equals(payNotifyReq.getReturn_code())) {
+            updateOrderStatus(payNotifyReq.getOut_trade_no(), payNotifyReq.getTransaction_id(), ProcessEnum.PAY_FAIL.getCode(), PayFlagEnum.Y.getCode(), payNotifyReq.getResult_code(), payNotifyReq.getReturn_msg());
+            throw new AutoPlatformException(payNotifyReq.getResult_code(), payNotifyReq.getReturn_msg());
+        }
+        if (!PublicConfig.CALL_SUCCESS.equals(payNotifyReq.getResult_code())) {
+            updateOrderStatus(payNotifyReq.getOut_trade_no(), payNotifyReq.getTransaction_id(), ProcessEnum.PAY_FAIL.getCode(), PayFlagEnum.Y.getCode(), payNotifyReq.getErr_code(), payNotifyReq.getErr_code_des());
+            throw new AutoPlatformException(payNotifyReq.getErr_code(), payNotifyReq.getErr_code_des());
+        }
+        //3.校验SIGN签名
+        String sign = WeChatXmlUtil.getSign(BeanToMapUtil.convertBean(payNotifyReq, "sign"), PublicConfig.MCH_KEY);
+        if (!sign.equals(payNotifyReq.getSign())) {
+            log.error("订单号:{},请求的SIGN:{},生成的SIGN:{}", payNotifyReq.getOut_trade_no(), payNotifyReq.getSign(), sign);
+            updateOrderStatus(payNotifyReq.getOut_trade_no(), payNotifyReq.getTransaction_id(), ProcessEnum.PAY_FAIL.getCode(), "Y", ServiceErrorCode.ERROR_CODE_A10005.getResCode(), ServiceErrorCode.ERROR_CODE_A10005.getResDesc());
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10005);
+        }
+    }
+
+    /**
+     * 更新支付状态
+     *
+     * @param payNotifyReq 支付通知信息
+     * @return
+     */
+    public void updatePayResult(PayNotifyReq payNotifyReq) {
+        TOrderExample tOrderExample = new TOrderExample();
+        tOrderExample.createCriteria().andOrdernoEqualTo(payNotifyReq.getOut_trade_no());
+        List<TOrder> tOrderList = tOrderMapper.selectByExample(tOrderExample);
+        if (tOrderList == null || tOrderList.isEmpty()) {
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
+        }
+        log.info("订单号：{}，是否已支付：{}，订单状态：{}", payNotifyReq.getOut_trade_no(), tOrderList.get(0).getIsPay(), tOrderList.get(0).getProcess());
+        if (tOrderList.get(0).getProcess().equals(ProcessEnum.PAY_SUCCESS.getCode())) {
+            log.error("订单已支付成功过,订单号:{}", payNotifyReq.getOut_trade_no());
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10010);
+        }
+        if (tOrderList.get(0).getProcess().equals(ProcessEnum.DELIVERY_SUCCESS.getCode()) || tOrderList.get(0).getProcess().equals(ProcessEnum.DELIVERY_FAIL.getCode())) {
+            log.error("订单已发货过,订单号:{}", payNotifyReq.getOut_trade_no());
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10011);
+        }
+        //更新支付结果
+        updateOrderStatus(payNotifyReq.getOut_trade_no(), payNotifyReq.getTransaction_id(), ProcessEnum.PAY_SUCCESS.getCode(), PayFlagEnum.N.getCode(), payNotifyReq.getReturn_code(), ProcessEnum.PAY_SUCCESS.getDesc());
     }
 }

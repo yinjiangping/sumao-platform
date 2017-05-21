@@ -250,6 +250,60 @@ public class TDeliveryAddressExample {
             return (Criteria) this;
         }
 
+        public Criteria andCustomerIdNotEqualTo(String value) {
+            addCriterion("customer_id <>", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdGreaterThan(String value) {
+            addCriterion("customer_id >", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdGreaterThanOrEqualTo(String value) {
+            addCriterion("customer_id >=", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdLessThan(String value) {
+            addCriterion("customer_id <", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdLessThanOrEqualTo(String value) {
+            addCriterion("customer_id <=", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdLike(String value) {
+            addCriterion("customer_id like", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdNotLike(String value) {
+            addCriterion("customer_id not like", value, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdIn(List<String> values) {
+            addCriterion("customer_id in", values, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdNotIn(List<String> values) {
+            addCriterion("customer_id not in", values, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdBetween(String value1, String value2) {
+            addCriterion("customer_id between", value1, value2, "customerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerIdNotBetween(String value1, String value2) {
+            addCriterion("customer_id not between", value1, value2, "customerId");
+            return (Criteria) this;
+        }
 
         public Criteria andDeliveryNameIsNull() {
             addCriterion("delivery_name is null");
@@ -741,63 +795,73 @@ public class TDeliveryAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNull() {
-            addCriterion("order_id is null");
+        public Criteria andIsDefaultIsNull() {
+            addCriterion("is_default is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNotNull() {
-            addCriterion("order_id is not null");
+        public Criteria andIsDefaultIsNotNull() {
+            addCriterion("is_default is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdEqualTo(Long value) {
-            addCriterion("order_id =", value, "orderId");
+        public Criteria andIsDefaultEqualTo(String value) {
+            addCriterion("is_default =", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotEqualTo(Long value) {
-            addCriterion("order_id <>", value, "orderId");
+        public Criteria andIsDefaultNotEqualTo(String value) {
+            addCriterion("is_default <>", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThan(Long value) {
-            addCriterion("order_id >", value, "orderId");
+        public Criteria andIsDefaultGreaterThan(String value) {
+            addCriterion("is_default >", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("order_id >=", value, "orderId");
+        public Criteria andIsDefaultGreaterThanOrEqualTo(String value) {
+            addCriterion("is_default >=", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThan(Long value) {
-            addCriterion("order_id <", value, "orderId");
+        public Criteria andIsDefaultLessThan(String value) {
+            addCriterion("is_default <", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThanOrEqualTo(Long value) {
-            addCriterion("order_id <=", value, "orderId");
+        public Criteria andIsDefaultLessThanOrEqualTo(String value) {
+            addCriterion("is_default <=", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIn(List<Long> values) {
-            addCriterion("order_id in", values, "orderId");
+        public Criteria andIsDefaultLike(String value) {
+            addCriterion("is_default like", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotIn(List<Long> values) {
-            addCriterion("order_id not in", values, "orderId");
+        public Criteria andIsDefaultNotLike(String value) {
+            addCriterion("is_default not like", value, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdBetween(Long value1, Long value2) {
-            addCriterion("order_id between", value1, value2, "orderId");
+        public Criteria andIsDefaultIn(List<String> values) {
+            addCriterion("is_default in", values, "isDefault");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotBetween(Long value1, Long value2) {
-            addCriterion("order_id not between", value1, value2, "orderId");
+        public Criteria andIsDefaultNotIn(List<String> values) {
+            addCriterion("is_default not in", values, "isDefault");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefaultBetween(String value1, String value2) {
+            addCriterion("is_default between", value1, value2, "isDefault");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDefaultNotBetween(String value1, String value2) {
+            addCriterion("is_default not between", value1, value2, "isDefault");
             return (Criteria) this;
         }
 

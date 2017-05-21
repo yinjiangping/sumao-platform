@@ -22,7 +22,9 @@ public enum ServiceErrorCode {
     ERROR_CODE_A10008("A10008", "获取签名失败"),
     ERROR_CODE_A10009("A10009", "用户未登陆"),
     ERROR_CODE_A10010("A10010", "订单已支付成功"),
-    ERROR_CODE_A10011("A10011", "已回调通知过"),
+    ERROR_CODE_A10011("A10011", "订单已发货"),
+    ERROR_CODE_A20001("A20001", "收货地址有误"),
+    ERROR_CODE_A20002("A20002", "订单信息被篡改"),
 
     ERROR_CODE_A10012("A10012", "用户名不存在"),
     ERROR_CODE_A10013("A10013", "用户名或密码有误"),

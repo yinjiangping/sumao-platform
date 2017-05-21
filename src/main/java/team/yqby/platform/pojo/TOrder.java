@@ -11,9 +11,9 @@ public class TOrder {
 
     private Date refuseTime;
 
-    private Byte isPay;
+    private String isPay;
 
-    private Byte process;
+    private String process;
 
     private Long createby;
 
@@ -32,6 +32,12 @@ public class TOrder {
     private String resorderno;
 
     private String orderamt;
+
+    private String rescode;
+
+    private String resdesc;
+
+    private Long addressid;
 
     public Long getId() {
         return id;
@@ -65,20 +71,20 @@ public class TOrder {
         this.refuseTime = refuseTime;
     }
 
-    public Byte getIsPay() {
+    public String getIsPay() {
         return isPay;
     }
 
-    public void setIsPay(Byte isPay) {
-        this.isPay = isPay;
+    public void setIsPay(String isPay) {
+        this.isPay = isPay == null ? null : isPay.trim();
     }
 
-    public Byte getProcess() {
+    public String getProcess() {
         return process;
     }
 
-    public void setProcess(Byte process) {
-        this.process = process;
+    public void setProcess(String process) {
+        this.process = process == null ? null : process.trim();
     }
 
     public Long getCreateby() {
@@ -151,5 +157,29 @@ public class TOrder {
 
     public void setOrderamt(String orderamt) {
         this.orderamt = orderamt == null ? null : orderamt.trim();
+    }
+
+    public String getRescode() {
+        return rescode;
+    }
+
+    public void setRescode(String rescode) {
+        this.rescode = rescode == null ? null : rescode.trim();
+    }
+
+    public String getResdesc() {
+        return resdesc;
+    }
+
+    public void setResdesc(String resdesc) {
+        this.resdesc = resdesc == null ? null : resdesc.trim();
+    }
+
+    public Long getAddressid() {
+        return addressid;
+    }
+
+    public void setAddressid(Long addressid) {
+        this.addressid = addressid;
     }
 }
