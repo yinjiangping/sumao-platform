@@ -115,7 +115,7 @@
       #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, 
       #{updatetime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TFile" >
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TFile" useGeneratedKeys="true" keyProperty="id" >
     insert into t_file
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
