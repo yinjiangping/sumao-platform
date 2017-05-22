@@ -39,6 +39,8 @@ public class TOrder {
 
     private Long addressid;
 
+    private String deliveryinfo;
+
     public Long getId() {
         return id;
     }
@@ -181,5 +183,13 @@ public class TOrder {
 
     public void setAddressid(Long addressid) {
         this.addressid = addressid;
+    }
+
+    public String getDeliveryinfo() {
+        return deliveryinfo;
+    }
+
+    public void setDeliveryinfo(String deliveryinfo) {
+        this.deliveryinfo = deliveryinfo == null ? null : deliveryinfo.trim();
     }
 }

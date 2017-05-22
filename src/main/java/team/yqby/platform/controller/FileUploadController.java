@@ -104,10 +104,10 @@ public class FileUploadController {
             //2.根据图片编号删除图片
             int i = tFileMapper.deleteByPrimaryKey(fileId);
             if (i > 0) {
-                return true;
+                //3.删除本地服务器图片
+                new File(Joiner.on("").join(localPath, file.getFileName())).deleteOnExit();
             }
-            //3.删除本地服务器图片
-            new File(Joiner.on("").join(localPath, file.getFileName())).deleteOnExit();
+            return true;
         } catch (Exception e) {
             log.error("deletePic exception,error", e);
         }

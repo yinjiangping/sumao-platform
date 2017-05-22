@@ -20,6 +20,7 @@
     <result column="resCode" property="rescode" jdbcType="VARCHAR" />
     <result column="resDesc" property="resdesc" jdbcType="VARCHAR" />
     <result column="addressId" property="addressid" jdbcType="BIGINT" />
+    <result column="deliveryInfo" property="deliveryinfo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -82,7 +83,7 @@
   <sql id="Base_Column_List" >
     id, customer_id, put_order_time, refuse_time, is_pay, process, createBy, createByName, 
     createTime, updateBy, updateByName, updateTime, orderNo, resOrderNo, orderAmt, resCode, 
-    resDesc, addressId
+    resDesc, addressId, deliveryInfo
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TOrderExample" >
     select
@@ -120,15 +121,15 @@
       createBy, createByName, createTime, 
       updateBy, updateByName, updateTime, 
       orderNo, resOrderNo, orderAmt, 
-      resCode, resDesc, addressId
-      )
+      resCode, resDesc, addressId, 
+      deliveryInfo)
     values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP}, 
       #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=VARCHAR}, #{process,jdbcType=VARCHAR}, 
       #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
       #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
       #{orderno,jdbcType=VARCHAR}, #{resorderno,jdbcType=VARCHAR}, #{orderamt,jdbcType=VARCHAR}, 
-      #{rescode,jdbcType=VARCHAR}, #{resdesc,jdbcType=VARCHAR}, #{addressid,jdbcType=BIGINT}
-      )
+      #{rescode,jdbcType=VARCHAR}, #{resdesc,jdbcType=VARCHAR}, #{addressid,jdbcType=BIGINT}, 
+      #{deliveryinfo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder" >
     insert into t_order
@@ -187,6 +188,9 @@
       <if test="addressid != null" >
         addressId,
       </if>
+      <if test="deliveryinfo != null" >
+        deliveryInfo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -242,6 +246,9 @@
       </if>
       <if test="addressid != null" >
         #{addressid,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryinfo != null" >
+        #{deliveryinfo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -308,6 +315,9 @@
       <if test="record.addressid != null" >
         addressId = #{record.addressid,jdbcType=BIGINT},
       </if>
+      <if test="record.deliveryinfo != null" >
+        deliveryInfo = #{record.deliveryinfo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -332,7 +342,8 @@
       orderAmt = #{record.orderamt,jdbcType=VARCHAR},
       resCode = #{record.rescode,jdbcType=VARCHAR},
       resDesc = #{record.resdesc,jdbcType=VARCHAR},
-      addressId = #{record.addressid,jdbcType=BIGINT}
+      addressId = #{record.addressid,jdbcType=BIGINT},
+      deliveryInfo = #{record.deliveryinfo,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -391,6 +402,9 @@
       <if test="addressid != null" >
         addressId = #{addressid,jdbcType=BIGINT},
       </if>
+      <if test="deliveryinfo != null" >
+        deliveryInfo = #{deliveryinfo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -412,7 +426,8 @@
       orderAmt = #{orderamt,jdbcType=VARCHAR},
       resCode = #{rescode,jdbcType=VARCHAR},
       resDesc = #{resdesc,jdbcType=VARCHAR},
-      addressId = #{addressid,jdbcType=BIGINT}
+      addressId = #{addressid,jdbcType=BIGINT},
+      deliveryInfo = #{deliveryinfo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

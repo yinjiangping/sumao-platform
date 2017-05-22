@@ -1284,6 +1284,76 @@ public class TOrderExample {
             addCriterion("addressId not between", value1, value2, "addressid");
             return (Criteria) this;
         }
+
+        public Criteria andDeliveryinfoIsNull() {
+            addCriterion("deliveryInfo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoIsNotNull() {
+            addCriterion("deliveryInfo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoEqualTo(String value) {
+            addCriterion("deliveryInfo =", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoNotEqualTo(String value) {
+            addCriterion("deliveryInfo <>", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoGreaterThan(String value) {
+            addCriterion("deliveryInfo >", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoGreaterThanOrEqualTo(String value) {
+            addCriterion("deliveryInfo >=", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoLessThan(String value) {
+            addCriterion("deliveryInfo <", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoLessThanOrEqualTo(String value) {
+            addCriterion("deliveryInfo <=", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoLike(String value) {
+            addCriterion("deliveryInfo like", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoNotLike(String value) {
+            addCriterion("deliveryInfo not like", value, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoIn(List<String> values) {
+            addCriterion("deliveryInfo in", values, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoNotIn(List<String> values) {
+            addCriterion("deliveryInfo not in", values, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoBetween(String value1, String value2) {
+            addCriterion("deliveryInfo between", value1, value2, "deliveryinfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryinfoNotBetween(String value1, String value2) {
+            addCriterion("deliveryInfo not between", value1, value2, "deliveryinfo");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -6,19 +6,10 @@
     <result column="delivery_address" property="deliveryAddress" jdbcType="VARCHAR" />
     <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="delivery_name" property="deliveryName" jdbcType="VARCHAR" />
-    <result column="postcodes" property="postcodes" jdbcType="VARCHAR" />
-    <result column="sender_name" property="senderName" jdbcType="VARCHAR" />
-    <result column="sender_tel" property="senderTel" jdbcType="VARCHAR" />
     <result column="delivery_tel" property="deliveryTel" jdbcType="VARCHAR" />
     <result column="mail_number" property="mailNumber" jdbcType="VARCHAR" />
-    <result column="mailing_unit" property="mailingUnit" jdbcType="VARCHAR" />
     <result column="is_default" property="isDefault" jdbcType="VARCHAR" />
-    <result column="sender_address" property="senderAddress" jdbcType="VARCHAR" />
-    <result column="createBy" property="createby" jdbcType="BIGINT" />
-    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
-    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -80,9 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, delivery_address, customer_id, delivery_name, postcodes, sender_name, sender_tel, 
-    delivery_tel, mail_number, mailing_unit, is_default, sender_address, createBy, createByName, 
-    createTime, updateBy, updateByName, updateTime
+    id, delivery_address, customer_id, delivery_name, delivery_tel, mail_number, is_default, 
+    createTime, updateTime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TDeliveryAddressExample" >
     select
@@ -116,18 +106,12 @@
   </delete>
   <insert id="insert" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
     insert into t_delivery_address (id, delivery_address, customer_id, 
-      delivery_name, postcodes, sender_name, 
-      sender_tel, delivery_tel, mail_number, 
-      mailing_unit, is_default, sender_address, 
-      createBy, createByName, createTime, 
-      updateBy, updateByName, updateTime
+      delivery_name, delivery_tel, mail_number, 
+      is_default, createTime, updateTime
       )
     values (#{id,jdbcType=BIGINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
-      #{deliveryName,jdbcType=VARCHAR}, #{postcodes,jdbcType=VARCHAR}, #{senderName,jdbcType=VARCHAR}, 
-      #{senderTel,jdbcType=VARCHAR}, #{deliveryTel,jdbcType=VARCHAR}, #{mailNumber,jdbcType=VARCHAR}, 
-      #{mailingUnit,jdbcType=VARCHAR}, #{isDefault,jdbcType=VARCHAR}, #{senderAddress,jdbcType=VARCHAR}, 
-      #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      #{deliveryName,jdbcType=VARCHAR}, #{deliveryTel,jdbcType=VARCHAR}, #{mailNumber,jdbcType=VARCHAR}, 
+      #{isDefault,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
@@ -145,44 +129,17 @@
       <if test="deliveryName != null" >
         delivery_name,
       </if>
-      <if test="postcodes != null" >
-        postcodes,
-      </if>
-      <if test="senderName != null" >
-        sender_name,
-      </if>
-      <if test="senderTel != null" >
-        sender_tel,
-      </if>
       <if test="deliveryTel != null" >
         delivery_tel,
       </if>
       <if test="mailNumber != null" >
         mail_number,
       </if>
-      <if test="mailingUnit != null" >
-        mailing_unit,
-      </if>
       <if test="isDefault != null" >
         is_default,
       </if>
-      <if test="senderAddress != null" >
-        sender_address,
-      </if>
-      <if test="createby != null" >
-        createBy,
-      </if>
-      <if test="createbyname != null" >
-        createByName,
-      </if>
       <if test="createtime != null" >
         createTime,
-      </if>
-      <if test="updateby != null" >
-        updateBy,
-      </if>
-      <if test="updatebyname != null" >
-        updateByName,
       </if>
       <if test="updatetime != null" >
         updateTime,
@@ -201,44 +158,17 @@
       <if test="deliveryName != null" >
         #{deliveryName,jdbcType=VARCHAR},
       </if>
-      <if test="postcodes != null" >
-        #{postcodes,jdbcType=VARCHAR},
-      </if>
-      <if test="senderName != null" >
-        #{senderName,jdbcType=VARCHAR},
-      </if>
-      <if test="senderTel != null" >
-        #{senderTel,jdbcType=VARCHAR},
-      </if>
       <if test="deliveryTel != null" >
         #{deliveryTel,jdbcType=VARCHAR},
       </if>
       <if test="mailNumber != null" >
         #{mailNumber,jdbcType=VARCHAR},
       </if>
-      <if test="mailingUnit != null" >
-        #{mailingUnit,jdbcType=VARCHAR},
-      </if>
       <if test="isDefault != null" >
         #{isDefault,jdbcType=VARCHAR},
       </if>
-      <if test="senderAddress != null" >
-        #{senderAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="createby != null" >
-        #{createby,jdbcType=BIGINT},
-      </if>
-      <if test="createbyname != null" >
-        #{createbyname,jdbcType=VARCHAR},
-      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateby != null" >
-        #{updateby,jdbcType=BIGINT},
-      </if>
-      <if test="updatebyname != null" >
-        #{updatebyname,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null" >
         #{updatetime,jdbcType=TIMESTAMP},
@@ -266,44 +196,17 @@
       <if test="record.deliveryName != null" >
         delivery_name = #{record.deliveryName,jdbcType=VARCHAR},
       </if>
-      <if test="record.postcodes != null" >
-        postcodes = #{record.postcodes,jdbcType=VARCHAR},
-      </if>
-      <if test="record.senderName != null" >
-        sender_name = #{record.senderName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.senderTel != null" >
-        sender_tel = #{record.senderTel,jdbcType=VARCHAR},
-      </if>
       <if test="record.deliveryTel != null" >
         delivery_tel = #{record.deliveryTel,jdbcType=VARCHAR},
       </if>
       <if test="record.mailNumber != null" >
         mail_number = #{record.mailNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.mailingUnit != null" >
-        mailing_unit = #{record.mailingUnit,jdbcType=VARCHAR},
-      </if>
       <if test="record.isDefault != null" >
         is_default = #{record.isDefault,jdbcType=VARCHAR},
       </if>
-      <if test="record.senderAddress != null" >
-        sender_address = #{record.senderAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createby != null" >
-        createBy = #{record.createby,jdbcType=BIGINT},
-      </if>
-      <if test="record.createbyname != null" >
-        createByName = #{record.createbyname,jdbcType=VARCHAR},
-      </if>
       <if test="record.createtime != null" >
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateby != null" >
-        updateBy = #{record.updateby,jdbcType=BIGINT},
-      </if>
-      <if test="record.updatebyname != null" >
-        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
       </if>
       <if test="record.updatetime != null" >
         updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
@@ -319,19 +222,10 @@
       delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
       customer_id = #{record.customerId,jdbcType=VARCHAR},
       delivery_name = #{record.deliveryName,jdbcType=VARCHAR},
-      postcodes = #{record.postcodes,jdbcType=VARCHAR},
-      sender_name = #{record.senderName,jdbcType=VARCHAR},
-      sender_tel = #{record.senderTel,jdbcType=VARCHAR},
       delivery_tel = #{record.deliveryTel,jdbcType=VARCHAR},
       mail_number = #{record.mailNumber,jdbcType=VARCHAR},
-      mailing_unit = #{record.mailingUnit,jdbcType=VARCHAR},
       is_default = #{record.isDefault,jdbcType=VARCHAR},
-      sender_address = #{record.senderAddress,jdbcType=VARCHAR},
-      createBy = #{record.createby,jdbcType=BIGINT},
-      createByName = #{record.createbyname,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateBy = #{record.updateby,jdbcType=BIGINT},
-      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -349,44 +243,17 @@
       <if test="deliveryName != null" >
         delivery_name = #{deliveryName,jdbcType=VARCHAR},
       </if>
-      <if test="postcodes != null" >
-        postcodes = #{postcodes,jdbcType=VARCHAR},
-      </if>
-      <if test="senderName != null" >
-        sender_name = #{senderName,jdbcType=VARCHAR},
-      </if>
-      <if test="senderTel != null" >
-        sender_tel = #{senderTel,jdbcType=VARCHAR},
-      </if>
       <if test="deliveryTel != null" >
         delivery_tel = #{deliveryTel,jdbcType=VARCHAR},
       </if>
       <if test="mailNumber != null" >
         mail_number = #{mailNumber,jdbcType=VARCHAR},
       </if>
-      <if test="mailingUnit != null" >
-        mailing_unit = #{mailingUnit,jdbcType=VARCHAR},
-      </if>
       <if test="isDefault != null" >
         is_default = #{isDefault,jdbcType=VARCHAR},
       </if>
-      <if test="senderAddress != null" >
-        sender_address = #{senderAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="createby != null" >
-        createBy = #{createby,jdbcType=BIGINT},
-      </if>
-      <if test="createbyname != null" >
-        createByName = #{createbyname,jdbcType=VARCHAR},
-      </if>
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateby != null" >
-        updateBy = #{updateby,jdbcType=BIGINT},
-      </if>
-      <if test="updatebyname != null" >
-        updateByName = #{updatebyname,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null" >
         updateTime = #{updatetime,jdbcType=TIMESTAMP},
@@ -399,19 +266,10 @@
     set delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
       customer_id = #{customerId,jdbcType=VARCHAR},
       delivery_name = #{deliveryName,jdbcType=VARCHAR},
-      postcodes = #{postcodes,jdbcType=VARCHAR},
-      sender_name = #{senderName,jdbcType=VARCHAR},
-      sender_tel = #{senderTel,jdbcType=VARCHAR},
       delivery_tel = #{deliveryTel,jdbcType=VARCHAR},
       mail_number = #{mailNumber,jdbcType=VARCHAR},
-      mailing_unit = #{mailingUnit,jdbcType=VARCHAR},
       is_default = #{isDefault,jdbcType=VARCHAR},
-      sender_address = #{senderAddress,jdbcType=VARCHAR},
-      createBy = #{createby,jdbcType=BIGINT},
-      createByName = #{createbyname,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateBy = #{updateby,jdbcType=BIGINT},
-      updateByName = #{updatebyname,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
