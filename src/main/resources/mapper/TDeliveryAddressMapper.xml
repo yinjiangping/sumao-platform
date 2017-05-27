@@ -114,7 +114,7 @@
       #{isDefault,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TDeliveryAddress" >
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TDeliveryAddress"  keyProperty="id" >
     insert into t_delivery_address
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

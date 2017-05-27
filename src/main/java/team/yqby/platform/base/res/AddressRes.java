@@ -9,6 +9,10 @@ import lombok.ToString;
 @ToString
 public class AddressRes {
     /**
+     * 收获地址编号
+     */
+    private Long addressId;
+    /**
      * 收件人地址
      */
     private String rAddress;

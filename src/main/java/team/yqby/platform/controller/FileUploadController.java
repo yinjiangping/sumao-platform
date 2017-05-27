@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import team.yqby.platform.common.enums.PicPriceType;
 import team.yqby.platform.common.util.DateUtil;
+import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
@@ -29,7 +31,7 @@ public class FileUploadController {
     private TFileMapper tFileMapper;
     private final static String localPath = "/www/web/upload/";
 
-    @RequestMapping("/uploadPic")
+    @RequestMapping(value = ApiUrls.UPLOAD_PIC)
     @ResponseBody
     public Long uploadPic(HttpServletRequest request) {
         try {
@@ -91,7 +93,7 @@ public class FileUploadController {
      * @param fileId
      * @return
      */
-    @RequestMapping(value = "/deletePic")
+    @RequestMapping(value = ApiUrls.DELETE_PIC)
     @ResponseBody
     public boolean deletePic(Long fileId) {
         try {
@@ -112,6 +114,22 @@ public class FileUploadController {
             log.error("deletePic exception,error", e);
         }
         return false;
+    }
+
+    /**
+     * 查询商品价格
+     *
+     * @param openID 用户编号
+     * @return
+     */
+    @RequestMapping(value = ApiUrls.QUERY_GOODS_PRICE)
+    @ResponseBody
+    public Map<String,String> queryPrice(String openID){
+        Map<String,String> priceMap = new HashMap<>();
+        for (PicPriceType picPriceType : PicPriceType.values()) {
+            priceMap.put(picPriceType.getPicMark(),picPriceType.getPicPrice());
+        }
+        return priceMap;
     }
 
 }

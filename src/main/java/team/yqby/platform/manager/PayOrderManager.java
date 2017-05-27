@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import team.yqby.platform.base.req.PayNotifyReq;
 import team.yqby.platform.base.req.WeChatCreateOrder;
 import team.yqby.platform.base.res.PayConfirmRes;
-import team.yqby.platform.base.res.PayOrderRes;
 import team.yqby.platform.common.WebCall;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.*;
@@ -41,7 +40,19 @@ public class PayOrderManager {
      * @param openID 用户编号
      * @return
      */
-    public String createPayOrder(String openID, String orderAmt) {
+    public String createPayOrder(String openID, String orderAmt, String fileIds) {
+        String[] fileIdArr = StringUtils.split(fileIds, "|");
+        String businessInfo = "";
+        for (String fileInfo : fileIdArr) {
+            String [] files = StringUtils.split(fileInfo,",");
+            Long picId = Long.valueOf(files[0]);
+            String picNum = files[1];
+            String picSize = files[2];
+            String picSinglePrice = PicPriceType.getPicPrice(Integer.parseInt(picSize));
+            String picUrl = tFileMapper.selectByPrimaryKey(picId).getFileAddress();
+            businessInfo = Joiner.on("@").join(picId,picNum,picSinglePrice,picUrl);
+        }
+
         String orderNo = NumberUtil.getOrderNoRandom();
         TOrder tOrder = new TOrder();
         tOrder.setOrderno(orderNo);
@@ -51,6 +62,7 @@ public class PayOrderManager {
         tOrder.setUpdatetime(new Date());
         tOrder.setIsPay(PayFlagEnum.N.getCode());
         tOrder.setProcess(ProcessEnum.INIT.getCode());
+        tOrder.setDeliveryinfo(businessInfo);
         int i = tOrderMapper.insert(tOrder);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);
@@ -93,7 +105,7 @@ public class PayOrderManager {
         if (tOrderList == null || tOrderList.isEmpty()) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
         }
-        if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()){
+        if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()) {
             log.error("订单金额被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }

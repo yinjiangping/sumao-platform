@@ -29,7 +29,7 @@ public class PayOrderService {
     public String createOrder(PayOrderReq payOrderReq) {
 
         //1.支付下单
-        String orderNo = payOrderManager.createPayOrder(payOrderReq.getOpenID(), String.valueOf(payOrderReq.getOrderAmt()));
+        String orderNo = payOrderManager.createPayOrder(payOrderReq.getOpenID(), String.valueOf(payOrderReq.getOrderAmt()),payOrderReq.getFileIds());
 
         //2.更新文件表
         payOrderManager.updateFileOrder(payOrderReq.getFileIds(),orderNo);

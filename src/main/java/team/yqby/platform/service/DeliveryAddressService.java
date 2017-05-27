@@ -9,5 +9,5 @@ public interface DeliveryAddressService{
 
     public List<AddressRes> queryAddress(String openID, String queryFlag);
 
-    public void operaAddress(AddressReq addressReq, String operaFlag);
+    public Long operaAddress(AddressReq addressReq, String operaFlag);
 }

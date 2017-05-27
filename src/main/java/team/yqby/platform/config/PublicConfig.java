@@ -17,7 +17,7 @@ public class PublicConfig {
 
     public static final String MCH_ID = "1451238402";
 
-    public static final String MCH_KEY = "02957fc54fef8915451b5744bfde2733";
+    public static final String MCH_KEY = "de872154ffbf91a5dcc0e539dd2d5106";
 
     public static final String WX_CREATE_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 

@@ -2,7 +2,6 @@ package team.yqby.platform.controller;
 
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -11,23 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import team.yqby.platform.base.Response;
-import team.yqby.platform.base.req.FlowOpenIDDto;
 import team.yqby.platform.base.req.PayConfirmReq;
 import team.yqby.platform.base.req.PayNotifyReq;
 import team.yqby.platform.base.req.PayOrderReq;
 import team.yqby.platform.base.res.PayConfirmRes;
 import team.yqby.platform.base.res.PayNotifyRes;
-import team.yqby.platform.base.res.PayOrderRes;
-import team.yqby.platform.base.res.PaySignRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
-import team.yqby.platform.common.enums.ErrorCodeEnum;
 import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.common.util.StreamUtil;
 import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.exception.AutoPlatformException;
-import team.yqby.platform.manager.PayOrderManager;
-import team.yqby.platform.service.FlowTicketService;
 import team.yqby.platform.service.PayOrderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +62,6 @@ public class PayController {
         }
 
     }
-
 
     /**
      * 确认订单

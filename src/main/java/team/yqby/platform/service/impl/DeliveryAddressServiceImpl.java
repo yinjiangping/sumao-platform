@@ -45,38 +45,59 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
             addressRes.setRPhone(tDeliveryAddress.getDeliveryTel());
             addressRes.setZipCode(tDeliveryAddress.getMailNumber());
             addressRes.setIsDefault(tDeliveryAddress.getIsDefault());
+            addressRes.setAddressId(tDeliveryAddress.getId());
             addressResList.add(addressRes);
         }
         return addressResList;
     }
 
-
     @Override
-    public void operaAddress(AddressReq addressReq, String operaFlag) {
+    public Long operaAddress(AddressReq addressReq, String operaFlag) {
         int i = 0;
+        TDeliveryAddress tDeliveryAddress = new TDeliveryAddress();
         switch (operaFlag) {
             case "del":
-                TDeliveryAddress tDeliveryAddress1 = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(addressReq.getAddressId()));
-                if (tDeliveryAddress1 == null) {
-                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20006);
-                }
                 TDeliveryAddressExample tDeliveryAddressExample = new TDeliveryAddressExample();
                 tDeliveryAddressExample.createCriteria().andIdEqualTo(addressReq.getAddressId()).andCustomerIdEqualTo(addressReq.getOpenID());
+
+                tDeliveryAddress.setId(addressReq.getAddressId());
+                List<TDeliveryAddress> tDeliveryAddressList = tDeliveryAddressMapper.selectByExample(tDeliveryAddressExample);
+                if (tDeliveryAddressList == null || tDeliveryAddressList.isEmpty()) {
+                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20006);
+                }
                 i = tDeliveryAddressMapper.deleteByExample(tDeliveryAddressExample);
                 break;
             case "add":
-                TDeliveryAddress tDeliveryAddress = new TDeliveryAddress();
                 tDeliveryAddress.setCustomerId(addressReq.getOpenID());
                 tDeliveryAddress.setDeliveryAddress(addressReq.getRAddress());
                 tDeliveryAddress.setDeliveryName(addressReq.getRUserName());
                 tDeliveryAddress.setDeliveryTel(addressReq.getRPhone());
                 tDeliveryAddress.setMailNumber(addressReq.getZipCode());
-                tDeliveryAddress.setIsDefault(addressReq.getIsDefault());
                 i = tDeliveryAddressMapper.insertSelective(tDeliveryAddress);
+                break;
+            case "edit":
+                tDeliveryAddress.setId(addressReq.getAddressId());
+                tDeliveryAddress.setCustomerId(addressReq.getOpenID());
+                tDeliveryAddress.setDeliveryAddress(addressReq.getRAddress());
+                tDeliveryAddress.setDeliveryName(addressReq.getRUserName());
+                tDeliveryAddress.setDeliveryTel(addressReq.getRPhone());
+                tDeliveryAddress.setMailNumber(addressReq.getZipCode());
+                i = tDeliveryAddressMapper.updateByPrimaryKey(tDeliveryAddress);
+                break;
+            case "setDefault":
+                TDeliveryAddressExample tDeliveryAddressExample1 = new TDeliveryAddressExample();
+                TDeliveryAddressExample.Criteria criteria = tDeliveryAddressExample1.createCriteria();
+                criteria.andCustomerIdEqualTo(addressReq.getOpenID());
+                tDeliveryAddress.setIsDefault("N");
+                tDeliveryAddressMapper.updateByExample(tDeliveryAddress,tDeliveryAddressExample1);
+                criteria.andIdEqualTo(addressReq.getAddressId());
+                tDeliveryAddress.setIsDefault("Y");
+                tDeliveryAddressMapper.updateByPrimaryKey(tDeliveryAddress);
                 break;
         }
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20003);
         }
+        return tDeliveryAddress.getId();
     }
 }

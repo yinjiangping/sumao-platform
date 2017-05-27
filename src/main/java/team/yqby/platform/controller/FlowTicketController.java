@@ -12,6 +12,7 @@ import team.yqby.platform.base.req.FlowOpenIDDto;
 import team.yqby.platform.base.res.PaySignRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.ErrorCodeEnum;
+import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.service.FlowTicketService;
 
 @Slf4j
@@ -25,7 +26,7 @@ public class FlowTicketController {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/queryOpenID", method = RequestMethod.POST)
+    @RequestMapping(value = ApiUrls.QUERY_OPEN_ID, method = RequestMethod.POST)
     @ResponseBody
     public Response<FlowOpenIDDto> queryByCode(String code) {
         Response response;
@@ -45,7 +46,7 @@ public class FlowTicketController {
      * @param openID
      * @return
      */
-    @RequestMapping(value = "/paySign")
+    @RequestMapping(value = ApiUrls.PAY_SIGN)
     @ResponseBody
     public Response<PaySignRes> paySign(String openID, String url) {
         try {

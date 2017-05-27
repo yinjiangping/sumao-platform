@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import team.yqby.platform.common.constant.SystemConstant;
+import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.pojo.TUser;
 import team.yqby.platform.service.UserInfoService;
@@ -28,7 +29,7 @@ public class LoginController {
      * @param userPwd  用户密码
      * @return
      */
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = ApiUrls.LOGIN)
     @ResponseStatus(HttpStatus.OK)
     public ModelAndView login(String userName, String userPwd, HttpServletRequest request) {
         try {
