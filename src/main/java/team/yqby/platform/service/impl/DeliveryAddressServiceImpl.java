@@ -94,9 +94,11 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 criteria.andCustomerIdEqualTo(addressReq.getOpenID());
                 tDeliveryAddress.setIsDefault("N");
                 tDeliveryAddressMapper.updateByExampleSelective(tDeliveryAddress, tDeliveryAddressExample1);
-                criteria.andIdEqualTo(addressReq.getAddressId());
-                tDeliveryAddress.setIsDefault("Y");
-                i = tDeliveryAddressMapper.updateByPrimaryKey(tDeliveryAddress);
+                TDeliveryAddress tDeliveryAddress1 = new TDeliveryAddress();
+                tDeliveryAddress1.setId(addressReq.getAddressId());
+                tDeliveryAddress1.setIsDefault("Y");
+                tDeliveryAddress.setUpdatetime(new Date());
+                i = tDeliveryAddressMapper.updateByPrimaryKeySelective(tDeliveryAddress1);
                 break;
         }
         if (i == 0) {
