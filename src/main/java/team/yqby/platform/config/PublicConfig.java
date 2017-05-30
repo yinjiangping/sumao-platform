@@ -15,7 +15,7 @@ public class PublicConfig {
 
     public static final String APP_ID = "wxcc250a87184a9442";
 
-    public static final String MCH_ID = "1451238402";
+    public static final String MCH_ID = "1480491002";
 
     public static final String MCH_KEY = "de872154ffbf91a5dcc0e539dd2d5106";
 
