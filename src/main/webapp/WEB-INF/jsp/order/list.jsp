@@ -6,7 +6,7 @@
 
 <head>
     <title></title>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"/>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/modernizr.min.js"></script>
     <script language="javascript" type="text/javascript"
             src="${pageContext.request.contextPath}/js/My97DatePicker/WdatePicker.js"></script>

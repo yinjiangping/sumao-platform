@@ -41,14 +41,10 @@ public class PayController {
     @RequestMapping(value = ApiUrls.CREATE_ORDER_URL, method = RequestMethod.POST)
     public
     @ResponseBody
-    Response<String> createOrder(@Valid @RequestBody PayOrderReq payOrderReq, Errors errors) {
+    Response<String> createOrder(PayOrderReq payOrderReq, Errors errors) {
         try {
             log.info("createOrder started, request params:{}", payOrderReq);
 
-            //1.校验请求参数
-            ParamsValidate.validParamError(errors);
-
-            //2.生成支付订单
             String result = payOrderService.createOrder(payOrderReq);
 
             log.info("createOrder finished, openId:{}, response:{}", payOrderReq.getOpenID(), result);
@@ -73,15 +69,11 @@ public class PayController {
     @RequestMapping(value = ApiUrls.CONFIRM_ORDER_URL, method = RequestMethod.POST)
     public
     @ResponseBody
-    Response<PayConfirmRes> confirmOrder(@Valid @RequestBody PayConfirmReq payConfirmReq, Errors errors) {
+    Response<PayConfirmRes> confirmOrder(PayConfirmReq payConfirmReq, Errors errors) {
         PayConfirmRes payConfirmRes = null;
         try {
             log.info("confirmOrder started, request params:{}", payConfirmReq);
 
-            //1.校验请求参数
-            ParamsValidate.validParamError(errors);
-
-            //2.确认订单
             payConfirmRes = payOrderService.confirmOrder(payConfirmReq);
 
             log.info("confirmOrder finished, openId:{}, response:{}", payConfirmReq.getOpenID(), payConfirmRes);

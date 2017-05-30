@@ -9,7 +9,7 @@
     <title>四茂管理平台</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pintuer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css">
-    <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/js/pintuer.js"></script>
 </head>
 <body>
