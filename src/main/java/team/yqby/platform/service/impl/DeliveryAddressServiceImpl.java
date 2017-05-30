@@ -32,10 +32,10 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
             case "all":
                 break;
             case "default":
-                criteria.andIsDefaultEqualTo(queryFlag);
+                criteria.andIsDefaultEqualTo("Y");
                 break;
             case "no_default":
-                criteria.andIsDefaultEqualTo(queryFlag);
+                criteria.andIsDefaultEqualTo("N");
                 break;
         }
         List<TDeliveryAddress> deliveryAddressList = tDeliveryAddressMapper.selectByExample(tDeliveryAddressExample);
