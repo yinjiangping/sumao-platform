@@ -10,6 +10,7 @@ import lombok.ToString;
 public class PayConfirmReq {
     private String openID;
     private Long  addressId;
+    private Long  shopId;
     private String orderNo;
     private Long orderAmt;
 }

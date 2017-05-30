@@ -46,7 +46,22 @@ public class ApiUrls {
     //编辑收货地址
     public static final String EDIT_ADDRESS = "/editAddress";
 
+    //查询门店信息
+    public static final String QUERY_SHOP = "/queryShop";
+
     //设置收货地址
     public static final String SET_DEFAULT_ADDRESS = "/setDefaultAddress";
+
+    //查询订单
+    public static final String QUERY_ORDER = "/queryOrder";
+
+    //查询所有订单
+    public static final String QUERY_ALL_ORDER = "/queryAllOrder";
+
+    //查询订单明细
+    public static final String QUERY_DETAIL = "/queryDetail";
+
+    //更新订单信息(发货)
+    public static final String ORDER_DELIVERY = "/orderDelivery";
 
 }

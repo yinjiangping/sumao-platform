@@ -21,7 +21,8 @@
 <div class="leftnav">
   <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
         <h2 ><span class="icon-user"></span>基本功能</h2><ul style="">
-    </ul>
+    <li><a href="${pageContext.request.contextPath}/forwardFunPage?pageId=101&pageUrl=order/list" target="right"><span class="icon-caret-right"></span>订单功能</a></li>
+</ul>
 </div>
 <script type="text/javascript">
 

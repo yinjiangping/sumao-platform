@@ -41,6 +41,10 @@ public class TOrder {
 
     private String deliveryinfo;
 
+    private Long shopid;
+
+    private String remarks;
+
     public Long getId() {
         return id;
     }
@@ -191,5 +195,21 @@ public class TOrder {
 
     public void setDeliveryinfo(String deliveryinfo) {
         this.deliveryinfo = deliveryinfo == null ? null : deliveryinfo.trim();
+    }
+
+    public Long getShopid() {
+        return shopid;
+    }
+
+    public void setShopid(Long shopid) {
+        this.shopid = shopid;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? null : remarks.trim();
     }
 }

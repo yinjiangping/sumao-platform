@@ -7,11 +7,7 @@
     <result column="shop_address" property="shopAddress" jdbcType="VARCHAR" />
     <result column="shop_phone" property="shopPhone" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
-    <result column="createBy" property="createby" jdbcType="BIGINT" />
-    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
-    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -73,8 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, shop_name, shop_address, shop_phone, user_id, createBy, createByName, createTime, 
-    updateBy, updateByName, updateTime
+    id, shop_name, shop_address, shop_phone, user_id, createTime, updateTime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TShopExample" >
     select
@@ -108,13 +103,11 @@
   </delete>
   <insert id="insert" parameterType="team.yqby.platform.pojo.TShop" >
     insert into t_shop (id, shop_name, shop_address, 
-      shop_phone, user_id, createBy, 
-      createByName, createTime, updateBy, 
-      updateByName, updateTime)
+      shop_phone, user_id, createTime, 
+      updateTime)
     values (#{id,jdbcType=BIGINT}, #{shopName,jdbcType=VARCHAR}, #{shopAddress,jdbcType=VARCHAR}, 
-      #{shopPhone,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createby,jdbcType=BIGINT}, 
-      #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=BIGINT}, 
-      #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
+      #{shopPhone,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TShop" >
     insert into t_shop
@@ -134,20 +127,8 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="createby != null" >
-        createBy,
-      </if>
-      <if test="createbyname != null" >
-        createByName,
-      </if>
       <if test="createtime != null" >
         createTime,
-      </if>
-      <if test="updateby != null" >
-        updateBy,
-      </if>
-      <if test="updatebyname != null" >
-        updateByName,
       </if>
       <if test="updatetime != null" >
         updateTime,
@@ -169,20 +150,8 @@
       <if test="userId != null" >
         #{userId,jdbcType=BIGINT},
       </if>
-      <if test="createby != null" >
-        #{createby,jdbcType=BIGINT},
-      </if>
-      <if test="createbyname != null" >
-        #{createbyname,jdbcType=VARCHAR},
-      </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateby != null" >
-        #{updateby,jdbcType=BIGINT},
-      </if>
-      <if test="updatebyname != null" >
-        #{updatebyname,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null" >
         #{updatetime,jdbcType=TIMESTAMP},
@@ -213,20 +182,8 @@
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=BIGINT},
       </if>
-      <if test="record.createby != null" >
-        createBy = #{record.createby,jdbcType=BIGINT},
-      </if>
-      <if test="record.createbyname != null" >
-        createByName = #{record.createbyname,jdbcType=VARCHAR},
-      </if>
       <if test="record.createtime != null" >
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateby != null" >
-        updateBy = #{record.updateby,jdbcType=BIGINT},
-      </if>
-      <if test="record.updatebyname != null" >
-        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
       </if>
       <if test="record.updatetime != null" >
         updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
@@ -243,11 +200,7 @@
       shop_address = #{record.shopAddress,jdbcType=VARCHAR},
       shop_phone = #{record.shopPhone,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=BIGINT},
-      createBy = #{record.createby,jdbcType=BIGINT},
-      createByName = #{record.createbyname,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateBy = #{record.updateby,jdbcType=BIGINT},
-      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -268,20 +221,8 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="createby != null" >
-        createBy = #{createby,jdbcType=BIGINT},
-      </if>
-      <if test="createbyname != null" >
-        createByName = #{createbyname,jdbcType=VARCHAR},
-      </if>
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateby != null" >
-        updateBy = #{updateby,jdbcType=BIGINT},
-      </if>
-      <if test="updatebyname != null" >
-        updateByName = #{updatebyname,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null" >
         updateTime = #{updatetime,jdbcType=TIMESTAMP},
@@ -295,11 +236,7 @@
       shop_address = #{shopAddress,jdbcType=VARCHAR},
       shop_phone = #{shopPhone,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=BIGINT},
-      createBy = #{createby,jdbcType=BIGINT},
-      createByName = #{createbyname,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateBy = #{updateby,jdbcType=BIGINT},
-      updateByName = #{updatebyname,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

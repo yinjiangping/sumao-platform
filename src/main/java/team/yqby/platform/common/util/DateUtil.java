@@ -79,10 +79,6 @@ public class DateUtil {
         return srcTime.compareTo(targetTime) <= 0;
     }
 
-    public static void main(String[] args) {
-
-    }
-
     public static String getDataAfter(int minute, int TimeType) {
         Calendar targetTime = Calendar.getInstance();
         targetTime.setTime(new Date());
@@ -97,10 +93,10 @@ public class DateUtil {
         return format(targetTime.getTime(), DateUtil.fullPattern);
     }
 
-    public static String getCurrentAfter(Date date, int minute, int TimeType) {
+    public static String getCurrentAfter(Date date, int time, int TimeType) {
         Calendar targetTime = Calendar.getInstance();
         targetTime.setTime(date);
-        targetTime.add(TimeType, minute);
+        targetTime.add(TimeType, time);
         return format(targetTime.getTime(), DateUtil.fullPattern);
     }
 
@@ -117,12 +113,13 @@ public class DateUtil {
         return format(targetTime.getTime(), DateUtil.fullPattern);
     }
 
-    public static String getDateAfter(int hour) {
+    public static String getDateAfter(int day) {
         Calendar targetTime = Calendar.getInstance();
         targetTime.setTime(new Date());
-        targetTime.add(Calendar.HOUR, hour);
+        targetTime.add(Calendar.DATE, day);
         return format(targetTime.getTime(), DateUtil.shotPattern);
     }
+
 
     /**
      * 获取当前时间

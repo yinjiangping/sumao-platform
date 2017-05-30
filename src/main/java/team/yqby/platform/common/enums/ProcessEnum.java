@@ -1,5 +1,6 @@
 package team.yqby.platform.common.enums;
 
+import com.google.common.base.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,18 @@ public enum ProcessEnum {
 
     private String desc;
 
+    /**
+     * 获取订单状态
+     *
+     * @param status 状态
+     * @return
+     */
+    public static String getOrderStatus(String status) {
+        for (ProcessEnum processEnum : ProcessEnum.values()) {
+            if (Objects.equal(processEnum.getCode(), status)) {
+                return processEnum.getDesc();
+            }
+        }
+        return null;
+    }
 }

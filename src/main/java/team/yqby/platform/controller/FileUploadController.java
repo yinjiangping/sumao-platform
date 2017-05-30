@@ -76,7 +76,6 @@ public class FileUploadController {
             tFile.setId(Long.valueOf(format));
             tFile.setFileAddress(PublicConfig.QINIU_URL + fileName);
             tFile.setFileName(fileName);
-            tFile.setOrderId("");
             tFile.setCreatetime(new Date());
             tFile.setUpdatetime(new Date());
             tFileMapper.insertSelective(tFile);
