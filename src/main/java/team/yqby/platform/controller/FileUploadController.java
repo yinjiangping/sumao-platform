@@ -74,7 +74,7 @@ public class FileUploadController {
             fileUploadThread.start();
             TFile tFile = new TFile();
             tFile.setId(Long.valueOf(format));
-            tFile.setFileAddress(PublicConfig.QINIU_URL + fileName);
+            tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
             tFile.setFileName(fileName);
             tFile.setCreatetime(new Date());
             tFile.setUpdatetime(new Date());
@@ -123,10 +123,10 @@ public class FileUploadController {
      */
     @RequestMapping(value = ApiUrls.QUERY_GOODS_PRICE)
     @ResponseBody
-    public Map<String,String> queryPrice(String openID){
-        Map<String,String> priceMap = new HashMap<>();
+    public Map<String, String> queryPrice(String openID) {
+        Map<String, String> priceMap = new HashMap<>();
         for (PicPriceType picPriceType : PicPriceType.values()) {
-            priceMap.put(picPriceType.getPicMark(),picPriceType.getPicPrice());
+            priceMap.put(picPriceType.getPicMark(), picPriceType.getPicPrice());
         }
         return priceMap;
     }

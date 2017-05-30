@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import team.yqby.platform.base.req.AddressReq;
 import team.yqby.platform.base.res.AddressRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
+import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.mapper.TDeliveryAddressMapper;
 import team.yqby.platform.pojo.TDeliveryAddress;
@@ -14,6 +15,7 @@ import team.yqby.platform.pojo.TDeliveryAddressExample;
 import team.yqby.platform.service.DeliveryAddressService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("deliveryAddressService")
@@ -73,6 +75,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 tDeliveryAddress.setDeliveryName(addressReq.getRUserName());
                 tDeliveryAddress.setDeliveryTel(addressReq.getRPhone());
                 tDeliveryAddress.setMailNumber(addressReq.getZipCode());
+                tDeliveryAddress.setUpdatetime(new Date());
                 i = tDeliveryAddressMapper.insertSelective(tDeliveryAddress);
                 break;
             case "edit":
@@ -82,6 +85,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 tDeliveryAddress.setDeliveryName(addressReq.getRUserName());
                 tDeliveryAddress.setDeliveryTel(addressReq.getRPhone());
                 tDeliveryAddress.setMailNumber(addressReq.getZipCode());
+                tDeliveryAddress.setUpdatetime(new Date());
                 i = tDeliveryAddressMapper.updateByPrimaryKey(tDeliveryAddress);
                 break;
             case "setDefault":
@@ -89,7 +93,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 TDeliveryAddressExample.Criteria criteria = tDeliveryAddressExample1.createCriteria();
                 criteria.andCustomerIdEqualTo(addressReq.getOpenID());
                 tDeliveryAddress.setIsDefault("N");
-                tDeliveryAddressMapper.updateByExampleSelective(tDeliveryAddress,tDeliveryAddressExample1);
+                tDeliveryAddressMapper.updateByExampleSelective(tDeliveryAddress, tDeliveryAddressExample1);
                 criteria.andIdEqualTo(addressReq.getAddressId());
                 tDeliveryAddress.setIsDefault("Y");
                 tDeliveryAddressMapper.updateByPrimaryKey(tDeliveryAddress);
