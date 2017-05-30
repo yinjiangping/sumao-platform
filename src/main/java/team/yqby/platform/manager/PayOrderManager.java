@@ -89,10 +89,21 @@ public class PayOrderManager {
             longList.add(Long.valueOf(files[0]));
         }
         tFileExample.createCriteria().andIdIn(longList);
-        int i = tFileMapper.updateByExample(tFile, tFileExample);
+        int i = tFileMapper.updateByExampleSelective(tFile, tFileExample);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);
         }
+    }
+
+    public static void main(String[] args) {
+        String fileIds = "1705307861214008,1,6|1705302354433251,1,6";
+        String[] fileIdStrings = StringUtils.split(fileIds, "|");
+        List<Long> longList = new ArrayList<Long>();
+        for(String fs:fileIdStrings){
+            String [] files = StringUtils.split(fs,",");
+            longList.add(Long.valueOf(files[0]));
+        }
+        System.out.println(longList);
     }
 
     /**
@@ -132,7 +143,7 @@ public class PayOrderManager {
         tOrder.setShopid(shopId);
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
-        int i = tOrderMapper.updateByExample(tOrder, tOrderExample);
+        int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20001);
         }
@@ -222,7 +233,7 @@ public class PayOrderManager {
         }
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
-        int i = tOrderMapper.updateByExample(tOrder, tOrderExample);
+        int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10007.getResCode(), ServiceErrorCode.ERROR_CODE_A10007.getResDesc());
         }

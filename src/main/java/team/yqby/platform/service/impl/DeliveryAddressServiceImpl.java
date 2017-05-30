@@ -89,7 +89,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 TDeliveryAddressExample.Criteria criteria = tDeliveryAddressExample1.createCriteria();
                 criteria.andCustomerIdEqualTo(addressReq.getOpenID());
                 tDeliveryAddress.setIsDefault("N");
-                tDeliveryAddressMapper.updateByExample(tDeliveryAddress,tDeliveryAddressExample1);
+                tDeliveryAddressMapper.updateByExampleSelective(tDeliveryAddress,tDeliveryAddressExample1);
                 criteria.andIdEqualTo(addressReq.getAddressId());
                 tDeliveryAddress.setIsDefault("Y");
                 tDeliveryAddressMapper.updateByPrimaryKey(tDeliveryAddress);
