@@ -82,10 +82,11 @@ public class PayOrderManager {
         TFile tFile = new TFile();
         tFile.setOrderId(orderNo);
         TFileExample tFileExample = new TFileExample();
-        String[] fileIdStrings = StringUtils.split(fileIds, ",");
+        String[] fileIdStrings = StringUtils.split(fileIds, "|");
         List<Long> longList = new ArrayList<Long>();
-        for (String str : fileIdStrings) {
-            longList.add(Long.valueOf(str));
+        for(String fs:fileIdStrings){
+            String [] files = StringUtils.split(fs,",");
+            longList.add(Long.valueOf(files[0]));
         }
         tFileExample.createCriteria().andIdIn(longList);
         int i = tFileMapper.updateByExample(tFile, tFileExample);

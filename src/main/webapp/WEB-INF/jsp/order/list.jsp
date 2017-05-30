@@ -62,9 +62,10 @@
             htmlContext += "<tr><td>" + orderNo + "</td><td>" + price + "</td><td>"+getOrderStatus(state)+"</td><td>"+createTime+"</td><td>"+putOrderTime+"</td><td>"
             var requestParam = '?pageId=1011&pageUrl=order/edit&orderNo=' + orderNo
             if(state == "DELIVERY_FAIL" || state == "PAY_SUCCESS"){
-                htmlContext += "<input class='btn btn-primary btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>"
+                htmlContext += "<input class='btn btn-primary btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
             }
-            htmlContext += "<input class='btn btn-primary btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>"
+            var requestParam = '?pageId=1011&pageUrl=order/detail&orderNo=' + orderNo
+            htmlContext += "<input class='btn btn-primary btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='订单详情' type='button'>"
             htmlContext += "</td></tr>"
         });
         $("#list").html(htmlContext);
