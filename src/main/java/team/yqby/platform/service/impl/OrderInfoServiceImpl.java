@@ -60,9 +60,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 imagesResList.add(imagesRes);
                 orderRes.setImages(imagesResList);
             }
-            TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(tOrder.getAddressid()));
-            orderRes.setAddress(tDeliveryAddress.getDeliveryAddress());
-            orderRes.setAddressId(tDeliveryAddress.getId());
+            if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
+                TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(tOrder.getAddressid()));
+                orderRes.setAddress(tDeliveryAddress.getDeliveryAddress());
+                orderRes.setAddressId(tDeliveryAddress.getId());
+            }
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
             orderResList.add(orderRes);
@@ -81,10 +83,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             criteria.andProcessEqualTo(process);
         }
         if (StringUtils.isNotEmpty(startDate)) {
-            criteria.andPutOrderTimeGreaterThanOrEqualTo(DateUtil.parse(startDate+ " 00:00:00", DateUtil.settlePattern));
+            criteria.andPutOrderTimeGreaterThanOrEqualTo(DateUtil.parse(startDate + " 00:00:00", DateUtil.settlePattern));
         }
         if (StringUtils.isNotEmpty(endDate)) {
-            criteria.andPutOrderTimeLessThanOrEqualTo(DateUtil.parse(endDate+ " 23:59:59", DateUtil.settlePattern));
+            criteria.andPutOrderTimeLessThanOrEqualTo(DateUtil.parse(endDate + " 23:59:59", DateUtil.settlePattern));
         }
         List<TOrder> tOrderList = tOrderMapper.selectByExample(tOrderExample);
         List<OrderRes> orderResList = new ArrayList<>();
@@ -106,12 +108,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 imagesResList.add(imagesRes);
                 orderRes.setImages(imagesResList);
             }
-            TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(tOrder.getAddressid()));
-            orderRes.setAddress(tDeliveryAddress.getDeliveryAddress());
-            orderRes.setAddressId(tDeliveryAddress.getId());
+            if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
+                TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
+                orderRes.setAddress(tDeliveryAddress.getDeliveryAddress());
+                orderRes.setAddressId(tDeliveryAddress.getId());
+            }
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
-            orderRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(),DateUtil.settlePattern));
+            orderRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
             orderResList.add(orderRes);
         }
         return orderResList;
