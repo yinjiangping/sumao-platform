@@ -33,9 +33,12 @@
             return;
         }
 
-        var requestParams = "?orderNo=" + $("#orderNo").val() + "&expressName=" + encodeURI($("#expressName").val())+ "&expressNo=" + $("#expressNo").val();
-        htmlobj=$.ajax({url:$("#myform").attr("action") + requestParams,async:false});
-        alert(htmlobj.responseText);
+        var requestParams = "?orderNo=" + $("#orderNo").val() + "&expressName=" + encodeURI($("#expressName").val()) + "&expressNo=" + $("#expressNo").val();
+        htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
+        if (htmlobj.responseText == true) {
+            alert("发货成功");
+        }
+
     }
 </script>
 <div class="main-wrap">
@@ -54,7 +57,8 @@
                     <tr>
                         <td><i class="require-red"></i>订单编号：</td>
                         <td>
-                            <input class="common-text required" id="orderNo" disabled="disabled" name="orderNo" size="50"
+                            <input class="common-text required" id="orderNo" disabled="disabled" name="orderNo"
+                                   size="50"
                                    value="${paramMaps.orderNo}" type="text">
                         </td>
                     </tr>
@@ -75,8 +79,10 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input class="btn btn6 border-back text-big input-big"  onclick="submitFrom()" value="更新订单" type="button">
-                            <input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回" type="button">
+                            <input class="btn btn6 border-back text-big input-big" onclick="submitFrom()" value="更新订单"
+                                   type="button">
+                            <input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回"
+                                   type="button">
                         </td>
                     </tr>
                     </tbody>

@@ -37,6 +37,9 @@ public class ApiUrls {
     //查询商品价格
     public static final String QUERY_GOODS_PRICE="/queryGoodsPrice";
 
+    //查询商品价格
+    public static final String QUERY_WARES_PRICE="/queryWaresPrice";
+
     //查询收货地址
     public static final String QUERY_ADDRESS = "/queryAddress";
 

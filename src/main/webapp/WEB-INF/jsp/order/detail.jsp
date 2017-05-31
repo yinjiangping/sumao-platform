@@ -5,7 +5,7 @@
 
 <head>
     <title></title>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"/>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/modernizr.min.js"></script>
 </head>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css"/>
@@ -114,6 +114,7 @@
                 </table>
                 <div class="result-content" id="list">
                 </div>
+                <br>
                 <span id="showData"></span>
                 <H5 align="center"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回" type="button"></H5>
             </form>

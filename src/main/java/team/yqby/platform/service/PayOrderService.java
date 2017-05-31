@@ -46,10 +46,10 @@ public class PayOrderService {
      */
     public PayConfirmRes confirmOrder(PayConfirmReq confirmReq) {
         //1.检查订单(用户与订单关联，下单金额与确认金额)
-        payOrderManager.checkOrder(confirmReq.getOrderAmt(), confirmReq.getOrderNo(), confirmReq.getOpenID());
+        payOrderManager.checkOrder(confirmReq.getOrderAmt(),confirmReq.getFreightAmt(), confirmReq.getOrderNo(), confirmReq.getOpenID());
 
         //2.更新收获地址&门店信息
-        payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo());
+        payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo(),confirmReq.getOrderAmt(),confirmReq.getFreightAmt());
 
         //3.微信下单
         WeChatXmlUtil weChatXmlUtil = payOrderManager.createWeChatOrder(confirmReq.getOpenID(), confirmReq.getOrderNo(), confirmReq.getOrderAmt());

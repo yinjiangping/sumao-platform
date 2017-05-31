@@ -31,4 +31,6 @@ public class PublicConfig {
 
     public static final String QINIU_URL="http://oq8naz2op.bkt.clouddn.com";
 
+    public static final String GOODS_REDIS_KEY="redis_goodsPrice";
+
 }

@@ -10,6 +10,7 @@ import team.yqby.platform.base.res.OrderDetailRes;
 import team.yqby.platform.base.res.OrderRes;
 import team.yqby.platform.common.enums.ProcessEnum;
 import team.yqby.platform.common.util.DateUtil;
+import team.yqby.platform.common.util.MoneyUtil;
 import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.mapper.TDeliveryAddressMapper;
 import team.yqby.platform.mapper.TOrderMapper;
@@ -130,7 +131,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         OrderDetailRes orderDetailRes = new OrderDetailRes();
         orderDetailRes.setOrderNo(orderNo);
         orderDetailRes.setOpenID(tOrder.getCustomerId());
-        orderDetailRes.setOrderAmt(tOrder.getOrderamt());
+        orderDetailRes.setOrderAmt(MoneyUtil.changeF2Y(tOrder.getOrderamt()));
         orderDetailRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
         orderDetailRes.setState(ProcessEnum.getOrderStatus(tOrder.getProcess()));
         TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
@@ -155,7 +156,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
         orderDetailRes.setExpressInfo(ParamsValidate.strDecode(tOrder.getRemarks()));
         orderDetailRes.setResCode(tOrder.getRescode());
-        orderDetailRes.setResDesc(tOrder.getResdesc());
+        orderDetailRes.setResDesc(ParamsValidate.strDecode(tOrder.getResdesc()));
         return orderDetailRes;
     }
 

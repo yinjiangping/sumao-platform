@@ -13,4 +13,5 @@ public class PayConfirmReq {
     private Long  shopId;
     private String orderNo;
     private Long orderAmt;
+    private Long freightAmt;
 }

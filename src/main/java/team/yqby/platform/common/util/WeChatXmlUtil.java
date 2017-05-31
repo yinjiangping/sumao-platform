@@ -137,4 +137,6 @@ public class WeChatXmlUtil {
         }
         return sha1SignStr;
     }
+
+
 }

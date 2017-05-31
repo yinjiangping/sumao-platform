@@ -1,5 +1,6 @@
 package team.yqby.platform.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import team.yqby.platform.base.res.GoodsRes;
 import team.yqby.platform.common.enums.PicPriceType;
 import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.config.ApiUrls;
@@ -16,7 +18,7 @@ import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.pojo.TFile;
-import team.yqby.platform.pojo.TFileExample;
+import team.yqby.platform.service.IRedisService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
@@ -30,6 +32,8 @@ public class FileUploadController {
     @Autowired
     private TFileMapper tFileMapper;
     private final static String localPath = "/www/web/upload/";
+    @Autowired
+    private IRedisService iRedisService;
 
     @RequestMapping(value = ApiUrls.UPLOAD_PIC)
     @ResponseBody
@@ -169,6 +173,7 @@ public class FileUploadController {
         return false;
     }
 
+
     /**
      * 查询商品价格
      *
@@ -185,4 +190,20 @@ public class FileUploadController {
         return priceMap;
     }
 
+    /**
+     * 查询商品价格
+     *
+     * @param openID 用户编号
+     * @return
+     */
+    @RequestMapping(value = ApiUrls.QUERY_WARES_PRICE)
+    @ResponseBody
+    public GoodsRes queryWaresPrice(String openID) {
+        GoodsRes goodsRes = new GoodsRes();
+        String redisGoodsPrice = iRedisService.get(PublicConfig.GOODS_REDIS_KEY);
+        if(StringUtils.isNotEmpty(redisGoodsPrice)){
+            goodsRes = JSON.parseObject(redisGoodsPrice,GoodsRes.class);
+        }
+        return goodsRes;
+    }
 }
