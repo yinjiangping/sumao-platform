@@ -12,6 +12,8 @@ import team.yqby.platform.pojo.TShop;
 import team.yqby.platform.pojo.TShopExample;
 import team.yqby.platform.service.ShopInfoService;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service("shopInfoService")
@@ -23,13 +25,21 @@ public class ShopInfoServiceImpl implements ShopInfoService {
     public List<TShop> queryAll() {
         TShopExample tShopExample = new TShopExample();
         List<TShop> tShops = tShopMapper.selectByExample(tShopExample);
-        return tShops;
+        List<TShop> newShops = new ArrayList<>();
+        for (TShop tShop : tShops){
+            tShop.setShopName(ParamsValidate.strDecode(tShop.getShopName()));
+            tShop.setShopAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
+            newShops.add(tShop);
+        }
+        return newShops;
     }
 
     @Override
     public Long addShop(TShop tShop) {
         tShop.setShopName(ParamsValidate.strEncode(tShop.getShopName()));
         tShop.setShopAddress(ParamsValidate.strEncode(tShop.getShopAddress()));
+        tShop.setCreatetime(new Date());
+        tShop.setUpdatetime(new Date());
         int i = tShopMapper.insertSelective(tShop);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20003);

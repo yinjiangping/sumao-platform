@@ -86,6 +86,60 @@ public class FileUploadController {
         return 0L;
     }
 
+    @RequestMapping(value = ApiUrls.UPLOAD_MULTIPLE_PIC)
+    @ResponseBody
+    public List<TFile> uploadMultiplePic(HttpServletRequest request) {
+        List<TFile> idList = new ArrayList<>();
+        try {
+            List<MultipartFile> files;
+            files = ((MultipartHttpServletRequest) request).getFiles("file");
+            //文件不存在则直接抛出错误
+            if (files == null || files.size() == 0) {
+                log.error("upload file is employ，upload fail!");
+                return idList;
+            }
+            MultipartFile file = files.get(0);
+
+            for (int i = 0; i < files.size(); i++) {
+                String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
+                Random random = new Random();
+                for (int j = 0; j < 10; j++) {
+                    format += random.nextInt(10);
+                }
+                String name = file.getOriginalFilename();
+                String fileType = name.substring(name.lastIndexOf("."));
+                String saveFilePath = Joiner.on("").join(localPath, format, fileType);
+                String fileName = Joiner.on("").join(format, fileType);
+
+                if (!file.isEmpty()) {
+                    //1、上传文件到七牛云
+                    FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
+                    fileUploadThread.start();
+                    //2、保存上传文件数据
+                    TFile tFile = new TFile();
+                    tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
+                    tFile.setFileName(fileName);
+                    tFile.setCreatetime(new Date());
+                    tFile.setUpdatetime(new Date());
+                    tFileMapper.insertSelective(tFile);
+                    try {
+                        byte[] bytes = file.getBytes();
+                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(saveFilePath)));
+                        stream.write(bytes);
+                        stream.close();
+                    } catch (Exception e) {
+                        log.error("You failed to upload {} =>,{} ", name, e.getMessage());
+                        return idList;
+                    }
+                    idList.add(tFile);
+                }
+            }
+        } catch (Exception e) {
+            log.error("uploadPic exception,error", e);
+        }
+        return idList;
+    }
+
     /**
      * 删除图片
      *

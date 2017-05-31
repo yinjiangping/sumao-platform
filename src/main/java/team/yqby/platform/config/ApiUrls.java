@@ -28,6 +28,9 @@ public class ApiUrls {
     //上传图片
     public static final String UPLOAD_PIC="/uploadPic";
 
+    //上传多张图片
+    public static final String UPLOAD_MULTIPLE_PIC="/uploadMultiplePic";
+
     //删除图片
     public static final String DELETE_PIC="/deletePic";
 

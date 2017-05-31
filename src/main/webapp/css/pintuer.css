@@ -349,7 +349,7 @@ textarea.input{height:auto;}
 .form-tips .form-group .field{position:relative;zoom:1;}
 .form-tips .input-help{position:absolute;z-index:1;float:left;left:0;top:100%;}
 .form-tips .input-help ul{border:solid 1px #ddd;background:#fff;padding:10px 10px 10px 25px;box-shadow:0 0 5px #ddd;border-radius:4px;width:160px;min-width:160px;width:auto;_width:160px;}
-.input-big, .form-big .input, .form-big .button{padding:10px;font-size:16px;line-height:24px;height:46px;}
+.input-big, .form-big .input, .form-big .button{padding:10px;font-size:16px;line-height:12px;height:36px;}
 .input-small, .form-small .input, .form-small .button{padding:5px;font-size:12px;line-height:18px;height:28px;}
 .form-small .addon,.form-small .addbtn{padding:5px 8px;font-size:12px;}
 .list-group, .list-link{border:solid 1px #ddd;border-radius:4px;list-style:none;padding:0;}
