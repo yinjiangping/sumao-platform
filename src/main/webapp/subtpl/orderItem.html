@@ -1,0 +1,56 @@
+<ul>
+    {#foreach $T.orderList as order}
+    {#if $T.state==0||
+    ($T.state==1&&($T.order.state=="INIT"||$T.order.state=="WAIT_PAY"||$T.order.state=="ORDER_FAIL"))||
+    ($T.state==2&&($T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"))||
+    ($T.state==3&&($T.order.state=="DELIVERY_SUCCESS"))}
+    <!--未支付-->
+    <li data-order="{$T.order.orderId}" class="mg26">
+        <div class="title">订单编号：{$T.order.orderNo}</div>
+        <div class="info">
+            <dl>
+                <dt>
+                    <!--  <div class="col1"><span>详情</span></div> -->
+                    <div class="col2">状态</div>
+                    <div class="col3">总计</div>
+                    <div class="col4">操作</div>
+                </dt>
+                <dd>
+                    <!--   <div class="col1">
+                        {#if $T.order.desc.length>=4&&$T.order.desc[3]>0}
+                        <p><span>18寸</span> ×{$T.order.desc[3]}</p>
+                        {#/if} {#if $T.order.desc.length>=3&&$T.order.desc[2]>0}
+                        <p><span>12寸</span> ×{$T.order.desc[2]}</p>
+                        {#/if} {#if $T.order.desc.length>=2&&$T.order.desc[1]>0}
+                        <p><span>8寸</span> ×{$T.order.desc[1]}</p>
+                        {#/if} {#if $T.order.desc.length>=1&&$T.order.desc[0]>0}
+                        <p><span>6寸</span> ×{$T.order.desc[0]}</p>
+                        {#/if}
+                    </div> -->
+                    {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"||$T.order.state=="ORDER_FAIL"}
+                    <div class="col2">未支付</div>
+                    {#elseif $T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"}
+                    <div class="col2">已支付</div>
+                    {#elseif $T.order.state=="DELIVERY_SUCCESS"}
+                    <div class="col2">已收货</div>
+                    {#/if}
+                    <div class="col3">￥{$T.order.price/100}</div>
+                    <!-- 未支付 -->
+                    {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"||$T.order.state=="ORDER_FAIL"}
+                    <div class="col4">
+                        <a href="javascript:void(0);" data-id="{$T.order.orderNo}" data-price="{$T.order.price}" data-shopId="{$T.order.shopId}" data-state="{$T.order.state}" data-addressId="{$T.order.addressId}" class="blue-color payNow">立即支付</a>
+                    </div>
+                    {#else}
+                    <div class="col4"></div>
+                    {#/if}
+                </dd>
+            </dl>
+        </div>
+        <div class="more">
+            <a href="javascript:void(0);" class="orderDetail" data-index="{$T.order$index}">收货地址</a>
+        </div>
+        <p class="more address">{#if $T.order.address}{$T.order.address}{#else}{#/if}</p>
+    </li>
+    {#/if}
+    {#/for}
+</ul>

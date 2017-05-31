@@ -1,0 +1,22 @@
+<input type="hidden" name="guide" value="{#if $T.address.id}edit{#else}add{#/if}">
+<input type="hidden" name="id" value="{$T.address.id}">
+<dd>
+    <label>姓名：</label>
+    <input type="text" name="name" value="{$T.address.name}" maxlength="20" autocomplete="off" placeholder="长度不超过20个字符" required>
+</dd>
+<dd>
+    <label>电话：</label>
+    <input type="tel" name="phone" placeholder="联系电话" value="{$T.address.phone}" maxlength="12" autocomplete="off" required>
+</dd>
+<dd>
+    <label>省、市、区：</label>
+    <input type="text" id="show-city" value="" placeholder="点击选择城市" required readonly>
+</dd>
+<dd>
+    <label>详情地址：</label>
+    <input type="text" name="address" value="{$T.address.address}" placeholder="街道名称，门牌号码，楼层和房间号等" autocomplete="off"  required>
+</dd>
+<dd>
+    <label>邮编：</label>
+    <input type="tel" name="code" value="{$T.address.zipCode}" placeholder="邮政编码" maxlength="6" autocomplete="off">
+</dd>

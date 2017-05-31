@@ -1,0 +1,10 @@
+  {#foreach $T.orderList as order}
+    <li data-id="{$T.order.id}">
+        <div class="title"><span>四茂摄影工作室-照片冲洗服务</span> <em>￥{$T.order.price}/张</em></div>
+        <div class="text">
+            <div class="img"><img src="{$T.order.img}"></div>
+            <!--<div class="amount"><a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a></div>-->
+            <div class="amount">{$T.order.number}张</div>
+        </div>
+    </li>
+  {#/for}

@@ -1,0 +1,13 @@
+  {#foreach $T.addressList as address}
+    <li class="mg26" data-id="{$T.address.addressId}">
+        <div class="title"><a href="javascript:" class="select-icon {#if $T.address.isDefault=='Y'}curr{#/if}">使用该地址</a>
+            <div class="btn"><a class="editAddress" href="javascript:void;" data-id="{$T.address.addressId}" data-name="{$T.address.ruserName}" data-phone="{$T.address.rphone}" data-address="{$T.address.raddress}" data-zipCode="{$T.address.zipCode}">编辑</a><a href="javascript:" class="del">删除</a></div>
+        </div>
+        <dl>
+            <a  href="javascript:">
+                <dt>{$T.address.ruserName} {$T.address.rphone}</dt>
+                <dd>{$T.address.raddress}</dd>
+            </a>
+        </dl>
+    </li>
+  {#/for}
