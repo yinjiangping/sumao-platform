@@ -62,10 +62,10 @@
             htmlContext += "<tr><td>" + orderNo + "</td><td>" + price + "</td><td>"+getOrderStatus(state)+"</td><td>"+createTime+"</td><td>"+putOrderTime+"</td><td>"
             var requestParam = '?pageId=1011&pageUrl=order/edit&orderNo=' + orderNo
             if(state == "DELIVERY_FAIL" || state == "PAY_SUCCESS"){
-                htmlContext += "<input class='btn btn-primary btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
+                htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
             }
             var requestParam = '?pageId=1011&pageUrl=order/detail&orderNo=' + orderNo
-            htmlContext += "<input class='btn btn-primary btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='订单详情' type='button'>"
+            htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='订单详情' type='button'>"
             htmlContext += "</td></tr>"
         });
         $("#list").html(htmlContext);
@@ -126,6 +126,8 @@
                         <td>
                             <input id="orderNo" class="common-text" name="keywords" value="" type="text">
                         </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td>状态 :</td>
                         <td>
                             <select id="process" name="process">
@@ -147,6 +149,8 @@
                                    onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
                                    >
                         </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td>结束日期:</td>
                         <td>
                             <input id="endDate" class="common-text Wdate" name="endDate" value="<%=DateUtil.getDateAfter(0)%>"
@@ -154,7 +158,7 @@
                                    onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
                         </td>
                         <td>
-                            <input class="btn btn-primary btn2" aria
+                            <input class="btn btn4 border-back text-big input-big" aria
                                    onclick="showData(document.getElementById('orderNo').value,document.getElementById('process').value,document.getElementById('startDate').value,document.getElementById('endDate').value)"
                                    value="查询" type="button">
                         </td>

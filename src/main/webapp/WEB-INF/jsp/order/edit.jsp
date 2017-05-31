@@ -52,21 +52,21 @@
                 <table class="insert-tab" width="100%">
                     <tbody>
                     <tr>
-                        <td><i class="require-red">*</i>订单编号：</td>
+                        <td><i class="require-red"></i>订单编号：</td>
                         <td>
                             <input class="common-text required" id="orderNo" disabled="disabled" name="orderNo" size="50"
                                    value="${paramMaps.orderNo}" type="text">
                         </td>
                     </tr>
                     <tr>
-                        <td><i class="require-red">*</i>快递公司：</td>
+                        <td><i class="require-red"></i>快递公司：</td>
                         <td>
                             <input class="common-text required" id="expressName" name="expressName" size="50"
                                    value="${paramMaps.expressName}" type="text">
                         </td>
                     </tr>
                     <tr>
-                        <td><i class="require-red">*</i>运单号：</td>
+                        <td><i class="require-red"></i>运单号：</td>
                         <td>
                             <input class="common-text required" id="expressNo" name="expressNo" size="50"
                                    value="${paramMaps.expressNo}" type="text">
@@ -75,8 +75,8 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input class="btn btn-primary btn6 mr10" onclick="submitFrom()" value="更新订单" type="button">
-                            <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button">
+                            <input class="btn btn6 border-back text-big input-big"  onclick="submitFrom()" value="更新订单" type="button">
+                            <input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回" type="button">
                         </td>
                     </tr>
                     </tbody>

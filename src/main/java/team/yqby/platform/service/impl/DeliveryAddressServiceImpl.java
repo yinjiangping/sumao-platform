@@ -8,6 +8,7 @@ import team.yqby.platform.base.req.AddressReq;
 import team.yqby.platform.base.res.AddressRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.util.DateUtil;
+import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.mapper.TDeliveryAddressMapper;
 import team.yqby.platform.pojo.TDeliveryAddress;
@@ -42,8 +43,8 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
         List<AddressRes> addressResList = new ArrayList<>();
         for (TDeliveryAddress tDeliveryAddress : deliveryAddressList) {
             AddressRes addressRes = new AddressRes();
-            addressRes.setRAddress(tDeliveryAddress.getDeliveryAddress());
-            addressRes.setRUserName(tDeliveryAddress.getDeliveryName());
+            addressRes.setRAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
+            addressRes.setRUserName(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryName()));
             addressRes.setRPhone(tDeliveryAddress.getDeliveryTel());
             addressRes.setZipCode(tDeliveryAddress.getMailNumber());
             addressRes.setIsDefault(tDeliveryAddress.getIsDefault());
@@ -61,7 +62,6 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
             case "del":
                 TDeliveryAddressExample tDeliveryAddressExample = new TDeliveryAddressExample();
                 tDeliveryAddressExample.createCriteria().andIdEqualTo(addressReq.getAddressId()).andCustomerIdEqualTo(addressReq.getOpenID());
-
                 tDeliveryAddress.setId(addressReq.getAddressId());
                 List<TDeliveryAddress> tDeliveryAddressList = tDeliveryAddressMapper.selectByExample(tDeliveryAddressExample);
                 if (tDeliveryAddressList == null || tDeliveryAddressList.isEmpty()) {
@@ -71,8 +71,8 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 break;
             case "add":
                 tDeliveryAddress.setCustomerId(addressReq.getOpenID());
-                tDeliveryAddress.setDeliveryAddress(addressReq.getRAddress());
-                tDeliveryAddress.setDeliveryName(addressReq.getRUserName());
+                tDeliveryAddress.setDeliveryAddress(ParamsValidate.strEncode(addressReq.getRAddress()));
+                tDeliveryAddress.setDeliveryName(ParamsValidate.strEncode(addressReq.getRUserName()));
                 tDeliveryAddress.setDeliveryTel(addressReq.getRPhone());
                 tDeliveryAddress.setMailNumber(addressReq.getZipCode());
                 tDeliveryAddress.setUpdatetime(new Date());
@@ -81,8 +81,8 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
             case "edit":
                 tDeliveryAddress.setId(addressReq.getAddressId());
                 tDeliveryAddress.setCustomerId(addressReq.getOpenID());
-                tDeliveryAddress.setDeliveryAddress(addressReq.getRAddress());
-                tDeliveryAddress.setDeliveryName(addressReq.getRUserName());
+                tDeliveryAddress.setDeliveryAddress(ParamsValidate.strEncode(addressReq.getRAddress()));
+                tDeliveryAddress.setDeliveryName(ParamsValidate.strEncode(addressReq.getRUserName()));
                 tDeliveryAddress.setDeliveryTel(addressReq.getRPhone());
                 tDeliveryAddress.setMailNumber(addressReq.getZipCode());
                 tDeliveryAddress.setUpdatetime(new Date());

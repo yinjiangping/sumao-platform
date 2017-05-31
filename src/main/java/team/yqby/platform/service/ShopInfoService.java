@@ -8,4 +8,6 @@ public interface ShopInfoService {
 
     public List<TShop> queryAll();
 
+    public Long addShop(TShop tShop);
+
 }

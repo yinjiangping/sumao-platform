@@ -109,7 +109,7 @@
       #{shopPhone,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, 
       #{updatetime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TShop" >
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TShop"  keyProperty="id" >
     insert into t_shop
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

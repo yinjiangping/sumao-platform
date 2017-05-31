@@ -10,7 +10,6 @@
 </head>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css"/>
-
 <body onload="showData('${paramMaps.orderNo}')">
 <script type="text/javascript">
     function showData(orderNo) {
@@ -31,6 +30,7 @@
                 $("#rName").html(json.receiveName);
                 $("#rPhone").html(json.receivePhone);
                 $("#rAddress").html(json.receiveAddress);
+                $("#showData").html(json.expressInfo);
                 var htmlContext = "<br><br><table class='result-tab' width='100%'>"
                 var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td></tr>"
                 $.each(json.imagesResList, function (index, item) {
@@ -114,7 +114,8 @@
                 </table>
                 <div class="result-content" id="list">
                 </div>
-                <H5 align="center"><input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></H5>
+                <span id="showData"></span>
+                <H5 align="center"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回" type="button"></H5>
             </form>
         </div>
     </div>

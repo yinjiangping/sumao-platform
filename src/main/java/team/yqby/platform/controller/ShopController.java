@@ -51,4 +51,28 @@ public class ShopController {
         }
     }
 
+    /**
+     * 新增门店信息
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = ApiUrls.ADD_SHOP)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Response<Long> addShop(TShop tShop, HttpServletRequest request) {
+        try {
+            log.info("addShop started, request");
+            Long shopId = shopInfoService.addShop(tShop);
+            log.info("addShop finished, result:{}", shopId);
+            return new Response<>(shopId);
+        } catch (AutoPlatformException e) {
+            log.error(" addShop meet error,  response:{}", Throwables.getStackTraceAsString(e));
+            return new Response<>(e.getCode(), e.getMessage());
+        } catch (Exception e) {
+            log.error(" addShop meet error,  response:{}", Throwables.getStackTraceAsString(e));
+            return new Response<>(ServiceErrorCode.ERROR_CODE_F99999);
+        }
+    }
+
 }

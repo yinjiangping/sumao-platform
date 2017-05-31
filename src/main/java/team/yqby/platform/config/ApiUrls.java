@@ -49,6 +49,9 @@ public class ApiUrls {
     //查询门店信息
     public static final String QUERY_SHOP = "/queryShop";
 
+    //新增门店信息
+    public static final String ADD_SHOP = "/addShop";
+
     //设置收货地址
     public static final String SET_DEFAULT_ADDRESS = "/setDefaultAddress";
 

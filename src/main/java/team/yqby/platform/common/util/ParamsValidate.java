@@ -10,6 +10,7 @@ import team.yqby.platform.exception.AutoPlatformException;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * <p>
@@ -49,6 +50,21 @@ public class ParamsValidate {
             throw new AutoPlatformException(errors.getAllErrors().get(0).getCode(), errors.getAllErrors().get(0).getDefaultMessage());
         }
 
+    }
+
+    /***
+     * 参数通过UTF-8编码
+     * @param paramKey
+     * @return
+     */
+    public static String strEncode(String paramKey){
+        String newParamKey = paramKey;
+        try {
+            newParamKey = URLEncoder.encode(paramKey, SystemConstant.UTF_8);
+        } catch (UnsupportedEncodingException e) {
+            log.error("Parameter {} decoding exception, ",newParamKey,e);
+        }
+        return newParamKey;
     }
 
     /***

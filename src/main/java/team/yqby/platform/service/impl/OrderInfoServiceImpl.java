@@ -10,6 +10,7 @@ import team.yqby.platform.base.res.OrderDetailRes;
 import team.yqby.platform.base.res.OrderRes;
 import team.yqby.platform.common.enums.ProcessEnum;
 import team.yqby.platform.common.util.DateUtil;
+import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.mapper.TDeliveryAddressMapper;
 import team.yqby.platform.mapper.TOrderMapper;
 import team.yqby.platform.mapper.TShopMapper;
@@ -62,7 +63,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
                 TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(tOrder.getAddressid()));
-                orderRes.setAddress(tDeliveryAddress.getDeliveryAddress());
+                orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
                 orderRes.setAddressId(tDeliveryAddress.getId());
             }
             orderRes.setShopId(tOrder.getShopid());
@@ -110,7 +111,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
                 TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-                orderRes.setAddress(tDeliveryAddress.getDeliveryAddress());
+                orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
                 orderRes.setAddressId(tDeliveryAddress.getId());
             }
             orderRes.setShopId(tOrder.getShopid());
@@ -133,12 +134,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderDetailRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
         orderDetailRes.setState(ProcessEnum.getOrderStatus(tOrder.getProcess()));
         TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-        orderDetailRes.setReceiveAddress(tDeliveryAddress.getDeliveryAddress());
-        orderDetailRes.setReceiveName(tDeliveryAddress.getDeliveryName());
+        orderDetailRes.setReceiveAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
+        orderDetailRes.setReceiveName(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryName()));
         orderDetailRes.setReceivePhone(tDeliveryAddress.getDeliveryTel());
         TShop tShop = tShopMapper.selectByPrimaryKey(tOrder.getShopid());
-        orderDetailRes.setSendAddress(tShop.getShopAddress());
-        orderDetailRes.setSendName(tShop.getShopName());
+        orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
+        orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
         orderDetailRes.setSendPhone(tShop.getShopPhone());
         List<ImagesRes> imagesResList = new ArrayList<>();
         for (String fileInfo : StringUtils.split(tOrder.getDeliveryinfo(), "@")) {
@@ -152,7 +153,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             imagesResList.add(imagesRes);
             orderDetailRes.setImagesResList(imagesResList);
         }
-        orderDetailRes.setExpressInfo(tOrder.getRemarks());
+        orderDetailRes.setExpressInfo(ParamsValidate.strDecode(tOrder.getRemarks()));
         orderDetailRes.setResCode(tOrder.getRescode());
         orderDetailRes.setResDesc(tOrder.getResdesc());
         return orderDetailRes;
@@ -161,7 +162,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public boolean updateOrder(String orderNo, String process, String expressName, String expressNo) {
         TOrder tOrder = new TOrder();
-        tOrder.setRemarks(Joiner.on(":").join(expressName, expressNo));
+        tOrder.setRemarks(ParamsValidate.strEncode(Joiner.on(":").join(expressName, expressNo)));
         tOrder.setProcess(process);
         tOrder.setUpdatetime(new Date());
         TOrderExample tOrderExample = new TOrderExample();
