@@ -95,16 +95,6 @@ public class PayOrderManager {
         }
     }
 
-    public static void main(String[] args) {
-        String fileIds = "1705307861214008,1,6|1705302354433251,1,6";
-        String[] fileIdStrings = StringUtils.split(fileIds, "|");
-        List<Long> longList = new ArrayList<Long>();
-        for(String fs:fileIdStrings){
-            String [] files = StringUtils.split(fs,",");
-            longList.add(Long.valueOf(files[0]));
-        }
-        System.out.println(longList);
-    }
 
     /**
      * 校验订单
@@ -214,7 +204,6 @@ public class PayOrderManager {
         }
         return payConfirmRes;
     }
-
     /**
      * 更新交易状态
      *
@@ -229,7 +218,7 @@ public class PayOrderManager {
         tOrder.setRescode(resCode);
         tOrder.setResdesc(resDesc);
         if (StringUtils.isNotEmpty(payResTime)) {
-            tOrder.setPutOrderTime(DateUtil.parse(payResTime, DateUtil.settlePattern));
+            tOrder.setPutOrderTime(DateUtil.parse(payResTime, DateUtil.fullPattern));
         }
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);

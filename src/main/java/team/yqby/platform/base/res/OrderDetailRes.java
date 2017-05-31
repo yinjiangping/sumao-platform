@@ -10,15 +10,18 @@ import java.util.List;
 @ToString
 public class OrderDetailRes {
     private String orderNo;
+    private String openID;
     private String orderAmt;
     private String putOrderTime;
     private String state;
-    private String rAddress;
-    private String rPhone;
-    private String rName;
-    private String sAddress;
-    private String sPhone;
-    private String sName;
+    private String receiveAddress;
+    private String receivePhone;
+    private String receiveName;
+    private String sendAddress;
+    private String sendPhone;
+    private String sendName;
     private String expressInfo;
+    private String resCode;
+    private String resDesc;
     private List<ImagesRes> imagesResList;
 }

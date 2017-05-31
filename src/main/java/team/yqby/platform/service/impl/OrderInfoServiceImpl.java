@@ -128,17 +128,18 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         TOrder tOrder = tOrderMapper.selectByExample(tOrderExample).get(0);
         OrderDetailRes orderDetailRes = new OrderDetailRes();
         orderDetailRes.setOrderNo(orderNo);
+        orderDetailRes.setOpenID(tOrder.getCustomerId());
         orderDetailRes.setOrderAmt(tOrder.getOrderamt());
         orderDetailRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
         orderDetailRes.setState(ProcessEnum.getOrderStatus(tOrder.getProcess()));
         TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-        orderDetailRes.setRAddress(tDeliveryAddress.getDeliveryAddress());
-        orderDetailRes.setRName(tDeliveryAddress.getDeliveryName());
-        orderDetailRes.setRPhone(tDeliveryAddress.getDeliveryTel());
+        orderDetailRes.setReceiveAddress(tDeliveryAddress.getDeliveryAddress());
+        orderDetailRes.setReceiveName(tDeliveryAddress.getDeliveryName());
+        orderDetailRes.setReceivePhone(tDeliveryAddress.getDeliveryTel());
         TShop tShop = tShopMapper.selectByPrimaryKey(tOrder.getShopid());
-        orderDetailRes.setSAddress(tShop.getShopAddress());
-        orderDetailRes.setSName(tShop.getShopName());
-        orderDetailRes.setSPhone(tShop.getShopPhone());
+        orderDetailRes.setSendAddress(tShop.getShopAddress());
+        orderDetailRes.setSendName(tShop.getShopName());
+        orderDetailRes.setSendPhone(tShop.getShopPhone());
         List<ImagesRes> imagesResList = new ArrayList<>();
         for (String fileInfo : StringUtils.split(tOrder.getDeliveryinfo(), "@")) {
             String[] fileInfoArr = StringUtils.split(fileInfo, ",");
@@ -152,6 +153,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderDetailRes.setImagesResList(imagesResList);
         }
         orderDetailRes.setExpressInfo(tOrder.getRemarks());
+        orderDetailRes.setResCode(tOrder.getRescode());
+        orderDetailRes.setResDesc(tOrder.getResdesc());
         return orderDetailRes;
     }
 
