@@ -1,0 +1,32 @@
+{#foreach $T.picList as pic}
+<li id="a{$T.pic.id}" data-id="{$T.pic.id}" data-size="{$T.pic.size}" class="clearfix">
+    <div class="li-bj clearfix" style="display:block;">
+        <div class="inner" style="display:none;">
+            <img src="images/photo.png">
+            <div class="u-upload">
+                <form action="#" method="post" enctype="multipart/form-data">
+                    <button type="button">点击上传</button>
+                    <input type="file" name="file" multiple="multiple" accept="image/*">
+                </form>
+            </div>
+            <p>单个订单可冲印36张相片</p>
+        </div>
+        <div class="picture" style="display:block;">
+            <span><img src="{$T.pic.url}" onerror="onerror_(this)"><a href="javascript:" class="close"></a></span>
+        </div>
+        <div class="inner-bar" style="display:block;">
+            <div class="amount">
+                冲洗数量&emsp;
+                <a href="javascript:" class="btn-minus"></a><span class="show-count">1</span>
+                <a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span>
+                <!--单个商品总价-->
+            </div>
+            <dl class="size">
+                <dd data-id="a{$T.pic.id}" class="curr" data-value="6">6寸</dd>
+                <dd data-id="a{$T.pic.id}" data-value="8">8寸</dd>
+                <dd data-id="a{$T.pic.id}" data-value="12">12寸</dd>
+                <dd data-id="a{$T.pic.id}" data-value="18">18寸</dd>
+            </dl>
+        </div>
+    </div>
+</li>

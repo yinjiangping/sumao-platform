@@ -56,6 +56,7 @@
     <meta content="email=no" name="format-detection" />
     <!--样式-->
     <link href="css/reset.css?20170216_1.5" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/layer.css">
     <link rel="stylesheet" type="text/css" href="css/css.css?20170216_1.5" />
     <link rel="stylesheet" type="text/css" href="css/nav.css?20170216_1.5" />
     <title>四茂摄影工作室</title>
@@ -80,7 +81,7 @@
     <div id="wrapper" class="pb214">
         <div class="box">
             <h1>四茂摄影</h1>
-            <ul>
+            <ul id="picture-img">
                 <li data-id="0" class="clearfix">
                     <div class="li-bj clearfix">
                         <div class="inner">
@@ -88,7 +89,7 @@
                             <div class="u-upload">
                                 <form action="#" method="post" enctype="multipart/form-data">
                                     <button type="button">点击上传</button>
-                                    <input type="file" name="file" accept="image/*">
+                                    <input type="file" name="file" multiple="multiple" accept="image/*">
                                 </form>
                             </div>
                             <p>单个订单可冲印36张相片</p>
@@ -130,6 +131,8 @@
     </div>
     <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
     <script src="js/lib/jquery.form.js?20170216_1.5"></script>
+    <script src="js/lib/jquery-jtemplates.js"></script>
+    <script src="js/config/config.js"></script>
     <script src="js/layer.js?20170216_1.5"></script>
     <script src="js/util.js?20170216_1.5"></script>
     <script src="js/js.js?20170216_1.5"></script>
