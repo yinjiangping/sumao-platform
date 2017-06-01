@@ -103,45 +103,47 @@ public class FileUploadController {
                 log.error("upload file is employ，upload fail!");
                 return idList;
             }
-            MultipartFile file = files.get(0);
 
+            for (int i = 0; i < files.size(); i++) {
+                MultipartFile file = files.get(i);
                 if (!file.isEmpty()) {
-
-                    for (int i = 0; i < files.size(); i++) {
-                        String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
-                        Random random = new Random();
-                        for (int j = 0; j < 10; j++) {
-                            format += random.nextInt(10);
-                        }
-                        String name = file.getOriginalFilename();
-                        String fileType = name.substring(name.lastIndexOf("."));
-                        String saveFilePath = Joiner.on("").join(localPath, format, fileType);
-                        String fileName = Joiner.on("").join(format, fileType);
-
-                        //1.保存本地文件
-                    try {
-                        byte[] bytes = file.getBytes();
-                        file.getSize();
-                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(saveFilePath)));
-                        stream.write(bytes);
-                        stream.close();
-                    } catch (Exception e) {
-                        log.error("You failed to upload {} =>,{} ", name, e.getMessage());
-                        return idList;
-                    }
-                    //2、上传文件到七牛云
-                    FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
-                    fileUploadThread.start();
-
-                    //3、保存上传文件数据
-                    TFile tFile = new TFile();
-                    tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
-                    tFile.setFileName(fileName);
-                    tFile.setCreatetime(new Date());
-                    tFile.setUpdatetime(new Date());
-                    tFileMapper.insertSelective(tFile);
-                    idList.add(tFile);
+                    continue;
                 }
+                //生成随机数字
+                String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
+                Random random = new Random();
+                for (int j = 0; j < 10; j++) {
+                    format += random.nextInt(10);
+                }
+
+                String name = file.getOriginalFilename();
+                String fileType = name.substring(name.lastIndexOf("."));
+                String saveFilePath = Joiner.on("").join(localPath, format, fileType);
+                String fileName = Joiner.on("").join(format, fileType);
+
+                //1.保存本地文件
+                try {
+                    byte[] bytes = file.getBytes();
+                    file.getSize();
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(saveFilePath)));
+                    stream.write(bytes);
+                    stream.close();
+                } catch (Exception e) {
+                    log.error("You failed to upload {} =>,{} ", name, e.getMessage());
+                    return idList;
+                }
+                //2、上传文件到七牛云
+                FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
+                fileUploadThread.start();
+
+                //3、保存上传文件数据
+                TFile tFile = new TFile();
+                tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
+                tFile.setFileName(fileName);
+                tFile.setCreatetime(new Date());
+                tFile.setUpdatetime(new Date());
+                tFileMapper.insertSelective(tFile);
+                idList.add(tFile);
             }
         } catch (Exception e) {
             log.error("uploadPic exception,error", e);

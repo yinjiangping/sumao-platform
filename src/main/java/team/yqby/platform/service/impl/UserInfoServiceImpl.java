@@ -56,8 +56,4 @@ public class UserInfoServiceImpl implements UserInfoService {
         return tUserInfo;
     }
 
-    public static void main(String[] args) {
-        String test = MD5Util.MD5Encode("nihao123,");
-        System.out.println(test);
-    }
 }
