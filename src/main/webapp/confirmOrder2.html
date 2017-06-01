@@ -131,13 +131,15 @@
             }
         }).done(function(data) {
             totalprice = getPrice(data.result[0].images);
+            if(!data||!data.success){
+                layer.msg("网络繁忙，请稍候再试！");
+            }
             //绘制页面
             util.fetchTpl("orderList", './subtpl/comfirmItem.html', {
                 "orderList": data.result[0].images
-            })
-            console.log(data)
+            });
         }).fail(function() {
-            alert("订单生成失败！请重新操作");
+            layer.msg("网络繁忙，请稍候再试！");
             window.history.go(-1); //返回上一页
         });
         //查询默认收货地址
@@ -161,7 +163,7 @@
                         "addressId": "",
                         "rUserName": "",
                         "rPhone": "",
-                        "rAddress": "添加收货地址",
+                        "raddress": "添加收货地址",
                     }
                 });
             }
@@ -171,7 +173,7 @@
                     "addressId": "",
                     "rUserName": "",
                     "rPhone": "",
-                    "rAddress": "添加收货地址",
+                    "raddress": "添加收货地址",
                 }
             });
         });
@@ -184,12 +186,13 @@
         }).done(function(data) {
             //console.log(data);
             if (data.result && data.result.length > 0) {
+                layer.msg("网络繁忙，请稍候再试！");
                 util.fetchTpl("shopId", './subtpl/select.html', {
                     "shops": data.result
                 });
             }
         }).fail(function() {
-
+            layer.msg("网络繁忙，请稍候再试！");
         });
     })();
 

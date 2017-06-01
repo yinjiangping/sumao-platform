@@ -159,6 +159,10 @@
             var addressId = that.attr("data-addressId"); //收货地址id
             var state = that.attr("data-state"); //订单状态
             if (state == "INIT") {
+                if(!orderNo){
+                    layer.msg("订单不合法，请重新下单");
+                    return;
+                }
                 window.location.href = "confirmOrder2.html?o=" + orderNo
             } else {
                 if (!orderNo) {
@@ -184,7 +188,8 @@
                         addressId: addressId,
                         shopId: shopId,
                         orderNo: orderNo,
-                        orderAmt: price //总价，包括运费
+                        orderAmt: price, //总价，包括运费
+                        freightAmt:"0"
                     }
                 }).done(function(data) {
                     var res = data.result ? data.result : {};
