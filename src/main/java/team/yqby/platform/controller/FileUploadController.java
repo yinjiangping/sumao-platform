@@ -117,16 +117,7 @@ public class FileUploadController {
                 String fileName = Joiner.on("").join(format, fileType);
 
                 if (!file.isEmpty()) {
-                    //1、上传文件到七牛云
-                    FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
-                    fileUploadThread.start();
-                    //2、保存上传文件数据
-                    TFile tFile = new TFile();
-                    tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
-                    tFile.setFileName(fileName);
-                    tFile.setCreatetime(new Date());
-                    tFile.setUpdatetime(new Date());
-                    tFileMapper.insertSelective(tFile);
+                    //1.保存本地文件
                     try {
                         byte[] bytes = file.getBytes();
                         file.getSize();
@@ -137,6 +128,17 @@ public class FileUploadController {
                         log.error("You failed to upload {} =>,{} ", name, e.getMessage());
                         return idList;
                     }
+                    //2、上传文件到七牛云
+                    FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
+                    fileUploadThread.start();
+
+                    //3、保存上传文件数据
+                    TFile tFile = new TFile();
+                    tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
+                    tFile.setFileName(fileName);
+                    tFile.setCreatetime(new Date());
+                    tFile.setUpdatetime(new Date());
+                    tFileMapper.insertSelective(tFile);
                     idList.add(tFile);
                 }
             }
