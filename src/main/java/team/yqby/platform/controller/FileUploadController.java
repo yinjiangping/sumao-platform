@@ -105,19 +105,20 @@ public class FileUploadController {
             }
             MultipartFile file = files.get(0);
 
-            for (int i = 0; i < files.size(); i++) {
-                String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
-                Random random = new Random();
-                for (int j = 0; j < 10; j++) {
-                    format += random.nextInt(10);
-                }
-                String name = file.getOriginalFilename();
-                String fileType = name.substring(name.lastIndexOf("."));
-                String saveFilePath = Joiner.on("").join(localPath, format, fileType);
-                String fileName = Joiner.on("").join(format, fileType);
-
                 if (!file.isEmpty()) {
-                    //1.保存本地文件
+
+                    for (int i = 0; i < files.size(); i++) {
+                        String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
+                        Random random = new Random();
+                        for (int j = 0; j < 10; j++) {
+                            format += random.nextInt(10);
+                        }
+                        String name = file.getOriginalFilename();
+                        String fileType = name.substring(name.lastIndexOf("."));
+                        String saveFilePath = Joiner.on("").join(localPath, format, fileType);
+                        String fileName = Joiner.on("").join(format, fileType);
+
+                        //1.保存本地文件
                     try {
                         byte[] bytes = file.getBytes();
                         file.getSize();

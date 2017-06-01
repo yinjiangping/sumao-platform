@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import team.yqby.platform.base.Response;
+import team.yqby.platform.base.TUserInfo;
 import team.yqby.platform.base.res.OrderDetailRes;
 import team.yqby.platform.base.res.OrderRes;
+import team.yqby.platform.common.constant.SystemConstant;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.ProcessEnum;
 import team.yqby.platform.common.util.ParamsValidate;
@@ -60,11 +62,12 @@ public class OrderController {
     @RequestMapping(value = ApiUrls.QUERY_ALL_ORDER)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate) {
+    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate, HttpServletRequest request) {
         List<OrderRes> orderResList = new ArrayList<>();
         try {
             log.info("queryAllOrder started, request ");
-            orderResList = orderInfoService.queryAllOrder(orderNo, process, startDate, endDate);
+            TUserInfo tUserInfo = (TUserInfo) request.getSession().getAttribute(SystemConstant.SESSION_USER);
+            orderResList = orderInfoService.queryAllOrder(orderNo, process, startDate, endDate, tUserInfo.getShopId());
             log.info("queryAllOrder finished,result:{}", orderResList);
             return orderResList;
         } catch (AutoPlatformException e) {
@@ -85,11 +88,12 @@ public class OrderController {
     @RequestMapping(value = ApiUrls.QUERY_DETAIL)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public OrderDetailRes queryOrderDetail(String orderNo) {
+    public OrderDetailRes queryOrderDetail(String orderNo, HttpServletRequest request) {
         OrderDetailRes orderDetailRes = new OrderDetailRes();
         try {
             log.info("queryOrderDetail started, request ");
-            orderDetailRes = orderInfoService.queryOrderDetail(orderNo);
+            TUserInfo tUserInfo = (TUserInfo) request.getSession().getAttribute(SystemConstant.SESSION_USER);
+            orderDetailRes = orderInfoService.queryOrderDetail(orderNo, tUserInfo.getShopId());
             log.info("queryOrderDetail finished,result:{}", orderDetailRes);
             return orderDetailRes;
         } catch (AutoPlatformException e) {
@@ -109,10 +113,11 @@ public class OrderController {
     @RequestMapping(value = ApiUrls.ORDER_DELIVERY)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public boolean orderDelivery(String orderNo, String expressName, String expressNo) {
+    public boolean orderDelivery(String orderNo, String expressName, String expressNo, HttpServletRequest request) {
         try {
             log.info("orderDelivery started, request ");
-            boolean updateResult = orderInfoService.updateOrder(orderNo, ProcessEnum.DELIVERY_SUCCESS.getCode(), ParamsValidate.strDecode(expressName), expressNo);
+            TUserInfo tUserInfo = (TUserInfo) request.getSession().getAttribute(SystemConstant.SESSION_USER);
+            boolean updateResult = orderInfoService.updateOrder(orderNo, ProcessEnum.DELIVERY_SUCCESS.getCode(), ParamsValidate.strDecode(expressName), expressNo, tUserInfo.getId(),tUserInfo.getUsername());
             log.info("orderDelivery finished,result:{}", updateResult);
             return updateResult;
         } catch (AutoPlatformException e) {

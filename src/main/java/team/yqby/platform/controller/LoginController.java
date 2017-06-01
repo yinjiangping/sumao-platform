@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import team.yqby.platform.base.TUserInfo;
 import team.yqby.platform.common.constant.SystemConstant;
 import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.exception.AutoPlatformException;
@@ -34,9 +35,9 @@ public class LoginController {
     public ModelAndView login(String userName, String userPwd, HttpServletRequest request) {
         try {
             log.info("login started, request params:{},{}", userName,userPwd);
-            TUser tUser = userInfoService.checkUser(userName,userPwd);
+            TUserInfo tUserInfo = userInfoService.checkUser(userName,userPwd);
 
-            request.getSession().setAttribute(SystemConstant.SESSION_USER, tUser);
+            request.getSession().setAttribute(SystemConstant.SESSION_USER, tUserInfo);
             log.info("login finished, loginName:{}", userName);
         } catch (AutoPlatformException e) {
             log.error(" login meet error, loginName:{}, response:{}",userName, Throwables.getStackTraceAsString(e));

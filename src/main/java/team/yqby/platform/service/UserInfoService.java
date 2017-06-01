@@ -1,10 +1,10 @@
 package team.yqby.platform.service;
 
 
-import team.yqby.platform.pojo.TUser;
+import team.yqby.platform.base.TUserInfo;
 
 public interface UserInfoService {
 
-    public TUser checkUser(String userName,String userPwd);
+    public TUserInfo checkUser(String userName,String userPwd);
 
 }

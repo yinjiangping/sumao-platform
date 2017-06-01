@@ -10,10 +10,10 @@ public interface OrderInfoService {
 
     public List<OrderRes> queryAll(String openID,String orderNo);
 
-    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate);
+    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate,Long shopId);
 
-    public OrderDetailRes queryOrderDetail(String orderNo);
+    public OrderDetailRes queryOrderDetail(String orderNo,Long shopId);
 
-    public boolean updateOrder(String orderNo, String process,String expressName,String expressNo);
+    public boolean updateOrder(String orderNo, String process,String expressName,String expressNo,Long userId,String userName);
 
 }

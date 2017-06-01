@@ -3,8 +3,8 @@ package team.yqby.platform.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import team.yqby.platform.base.TUserInfo;
 import team.yqby.platform.common.constant.SystemConstant;
-import team.yqby.platform.pojo.TUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,16 +43,16 @@ public class SessionInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        TUser userInfo = (TUser) session.getAttribute(SystemConstant.SESSION_USER);
+        TUserInfo tUserInfo = (TUserInfo) session.getAttribute(SystemConstant.SESSION_USER);
         if( "/".equals(visitUri)){
             return true;
         }
-        if (userInfo == null) {
+        if (tUserInfo == null) {
             log.error("请求地址:{},用户长时间未登陆或在其它地方登陆，跳转到登陆页面", visitUri);
             response.sendRedirect(request.getSession().getServletContext().getContextPath() + LOGIN_URL);
             return false;
         }
-        log.info("登陆账号：{}，SESSION验证通过！", userInfo.getUsername());
+        log.info("登陆账号：{}，SESSION验证通过！", tUserInfo.getUsername());
         return true;
     }
 

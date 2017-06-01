@@ -75,9 +75,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate) {
+    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate, Long shopId) {
         TOrderExample tOrderExample = new TOrderExample();
         TOrderExample.Criteria criteria = tOrderExample.createCriteria();
+        if (shopId != null && shopId > 0L) {
+            criteria.andShopidEqualTo(shopId);
+        }
         if (StringUtils.isNotEmpty(orderNo)) {
             criteria.andOrdernoEqualTo(orderNo);
         }
@@ -95,7 +98,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         for (TOrder tOrder : tOrderList) {
             OrderRes orderRes = new OrderRes();
             orderRes.setOrderNo(tOrder.getOrderno());
-            orderRes.setPrice(tOrder.getOrderamt());
+            orderRes.setPrice(MoneyUtil.changeF2Y(tOrder.getOrderamt()));
             orderRes.setState(tOrder.getProcess());
             String businessInfo = tOrder.getDeliveryinfo();
             List<ImagesRes> imagesResList = new ArrayList<>();
@@ -124,9 +127,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public OrderDetailRes queryOrderDetail(String orderNo) {
+    public OrderDetailRes queryOrderDetail(String orderNo, Long shopId) {
         TOrderExample tOrderExample = new TOrderExample();
-        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
+        TOrderExample.Criteria criteria = tOrderExample.createCriteria();
+        criteria.andOrdernoEqualTo(orderNo);
+        if (shopId != null && shopId > 0L) {
+            criteria.andShopidEqualTo(shopId);
+        }
         TOrder tOrder = tOrderMapper.selectByExample(tOrderExample).get(0);
         OrderDetailRes orderDetailRes = new OrderDetailRes();
         orderDetailRes.setOrderNo(orderNo);
@@ -161,11 +168,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public boolean updateOrder(String orderNo, String process, String expressName, String expressNo) {
+    public boolean updateOrder(String orderNo, String process, String expressName, String expressNo,Long userId,String userName) {
         TOrder tOrder = new TOrder();
         tOrder.setRemarks(ParamsValidate.strEncode(Joiner.on(":").join(expressName, expressNo)));
         tOrder.setProcess(process);
         tOrder.setUpdatetime(new Date());
+        tOrder.setUpdateby(userId);
+        tOrder.setUpdatebyname(userName);
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
         int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
