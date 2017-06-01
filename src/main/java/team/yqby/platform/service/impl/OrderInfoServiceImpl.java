@@ -154,7 +154,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             imagesResList.add(imagesRes);
             orderDetailRes.setImagesResList(imagesResList);
         }
-        orderDetailRes.setExpressInfo(tOrder.getRemarks());
+        orderDetailRes.setExpressInfo(ParamsValidate.strDecode(tOrder.getRemarks()));
         orderDetailRes.setResCode(tOrder.getRescode());
         orderDetailRes.setResDesc(ParamsValidate.strDecode(tOrder.getResdesc()));
         return orderDetailRes;

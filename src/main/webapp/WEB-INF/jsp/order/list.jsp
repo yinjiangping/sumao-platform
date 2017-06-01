@@ -137,7 +137,7 @@
                                 <option value="PAY_SUCCESS">支付成功</option>
                                 <option value="PAY_FAIL">支付失败</option>
                                 <option value="DELIVERY_SUCCESS">已发货</option>
-                                <option value="DELIVERY_FAIL">未发货</option>
+                                <option value="DELIVERY_FAIL">发货失败</option>
                             </select>
                         </td>
                     </tr>

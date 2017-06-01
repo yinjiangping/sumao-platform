@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import team.yqby.platform.base.res.GoodsRes;
+import team.yqby.platform.base.res.SinglePicRes;
 import team.yqby.platform.common.enums.PicPriceType;
 import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.config.ApiUrls;
@@ -37,32 +38,39 @@ public class FileUploadController {
 
     @RequestMapping(value = ApiUrls.UPLOAD_PIC)
     @ResponseBody
-    public Long uploadPic(HttpServletRequest request) {
+    public SinglePicRes uploadPic(HttpServletRequest request) {
+        Long picId = 0L;
+        String imageUrl = "";
         try {
             String format = DateUtil.format(new Date(), DateUtil.shortDatePattern);
             Random random = new Random();
             for (int i = 0; i < 10; i++) {
                 format += random.nextInt(10);
             }
-            //查询ID是否存在
-            TFile file1 = tFileMapper.selectByPrimaryKey(Long.valueOf(format));
-            if (file1 != null) {
-                log.error("upload file is exists，upload fail!");
-                return 0L;
-            }
             List<MultipartFile> files;
             files = ((MultipartHttpServletRequest) request).getFiles("file");
             //文件不存在则直接抛出错误
             if (files == null || files.size() == 0) {
                 log.error("upload file is employ，upload fail!");
-                return 0L;
+                return new SinglePicRes(picId, imageUrl);
             }
             MultipartFile file = files.get(0);
             String name = file.getOriginalFilename();
             String fileType = name.substring(name.lastIndexOf("."));
             String saveFilePath = Joiner.on("").join(localPath, format, fileType);
             String fileName = Joiner.on("").join(format, fileType);
+
             if (!file.isEmpty()) {
+                //1、先插入数据库
+                TFile tFile = new TFile();
+                tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
+                tFile.setFileName(fileName);
+                tFile.setCreatetime(new Date());
+                tFile.setUpdatetime(new Date());
+                tFileMapper.insertSelective(tFile);
+                picId = tFile.getId();
+                imageUrl = tFile.getFileAddress();
+                //2、生成本地文件
                 try {
                     byte[] bytes = file.getBytes();
                     BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(saveFilePath)));
@@ -70,24 +78,17 @@ public class FileUploadController {
                     stream.close();
                 } catch (Exception e) {
                     log.error("You failed to upload {} =>,{} ", name, e.getMessage());
-                    return 0L;
+                    return new SinglePicRes(picId, imageUrl);
                 }
+                //3.上传文件到七牛云(异步)
+                FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
+                fileUploadThread.start();
             }
-            //上传文件七牛云  TODO 改成异步方式
-            FileUploadThread fileUploadThread = new FileUploadThread(saveFilePath, fileName, false);
-            fileUploadThread.start();
-            TFile tFile = new TFile();
-            tFile.setId(Long.valueOf(format));
-            tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
-            tFile.setFileName(fileName);
-            tFile.setCreatetime(new Date());
-            tFile.setUpdatetime(new Date());
-            tFileMapper.insertSelective(tFile);
-            return Long.valueOf(format);
+
         } catch (Exception e) {
             log.error("uploadPic exception,error", e);
         }
-        return 0L;
+        return new SinglePicRes(picId, imageUrl);
     }
 
     @RequestMapping(value = ApiUrls.UPLOAD_MULTIPLE_PIC)
@@ -202,8 +203,8 @@ public class FileUploadController {
     public GoodsRes queryWaresPrice(String openID) {
         GoodsRes goodsRes = new GoodsRes();
         String redisGoodsPrice = iRedisService.get(PublicConfig.GOODS_REDIS_KEY);
-        if(StringUtils.isNotEmpty(redisGoodsPrice)){
-            goodsRes = JSON.parseObject(redisGoodsPrice,GoodsRes.class);
+        if (StringUtils.isNotEmpty(redisGoodsPrice)) {
+            goodsRes = JSON.parseObject(redisGoodsPrice, GoodsRes.class);
         }
         return goodsRes;
     }
