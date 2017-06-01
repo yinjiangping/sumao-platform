@@ -10,7 +10,7 @@ ul,li{ list-style-type:none;}
 .righter{float:right;width:100%;padding-top:15px;background:#e6f2fb;}
 .mainer{margin-left:180px;}
 .field-icon-right .icon{ bottom:0px; top:auto}
-.logo{ float:left; color:#FFF; margin-top:10px; line-height:45px;}
+.logo{ float:left; color:#3cbfde; margin-top:10px; line-height:45px;}
 .logo img{ float:left; margin-right:10px;}
 .loginbox { background:url(../image/tmbg-white.png); border:0px;}
 /********头部******/
@@ -19,7 +19,7 @@ ul,li{ list-style-type:none;}
 .head-l .button{ padding:8px 15px;}
 .head-l .bg-blue:hover{ background-color:#03b6fd;}
 .leftnav{width:180px; height:100%; position:fixed; top:70px; left:0px;}
-.leftnav-title { height:50px; background:url(../image/bg.jpg) no-repeat 0 -1000px;  color:#FFF; padding-left:22px;  font-size:14px; line-height:50px;}
+.leftnav-title { height:50px; background:url(../image/bg.jpg) no-repeat 0 -1000px;  color:#09c; padding-left:22px;  font-size:14px; line-height:50px;}
 .leftnav-title span{ margin-right:10px;}
 .leftnav h2{ padding:10px 0 10px 22px; transition:all .1s ease-in-out; display:block; cursor:pointer; font-weight:bold; font-size:14px; border-top:1px solid #b5cfd9;}
 .leftnav h2.on{ color:#09c;}

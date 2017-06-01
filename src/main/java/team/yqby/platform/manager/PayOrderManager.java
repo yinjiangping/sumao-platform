@@ -65,7 +65,7 @@ public class PayOrderManager {
             pTotalAmt += Long.valueOf(picNum) * Long.valueOf(MoneyUtil.changeY2F(picSinglePrice));
         }
         //商品价格校验
-        if (!StringUtils.equals(String.valueOf(pTotalAmt), orderAmt)){
+        if (!StringUtils.equals(String.valueOf(pTotalAmt), orderAmt)) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
         String orderNo = NumberUtil.getOrderNoRandom();
@@ -116,7 +116,7 @@ public class PayOrderManager {
      * @param orderAmt
      * @param orderNo
      */
-    public void checkOrder(Long orderAmt,Long freightAmt, String orderNo, String openID) {
+    public void checkOrder(Long orderAmt, Long freightAmt, String orderNo, String openID) {
         String freightAmtStr = JSON.parseObject(redisService.get(PublicConfig.GOODS_REDIS_KEY), GoodsRes.class).getFreightAmt();
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andCustomerIdEqualTo(openID);
@@ -128,7 +128,7 @@ public class PayOrderManager {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
-        if(!StringUtils.equals(MoneyUtil.changeY2F(freightAmtStr),String.valueOf(freightAmt))){
+        if (!StringUtils.equals(MoneyUtil.changeY2F(freightAmtStr), String.valueOf(freightAmt))) {
             log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
@@ -146,7 +146,7 @@ public class PayOrderManager {
      * @param shopId
      * @param orderNo
      */
-    public void updateOrderInfo(Long addressId, Long shopId, String orderNo,Long orderAmt,Long freightAmt) {
+    public void updateOrderInfo(Long addressId, Long shopId, String orderNo, Long orderAmt, Long freightAmt) {
         TOrder tOrder = new TOrder();
         tOrder.setAddressid(Long.valueOf(addressId));
         tOrder.setShopid(shopId);

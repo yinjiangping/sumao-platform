@@ -91,6 +91,7 @@ public class WeChatXmlUtil {
         String returnMsg = root.elementTextTrim("return_msg");
         result.setResult_code(returnCode);
         result.setResult_code(resultCode);
+        result.setReturn_msg(returnMsg);
         if (!PublicConfig.CALL_SUCCESS.equals(returnCode)) {
             throw new AutoPlatformException(returnCode, returnMsg);
         }

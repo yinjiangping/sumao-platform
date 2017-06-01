@@ -128,6 +128,7 @@ public class FileUploadController {
                     tFileMapper.insertSelective(tFile);
                     try {
                         byte[] bytes = file.getBytes();
+                        file.getSize();
                         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(saveFilePath)));
                         stream.write(bytes);
                         stream.close();

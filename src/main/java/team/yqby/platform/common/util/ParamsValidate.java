@@ -14,28 +14,30 @@ import java.net.URLEncoder;
 
 /**
  * <p>
- *      参数校验公共方法
+ * 参数校验公共方法
  * </p>
  * User：jumping Date： 2017/1/5 0005 Version：1.0
  */
 @Slf4j
 public class ParamsValidate {
 
-    /***
+    /**
      * 校验参数
-     * @param paramKey     参数名
-     * @param paramDesc   参数描述
+     *
+     * @param paramKey  参数名
+     * @param paramDesc 参数描述
      */
-    public static void validaParam(String paramKey,String paramDesc){
-        if(StringUtils.isEmpty(paramKey)){
-            log.error("{} validate error:{}不能为空",paramKey,paramDesc);
-            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10004.getResCode(), Joiner.on("").join(paramDesc,"不能为空"));
+    public static void validaParam(String paramKey, String paramDesc) {
+        if (StringUtils.isEmpty(paramKey)) {
+            log.error("{} validate error:{}不能为空", paramKey, paramDesc);
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10004.getResCode(), Joiner.on("").join(paramDesc, "不能为空"));
         }
     }
+
     /**
      * 验证码公共参数(包含切面错误)
      *
-     * @param errors              错误
+     * @param errors 错误
      * @return
      */
     public static void validParamError(Errors errors) {
@@ -52,32 +54,38 @@ public class ParamsValidate {
 
     }
 
-    /***
+    /**
      * 参数通过UTF-8编码
+     *
      * @param paramKey
      * @return
      */
-    public static String strEncode(String paramKey){
+    public static String strEncode(String paramKey) {
         String newParamKey = paramKey;
         try {
-            newParamKey = URLEncoder.encode(paramKey, SystemConstant.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            log.error("Parameter {} decoding exception, ",newParamKey,e);
+            if (StringUtils.isNotEmpty(newParamKey)) {
+                newParamKey = URLEncoder.encode(paramKey, SystemConstant.UTF_8);
+            }
+        } catch (Exception e) {
+            log.error("Parameter {} encoding exception, ", newParamKey, e);
         }
         return newParamKey;
     }
 
-    /***
+    /**
      * 参数通过UTF-8解码
+     *
      * @param paramKey
      * @return
      */
-    public static String strDecode(String paramKey){
+    public static String strDecode(String paramKey) {
         String newParamKey = paramKey;
         try {
-            newParamKey = URLDecoder.decode(paramKey, SystemConstant.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            log.error("Parameter {} decoding exception, ",newParamKey,e);
+            if (StringUtils.isNotEmpty(newParamKey)) {
+                newParamKey = URLDecoder.decode(paramKey, SystemConstant.UTF_8);
+            }
+        } catch (Exception e) {
+            log.error("Parameter {} decoding exception, ", newParamKey, e);
         }
         return newParamKey;
     }
