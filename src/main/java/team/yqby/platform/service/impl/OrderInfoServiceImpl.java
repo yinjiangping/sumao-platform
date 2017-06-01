@@ -117,8 +117,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
                 TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-                orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-                orderRes.setAddressId(tDeliveryAddress.getId());
+                if (tDeliveryAddress != null) {
+                    orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
+                    orderRes.setAddressId(tDeliveryAddress.getId());
+                }
             }
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));

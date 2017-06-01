@@ -11,8 +11,11 @@ import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.mapper.TDeliveryAddressMapper;
+import team.yqby.platform.mapper.TOrderMapper;
 import team.yqby.platform.pojo.TDeliveryAddress;
 import team.yqby.platform.pojo.TDeliveryAddressExample;
+import team.yqby.platform.pojo.TOrder;
+import team.yqby.platform.pojo.TOrderExample;
 import team.yqby.platform.service.DeliveryAddressService;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ import java.util.List;
 public class DeliveryAddressServiceImpl implements DeliveryAddressService {
     @Autowired
     private TDeliveryAddressMapper tDeliveryAddressMapper;
+    @Autowired
+    private TOrderMapper tOrderMapper;
 
     @Override
     public List<AddressRes> queryAddress(String openID, String queryFlag) {
@@ -60,6 +65,12 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
         TDeliveryAddress tDeliveryAddress = new TDeliveryAddress();
         switch (operaFlag) {
             case "del":
+                TOrderExample tOrderExample1 = new TOrderExample();
+                tOrderExample1.createCriteria().andAddressidEqualTo(addressReq.getAddressId());
+                List<TOrder> tOrderList1 = tOrderMapper.selectByExample(tOrderExample1);
+                if(tOrderList1 != null && !tOrderList1.isEmpty()){
+                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20007);
+                }
                 TDeliveryAddressExample tDeliveryAddressExample = new TDeliveryAddressExample();
                 tDeliveryAddressExample.createCriteria().andIdEqualTo(addressReq.getAddressId()).andCustomerIdEqualTo(addressReq.getOpenID());
                 tDeliveryAddress.setId(addressReq.getAddressId());
@@ -79,6 +90,12 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 i = tDeliveryAddressMapper.insertSelective(tDeliveryAddress);
                 break;
             case "edit":
+                TOrderExample tOrderExample2 = new TOrderExample();
+                tOrderExample2.createCriteria().andAddressidEqualTo(addressReq.getAddressId());
+                List<TOrder> tOrderList2 = tOrderMapper.selectByExample(tOrderExample2);
+                if(tOrderList2 != null && !tOrderList2.isEmpty()){
+                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20007);
+                }
                 tDeliveryAddress.setId(addressReq.getAddressId());
                 tDeliveryAddress.setCustomerId(addressReq.getOpenID());
                 tDeliveryAddress.setDeliveryAddress(ParamsValidate.strEncode(addressReq.getRAddress()));
