@@ -106,7 +106,7 @@ public class FileUploadController {
 
             for (int i = 0; i < files.size(); i++) {
                 MultipartFile file = files.get(i);
-                if (!file.isEmpty()) {
+                if (file.isEmpty()) {
                     continue;
                 }
                 //生成随机数字
