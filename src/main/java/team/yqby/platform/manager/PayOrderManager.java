@@ -130,7 +130,7 @@ public class PayOrderManager {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
-        if (!tOrderList.get(0).getProcess().equals(ProcessEnum.WAIT_PAY.getCode()) || !tOrderList.get(0).getProcess().equals(ProcessEnum.ORDER_FAIL.getCode())) {
+        if (!tOrderList.get(0).getProcess().equals(ProcessEnum.WAIT_PAY.getCode())) {
             if (!StringUtils.equals(MoneyUtil.changeY2F(freightAmtStr), String.valueOf(freightAmt))) {
                 log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
                 throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
