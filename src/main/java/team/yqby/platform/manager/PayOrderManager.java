@@ -124,14 +124,19 @@ public class PayOrderManager {
         if (tOrderList == null || tOrderList.isEmpty()) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
         }
+
+
         if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()) {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
-        if (!StringUtils.equals(MoneyUtil.changeY2F(freightAmtStr), String.valueOf(freightAmt))) {
-            log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
-            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
+        if (!tOrderList.get(0).getProcess().equals(ProcessEnum.WAIT_PAY.getCode())) {
+            if (!StringUtils.equals(MoneyUtil.changeY2F(freightAmtStr), String.valueOf(freightAmt))) {
+                log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
+                throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
+            }
         }
+
         if (tOrderList.get(0).getProcess().equals(ProcessEnum.PAY_SUCCESS.getCode())) {
             log.error("订单已支付成功过,订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10010);
@@ -147,6 +152,7 @@ public class PayOrderManager {
      * @param orderNo
      */
     public void updateOrderInfo(Long addressId, Long shopId, String orderNo, Long orderAmt, Long freightAmt) {
+        freightAmt = freightAmt == null ? 0L : freightAmt;
         TOrder tOrder = new TOrder();
         tOrder.setAddressid(Long.valueOf(addressId));
         tOrder.setShopid(shopId);
@@ -169,8 +175,9 @@ public class PayOrderManager {
      * @throws AutoPlatformException
      * @throws Exception
      */
-    public WeChatXmlUtil createWeChatOrder(String openId, String orderNo, Long orderAmt) {
+    public WeChatXmlUtil createWeChatOrder(String openId, String orderNo, Long orderAmt, Long freightAmt) {
         try {
+            freightAmt = freightAmt == null ? 0L : freightAmt;
             WeChatCreateOrder weChatCreateOrder = new WeChatCreateOrder();
             weChatCreateOrder.setAppid(PublicConfig.APP_ID);
             weChatCreateOrder.setMch_id(PublicConfig.MCH_ID);
@@ -180,7 +187,7 @@ public class PayOrderManager {
             weChatCreateOrder.setOpenid(openId);
             weChatCreateOrder.setOut_trade_no(orderNo);
             weChatCreateOrder.setSpbill_create_ip(IPUtil.getLocalIP());
-            weChatCreateOrder.setTotal_fee(orderAmt);
+            weChatCreateOrder.setTotal_fee(orderAmt + freightAmt);
             weChatCreateOrder.setTrade_type(PublicConfig.TRADE_TYPE);
             weChatCreateOrder.setSign(WeChatXmlUtil.getSign(BeanToMapUtil.convertBean(weChatCreateOrder, ""), PublicConfig.MCH_KEY));
             String requestXml = WeChatXmlUtil.toXml(weChatCreateOrder).replace("__", "_");

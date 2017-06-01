@@ -26,10 +26,10 @@ public enum ServiceErrorCode {
     ERROR_CODE_A20001("A20001", "收货地址有误"),
     ERROR_CODE_A20002("A20002", "订单信息被篡改"),
     ERROR_CODE_A20003("A20003", "操作失败"),
-    ERROR_CODE_A20004("A20004", "收获地址已存在"),
+    ERROR_CODE_A20004("A20004", "收货地址已存在"),
     ERROR_CODE_A20005("A20005", "默认收获地址已设置"),
-    ERROR_CODE_A20006("A20006", "收获地址不存在"),
-    ERROR_CODE_A20007("A20007", "收获地址无法删除"),
+    ERROR_CODE_A20006("A20006", "收货地址不存在"),
+    ERROR_CODE_A20007("A20007", "收货地址已被使用"),
 
     ERROR_CODE_A10012("A10012", "用户名不存在"),
     ERROR_CODE_A10013("A10013", "用户名或密码有误"),

@@ -64,8 +64,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
                 TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(tOrder.getAddressid()));
-                orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-                orderRes.setAddressId(tDeliveryAddress.getId());
+                if (tDeliveryAddress != null) {
+                    orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
+                    orderRes.setAddressId(tDeliveryAddress.getId());
+                }
             }
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
@@ -115,8 +117,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
                 TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-                orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-                orderRes.setAddressId(tDeliveryAddress.getId());
+                if (tDeliveryAddress != null) {
+                    orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
+                    orderRes.setAddressId(tDeliveryAddress.getId());
+                }
             }
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
@@ -168,7 +172,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public boolean updateOrder(String orderNo, String process, String expressName, String expressNo,Long userId,String userName) {
+    public boolean updateOrder(String orderNo, String process, String expressName, String expressNo, Long userId, String userName) {
         TOrder tOrder = new TOrder();
         tOrder.setRemarks(ParamsValidate.strEncode(Joiner.on(":").join(expressName, expressNo)));
         tOrder.setProcess(process);

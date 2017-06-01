@@ -52,4 +52,9 @@
             <bean class="team.yqby.platform.interceptor.SessionInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <bean id="multipartResolver" class="team.yqby.platform.interceptor.I2fCommonsMultipartResolver">
+        <property name="maxUploadSize" value="14680064"/>
+        <property name="resolveLazily" value="true"/>
+    </bean>
 </beans>

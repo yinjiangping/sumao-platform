@@ -1,5 +1,6 @@
 package team.yqby.platform.service;
 
+import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yqby.platform.base.req.PayConfirmReq;
@@ -52,7 +53,7 @@ public class PayOrderService {
         payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo(),confirmReq.getOrderAmt(),confirmReq.getFreightAmt());
 
         //3.微信下单
-        WeChatXmlUtil weChatXmlUtil = payOrderManager.createWeChatOrder(confirmReq.getOpenID(), confirmReq.getOrderNo(), confirmReq.getOrderAmt());
+        WeChatXmlUtil weChatXmlUtil = payOrderManager.createWeChatOrder(confirmReq.getOpenID(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(),confirmReq.getFreightAmt());
 
         //4.返回结果转换
         PayConfirmRes payConfirmRes = payOrderManager.resultConversion(weChatXmlUtil);
