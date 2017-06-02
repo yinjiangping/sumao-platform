@@ -98,6 +98,7 @@
     </div>
     <!--选择城市-->
     <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="js/lib/jquery-jtemplates.js?20170216_1.5"></script>
     <script src="js/layer.js?20170216_1.5"></script>
     <script src="js/util.js"></script>
@@ -191,12 +192,16 @@
                         openID: util.getSessionKey('openID'),
                         rUserName:name,
                         rPhone:phone,
-                        rAddress:address,
+                        rAddress:cityVal+address,
                         zipCode:code,
                         addressId:id
                     }
                 }).done(function(data) {
                     //绘制页面
+                    if(!data||!data.success){
+                        layer.msg("添加失败");
+                        return;
+                    }
                     window.location.replace("./addressList.html");
                 }).fail(function() {
                     alert("请重试");
@@ -208,11 +213,15 @@
                         openID: util.getSessionKey('openID'),
                         rUserName:name,
                         rPhone:phone,
-                        rAddress:address,
+                        rAddress:cityVal+address,
                         zipCode:code
                     }
                 }).done(function(data) {
                     //绘制页面
+                    if(!data||!data.success){
+                        layer.msg("添加失败");
+                        return;
+                    }
                     window.location.replace("./addressList.html");
                 }).fail(function() {
                     alert("请重试");
