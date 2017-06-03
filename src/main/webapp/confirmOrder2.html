@@ -76,7 +76,7 @@
             <h3>新增订单</h3>
             <ul data-id="1" id="orderList">
             </ul>
-            <div class="money"><em class="fl">运费</em><span class="fr">￥10.00</span></div>
+            <div class="money"><em class="fl">运费</em><span class="fr" id="freightAmt">￥10.00</span></div>
             <div class="money">
                 <em class="fl">门店</em>
                 <select style="height:1.44rem;color: #7C6CB7;" class="fr" name="shop" id="shopId">
@@ -93,6 +93,7 @@
     <!--wrapper-end-->
     <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
     <script src="js/lib/jquery-jtemplates.js?20170216_1.5"></script>
+    <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="js/layer.js?20170216_1.5"></script>
     <script src="js/util.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -100,8 +101,10 @@
     <script>
     var orderId = util.GetRequest()["o"];
     var totalprice = 0; //price
+    var confirm_count=0;
     //初始化页面
     var init = (function() {
+        $("#freightAmt").text("￥"+util.getSessionKey("freightAmt")/100+".00");
         util.sendAjax({
                 url: g_baseUrl + "paySign",
                 data: {
@@ -131,13 +134,15 @@
             }
         }).done(function(data) {
             totalprice = getPrice(data.result[0].images);
+            if(!data||!data.success){
+                layer.msg("网络繁忙，请稍候再试！");
+            }
             //绘制页面
             util.fetchTpl("orderList", './subtpl/comfirmItem.html', {
                 "orderList": data.result[0].images
-            })
-            console.log(data)
+            });
         }).fail(function() {
-            alert("订单生成失败！请重新操作");
+            layer.msg("网络繁忙，请稍候再试！");
             window.history.go(-1); //返回上一页
         });
         //查询默认收货地址
@@ -161,7 +166,7 @@
                         "addressId": "",
                         "rUserName": "",
                         "rPhone": "",
-                        "rAddress": "添加收货地址",
+                        "raddress": "添加收货地址",
                     }
                 });
             }
@@ -171,7 +176,7 @@
                     "addressId": "",
                     "rUserName": "",
                     "rPhone": "",
-                    "rAddress": "添加收货地址",
+                    "raddress": "添加收货地址",
                 }
             });
         });
@@ -184,15 +189,34 @@
         }).done(function(data) {
             //console.log(data);
             if (data.result && data.result.length > 0) {
+                layer.msg("网络繁忙，请稍候再试！");
                 util.fetchTpl("shopId", './subtpl/select.html', {
                     "shops": data.result
                 });
             }
         }).fail(function() {
-
+            layer.msg("网络繁忙，请稍候再试！");
         });
     })();
 
+    function setHistory(){
+        pushHistory();  
+        window.addEventListener("popstate", function(e) {  
+            //;//根据自己的需求实现自己的功能  
+        }, false);  
+    }
+    function pushHistory() {  
+        var state = {  
+            title: "title",  
+            url: "#"  
+        };
+        window.history.pushState(state, "title", "#");  
+    } 
+    /**
+     * 获取价格
+     * @param  {[type]} obj [description]
+     * @return {[type]}     [description]
+     */
     function getPrice(obj) {
         var res = 0;
         $.each(obj, function(k, v) {
@@ -233,6 +257,11 @@
             //     size.push($(this).attr("data-value"));
             //     num.push($(this).find(".show-count").text());
             // });
+            var freightAmt=util.getSessionKey("freightAmt");
+            if(confirm_count>0){
+                totalprice=parseInt(totalprice)+parseInt(freightAmt);
+                freightAmt="0";
+            }
             util.sendAjax({
                 url: g_baseUrl + "confirmOrder",
                 data: {
@@ -240,10 +269,11 @@
                     addressId: addressId,
                     shopId: shopId,
                     orderNo: orderId,
-                    freightAmt:util.getSessionKey("freightAmt"),
+                    freightAmt:freightAmt,
                     orderAmt: parseInt(totalprice) //总价，包括运费
                 }
             }).done(function(data) {
+                confirm_count++;
                 var res = data.result ? data.result : {};
                 wx.ready(function() {
                     //alert("成功");

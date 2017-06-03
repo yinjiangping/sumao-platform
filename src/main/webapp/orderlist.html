@@ -93,6 +93,7 @@
         <div class="btn-box"><a href="javascript:void(0)" class="cancel">取消</a> <a href="javascript:void(0)" id="ok-confirm-receipt">确定</a></div>
     </div>
     <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="js/lib/jquery-jtemplates.js?20170216_1.5"></script>
     <script src="js/layer.js?20170216_1.5"></script>
     <script src="js/util.js"></script>
@@ -114,7 +115,8 @@
             //绘制页面
             util.fetchTpl('order-list', './subtpl/orderItem.html', {
                 orderList: data.result,
-                state: 0
+                state: 0,
+                freightAmt:util.getSessionKey("freightAmt")
             })
         }).fail(function() {
             alert("请重试");
@@ -159,7 +161,11 @@
             var addressId = that.attr("data-addressId"); //收货地址id
             var state = that.attr("data-state"); //订单状态
             if (state == "INIT") {
-                window.location.href = "confirmOrder2.html?o=" + orderNo
+                if(!orderNo){
+                    layer.msg("订单不合法，请重新下单");
+                    return;
+                }
+                window.location.replace("./confirmOrder2.html?o=" + orderNo);
             } else {
                 if (!orderNo) {
                     alert("订单编号不能为空");
@@ -184,7 +190,8 @@
                         addressId: addressId,
                         shopId: shopId,
                         orderNo: orderNo,
-                        orderAmt: price //总价，包括运费
+                        orderAmt: price, //总价，包括运费
+                        freightAmt:"0"
                     }
                 }).done(function(data) {
                     var res = data.result ? data.result : {};

@@ -46,6 +46,7 @@ var imgMag = function() {
         }
         return false;
     });
+
     //单个商品总金额
     function setTotal() {
         $(".box li").each(function() {
@@ -74,7 +75,7 @@ var imgMag = function() {
     function addItem() {
         var nub = $(".box li").length;
         var overnub = 36 - nub;
-        var LiHtml = '<li data-id="' + nub + '"><div class="inner inner2"><div class="u-upload u-upload2"><form action="#" method="post" enctype="multipart/form-data"><button type="button">点击上传</button><input type="file" name="file" accept="image/*"></form></div><p>还可添加' + cunt() + '张相片</p></div><div class="li-bj hide clearfix"><div class="picture"><span><img  src="images/photo.png"><a href="javascript:" class="close"></a></span></div><div class="inner-bar"><div class="amount">冲洗数量&emsp;<a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span><!--单个商品总价--></div><dl class="size"><dd class="curr" data-value="6">6寸</dd><dd data-value="8">8寸</dd><dd data-value="12">12寸</dd><dd data-value="18">18寸</dd></dl></div></div></li>';
+        var LiHtml = '<li data-id="' + nub + '"><div class="inner inner2"><div class="u-upload u-upload2"><form action="#" method="post" enctype="multipart/form-data"><button type="button">点击上传</button><input type="file" name="file" multiple="multiple" accept="image/*"></form></div><p>还可添加' + cunt() + '张相片</p></div><div class="li-bj hide clearfix"><div class="picture"><span><img  src="images/photo.png"><a href="javascript:" class="close"></a></span></div><div class="inner-bar"><div class="amount">冲洗数量&emsp;<a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span><!--单个商品总价--></div><dl class="size"><dd class="curr" data-value="6">6寸</dd><dd data-value="8">8寸</dd><dd data-value="12">12寸</dd><dd data-value="18">18寸</dd></dl></div></div></li>';
         if (nub < 36) {
             $(".box ul").append(LiHtml);
         }
@@ -88,54 +89,52 @@ var imgMag = function() {
         }, 10);
     }
     //选择尺寸计算价格
-    function ChoiceSize(el, szval) {
-        var uP = el.parents("li").find(".Unit-Price");
+    function ChoiceSize(id, szval) {
+        var uP = $("#"+id).find(".Unit-Price");
         var size = parseInt(szval);
-        el.parents("li").find("dd[data-value=" + szval + "]").addClass("curr").siblings("dd").removeClass("curr");
+        $("#"+id).parents("li").find("dd[data-value=" + szval + "]").addClass("curr").siblings("dd").removeClass("curr");
         switch (size) {
             case 6:
-                uP.text(g_price.c6);
+                uP.text(g_price.goods.c6);
                 break;
             case 8:
-                uP.text(g_price.c8);
+                uP.text(g_price.goods.c8);
                 break;
             case 12:
-                uP.text(g_price.c12);
+                uP.text(g_price.goods.c12);
                 break;
             case 18:
-                uP.text(g_price.c18);
+                uP.text(g_price.goods.c18);
                 break;
         }
         setTotal(); //计算单个商品总金额
         setTotalAll(); //计算全部商品总金额
     }
     //推荐尺寸
-    function rSize(el, file) {
-        var mb = (file.size / 1024 / 1024).toFixed(2); //获取图片字节转换成mb
+    function rSize(id, size) {
+        var mb = (size / 1024 / 1024).toFixed(2); //获取图片字节转换成mb
         var mbSize = parseFloat(mb);
-        var elLi = el.parents("li");
-        if (mbSize < 0.58) {
+        var elLi =$("#"+id);
+        if (mbSize < config.section_1) {
 
-            layer.alert('图片质量有点低，照片可能不太清晰噢~', {
-                closeBtn: 0
-            });
+            layer.msg('图片质量有点低，照片可能不太清晰噢~');
 
-            ChoiceSize(el, 6);
+            ChoiceSize(id, 6);
             elLi.find('dd:gt(0)').addClass('errtips');
-        } else if (mbSize < 1) {
-            ChoiceSize(el, 6);
+        } else if (mbSize < config.section_2) {
+            ChoiceSize(id, 6);
             elLi.find('dd:gt(0)').addClass('errtips');
-        } else if (mbSize > 1 && mbSize < 2) {
-            ChoiceSize(el, 6);
+        } else if (mbSize > config.section_2 && mbSize < config.section_3) {
+            ChoiceSize(id, 6);
             elLi.find("dd:lt(2)").addClass('canclick').end().find('dd:gt(1)').addClass('errtips');
-        } else if (mbSize > 2 && mbSize < 4) {
-            ChoiceSize(el, 8);
+        } else if (mbSize > config.section_3 && mbSize < config.section_4) {
+            ChoiceSize(id, 8);
             elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
-        } else if (mbSize > 4 && mbSize < 6) {
-            ChoiceSize(el, 12);
+        } else if (mbSize > config.section_4 && mbSize < config.section_5) {
+            ChoiceSize(id, 12);
             elLi.find("dd:lt(5)").addClass('canclick');
-        } else if (mbSize > 6) {
-            ChoiceSize(el, 18);
+        } else if (mbSize > config.section_5) {
+            ChoiceSize(id, 18);
             elLi.find("dd:lt(5)").addClass('canclick');
         }
     }
@@ -143,7 +142,8 @@ var imgMag = function() {
     $(".box").on("click", ".canclick", function() {
         var This = $(this);
         var ThisSize = This.attr("data-value");
-        ChoiceSize(This, ThisSize);
+        var id=This.attr("data-id");
+        ChoiceSize(id, ThisSize);
     });
     //不能选提示
     $(".box").on("click", ".errtips", function() {
@@ -151,67 +151,67 @@ var imgMag = function() {
                 closeBtn: 0
             });
     });
+
+    //var arrFile=[];
+    //var count=0;
+    //var countUp=0;
     //显示图片
-    function readFile(el, file, id) {
-        if (window.FileReader) {
-            var fr = new FileReader();
-            fr.readAsDataURL(file);
-            fr.onload = function() {
-                el.parents(".inner").hide().parents("li").attr("data-id", id + "").find(".li-bj").show().find('.inner-bar').show().siblings('.picture').show().find('img').attr("src", this.result); //显示图片外框
-                rSize(el, file); //推荐尺寸
-                scrollBottom(); //回到底部
-                addItem(); //插入一个添加按钮
-                $(".load,.load-text").hide(); //隐藏正在上传图片
-            };
-        } else {
-            layer.alert('抱歉，你的浏览器不支持 FileReader,请换个游览器再试', {
-                closeBtn: 0
-            });
+    var arrFiles=[];
+    function readFile(el, file, size, res) {
+        //var obj=$.extend(res,{size:size});
+        //arrFile.push(obj);
+        for(var i=0;i<res.length;i++){
+            var obj=$.extend(res[i],{size:file[i].size,url:res[i].fileAddress});
+            arrFiles.push(obj);
+        }
+        util.fetchTpl("picture-img","subtpl/picItem.html",{"picList":arrFiles});
+        $(".load,.load-text").hide(); //隐藏正在上传图片
+        scrollBottom(); //回到底部
+        addItem(); //插入一个添加按钮
+
+        //设置默认尺寸
+        for(var j=0;j<arrFiles.length;j++){
+            rSize("a"+arrFiles[j].id, arrFiles[j].size); //推荐尺寸
         }
     }
     //上传图片
-    function upFile(el, file) {
+    function upFile(el, file,size) {
         $(el).parents("form").ajaxSubmit({
-            url: g_baseUrl + 'uploadPic', //上传图片http://www.sumaophoto.net/webChat/uploadPic
+            url: g_baseUrl + 'uploadMultiplePic', //上传图片http://www.sumaophoto.net/webChat/uploadPic   uploadMultiplePic
             iframe: true,
-            dataType: "TEXT",
+            dataType: "JSON",
             beforeSubmit: function() {
                 $(".load,.load-text").show(); //显示正在上传图片
             },
             success: function(res) {
-                if (res != "upload_failed_first") {
-                    if (res != "upload_failed_second") {
-                        if (res != "upload_failed_third") {
-                            readFile(el, file, res); //显示图片
-                        } else {
-                            layer.alert('上传失败', {
-                                closeBtn: 0
-                            });
-                        }
-                    } else {
-                        layer.alert('该图片上传失败！', {
-                            closeBtn: 0
-                        });
-                    }
+                //count++;
+                if (res&&res.length>=1) {
+                    readFile(el, file, size||0, res); //显示图片
                 } else {
-                    layer.alert('图片上传失败！', {
-                        closeBtn: 0
-                    });
+                    layer.msg('图片上传失败！');
+                    $(".load,.load-text").hide(); //隐藏正在上传图片
                 }
             },
             error: function(arg1, arg2, ex) {
-                layer.alert('此图片上传失败！', {
-                    closeBtn: 0
-                });
+                //count++;
+                layer.msg('此图片上传失败！');
+                $(".load,.load-text").hide(); //隐藏正在上传图片
             }
         });
     }
     //触发上传
     $(".box").on("change", "input", function() {
         var This = $(this);
+       
         if (This.val()) {
-            var file = This[0].files[0];
-            if (/image\/\w+/.test(file.type)) {
+            var file = This[0].files;
+            //count=0;//初始化
+            //countUp=file.length;//最大长度
+            //var file = This[0].files[0];
+            if (checkTypeImage(file)) {
+                //for(var i=0;i<file.length;i++){
+                  //  upFile(This,file[i],file[i].size);
+                //}
                 upFile(This, file); //上传图片
             } else {
                 layer.alert('请确保文件为图像类型', {
@@ -221,6 +221,17 @@ var imgMag = function() {
             }
         }
     });
+    //检查文件类型
+    function checkTypeImage(file){
+        for(var i=0;i<file.length;i++){
+            if(/image\/\w+/.test(file[i].type)){
+
+            }else{
+                return false;    
+            }
+        }
+        return true;
+    }
     //删除图片
     function removeImg(el) {
         el.parents("li").remove();
@@ -240,6 +251,9 @@ var imgMag = function() {
         $.post(g_baseUrl + 'deletePic', { 'fileId': Id }, function(data) {
             if (data != 'false') { //false
                 removeImg(This);
+                //将本地数据del
+                //arrFiles
+                arrFiles = util.removeObjWithArr(arrFiles,Id);
             } else {
                 layer.alert('删除失败', {
                     closeBtn: 0
@@ -247,7 +261,33 @@ var imgMag = function() {
             }
         }, "text");
     });
+    /**
+     * 页面加载失败重新加载
+     * @param  e [description]
+     * @return   [description]
+     */
+    window.onerror_=function(e){
+       var that = e;
+       var src=that.src;
+       var len=src.split("?").length;
+       if(len>8){
+            that.src="images/photo.png";
+            that.onerror=null;
+       }else{
+          setTimeout(function(){
+            that.src=src+"?a="+new Date().getTime();
+            setTimeout(function(){
+                setTotal(); //初始化
+                setTotalAll(); //初始化
+                scrollBottom(); //回到底部
+            },200);
+          },700);
+       }
+    }
 }();
+
+
+
 /**
  * 获取openId
  * @return [description]
@@ -256,7 +296,7 @@ function onload() {
     var g_body_page = $("body");
     if (util.getSessionKey("openID")) {
         util.sendAjax({
-            url: g_baseUrl + "queryGoodsPrice",
+            url: g_baseUrl + "queryWaresPrice",
             data: {}
         }).done(function(data) {
             g_price = data;
@@ -282,12 +322,12 @@ function onload() {
             }
         }).done(function() {
             util.sendAjax({
-                url: g_baseUrl + "queryGoodsPrice",
+                url: g_baseUrl + "queryWaresPrice",
                 data: {}
             }).done(function(data) {
                 g_price = data;
             }).fail(function() {
-                alert("请重试")
+                layer.msg("请重试");
                     //window.location.reload();
             });
         }).fail(function() {
@@ -317,7 +357,7 @@ var submitOrder = function() {
                 var ThisSize = $(this).find("dd.curr").attr("data-value"); //尺寸
                 //obj={id:ThisId,nub:ThisVal,size:ThisSize};
                 var c = "c" + ThisSize;
-                price += g_price[c] * parseInt(ThisVal); //计算价格
+                price += 100*g_price.goods[c] * parseInt(ThisVal); //计算价格
                 obj = ThisId + "," + ThisVal + "," + ThisSize;
                 if (listArray) {
                     listArray = listArray + "|" + obj;
@@ -333,14 +373,16 @@ var submitOrder = function() {
             This.addClass("curr");
             util.sendAjax({
                 url: g_baseUrl + "createOrder",
-                data: { "fileIds": listArray, openID: util.getSessionKey("openID"), orderAmt: parseInt(price * 100) }
+                data: { "fileIds": listArray, openID: util.getSessionKey("openID"), orderAmt: parseInt(price)}
             }).done(function(data) {
-                if (!data||data.success=="false") {
+                if (!data||!data.success) {
                     Flg = true;
                     This.removeClass("curr");
                     alert("订单生成失败！请重新操作");
+                    return;
                 } else {
                     Flg = true;
+                    util.setSessionKey("freightAmt",parseInt(g_price.freightAmt*100));
                     window.location.href = "confirmOrder2.html?o=" + data.result; //页面跳转
                 }
             }).fail(function() {

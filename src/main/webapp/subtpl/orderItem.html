@@ -27,16 +27,23 @@
                         <p><span>6寸</span> ×{$T.order.desc[0]}</p>
                         {#/if}
                     </div> -->
-                    {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"||$T.order.state=="ORDER_FAIL"}
+                    {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"}
                     <div class="col2">未支付</div>
+                    {#elseif $T.order.state=="ORDER_FAIL"}
+                    <div class="col2">已失效</div>
                     {#elseif $T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"}
                     <div class="col2">已支付</div>
                     {#elseif $T.order.state=="DELIVERY_SUCCESS"}
                     <div class="col2">已收货</div>
                     {#/if}
-                    <div class="col3">￥{$T.order.price/100}</div>
+                    {#if $T.order.state=="INIT"}
+                        <div class="col3">￥{(parseInt($T.order.price)+parseInt($T.freightAmt))/100}</div>
+                    {#else}
+                        <div class="col3">￥{$T.order.price/100}</div>
+                    {#/if}
+                    
                     <!-- 未支付 -->
-                    {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"||$T.order.state=="ORDER_FAIL"}
+                    {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"}
                     <div class="col4">
                         <a href="javascript:void(0);" data-id="{$T.order.orderNo}" data-price="{$T.order.price}" data-shopId="{$T.order.shopId}" data-state="{$T.order.state}" data-addressId="{$T.order.addressId}" class="blue-color payNow">立即支付</a>
                     </div>
