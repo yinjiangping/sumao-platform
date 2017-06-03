@@ -1,8 +1,14 @@
 package team.yqby.platform.controller;
 
+import com.qiniu.common.Config;
+import com.qiniu.storage.UploadManager;
+import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jettison.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +19,10 @@ import team.yqby.platform.base.res.PaySignRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.ErrorCodeEnum;
 import team.yqby.platform.config.ApiUrls;
+import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.service.FlowTicketService;
+
+import javax.crypto.Mac;
 
 @Slf4j
 @Controller
@@ -60,5 +69,18 @@ public class FlowTicketController {
             return new Response<>(ServiceErrorCode.ERROR_CODE_A10009);
         }
     }
+
+    @RequestMapping(value = ApiUrls.GET_UPLOAD_TOKEN)
+    @ResponseBody
+    public Response<String> makeToken() {
+        try {
+            Auth auth = Auth.create(PublicConfig.ACCESS_KEY, PublicConfig.SECRET_KEY);
+            return new Response(auth.uploadToken(PublicConfig.BUCKET_NAME));
+        } catch (Exception e) {
+            log.error("makeToken exception,error", e);
+            return new Response<>(ServiceErrorCode.ERROR_CODE_A10009);
+        }
+    }
+
 
 }

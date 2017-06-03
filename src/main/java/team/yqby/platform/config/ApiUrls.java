@@ -16,6 +16,9 @@ public class ApiUrls {
     //查询支付签名
     public static final String PAY_SIGN="/paySign";
 
+    //获取七牛云授权TOKEN
+    public static final String GET_UPLOAD_TOKEN="/getUploadToken";
+
     //创建支付订单
     public static final String CREATE_ORDER_URL="/createOrder";
 

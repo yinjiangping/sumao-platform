@@ -33,4 +33,10 @@ public class PublicConfig {
 
     public static final String GOODS_REDIS_KEY="redis_goodsPrice";
 
+    public static final String ACCESS_KEY = "WVDvbwpHUuosKYdpqzkQUpelbMRyoi37j4I2taVq";
+
+    public static final String SECRET_KEY = "WamqNPWQBYAyDg4cXyZ00KAm0V22hqpqQ9s0qqG3";
+
+    public static final String BUCKET_NAME = "sumao-upload";
+
 }

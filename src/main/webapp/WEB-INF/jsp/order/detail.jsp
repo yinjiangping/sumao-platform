@@ -32,9 +32,9 @@
                 $("#rAddress").html(json.receiveAddress);
                 $("#showData").html(json.expressInfo);
                 var htmlContext = "<br><br><table class='result-tab' width='100%'>"
-                var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td></tr>"
+                var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td><td>操作</td></tr>"
                 $.each(json.imagesResList, function (index, item) {
-                    htmlContext += "<tr><td><img style='width:70px;height:50px;' src='" + item.img + "' /></td><td>" + item.price + "</td><td>"+item.picSize+"</td><td>"+item.number+"</td></tr>"
+                    htmlContext += "<tr><td><img style='width:70px;height:50px;' src='" + item.img + "' /></td><td>" + item.price + "</td><td>" + item.picSize + "</td><td>" + item.number + "</td><td><input class='btn btn4 border-back text-big input-big' onclick= downloadImage('"+item.img+"') value='下载' type=button /></td></tr>"
                 });
                 $("#list").html(htmlContext);
             },
@@ -43,18 +43,26 @@
             }
         });
     }
+    function downloadImage(src) {
+        var a = $("<a></a>").attr("href", src).attr("download", "img.png").appendTo("body");
+        a[0].click();
+        a.remove();
+    }
 </script>
 <div class="main-wrap">
 
     <div class="crumb-wrap">
-        <div class="crumb-list"><i class="icon-font"></i><pan class="crumb-name">首页</span><span class="crumb-step">&gt;</span><span class="crumb-name">订单管理</span><span
-                class="crumb-step">&gt;</span><span>订单详情</span></div>
+        <div class="crumb-list"><i class="icon-font"></i>
+            <pan class="crumb-name">首页</span><span class="crumb-step">&gt;</span><span
+                    class="crumb-name">订单管理</span><span
+                    class="crumb-step">&gt;</span><span>订单详情</span>
+        </div>
     </div>
     <div class="result-wrap">
         <div class="result-content">
             <form action="" method="post" id="myform" name="myform"
                   enctype="multipart/form-data">
-                <table  class='result-tab' width="100%" border="1" cellspacing="0" cellpadding="0"
+                <table class='result-tab' width="100%" border="1" cellspacing="0" cellpadding="0"
                        style="border-collapse:collapse">
                     <tbody>
                     <tr>
@@ -116,7 +124,8 @@
                 </div>
                 <br>
                 <span id="showData"></span>
-                <H5 align="center"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回" type="button"></H5>
+                <H5 align="center"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
+                                          value="返回" type="button"></H5>
             </form>
         </div>
     </div>
