@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common.css"/>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css"/>
 
-<body onload="showData('','',document.getElementById('startDate').value,document.getElementById('endDate').value)">
+<body onload="showData(document.getElementById('orderNo').value,document.getElementById('process').value,document.getElementById('startDate').value,document.getElementById('endDate').value)">
 <script type="text/javascript">
 
     function operaRequest(ips) {
@@ -24,7 +24,7 @@
     function submitFrom(ips) {
         htmlobj = $.ajax({url: $(ips).attr("label"), async: false});
         alert(htmlobj.responseText);
-        showData('');
+        showData(document.getElementById('orderNo').value, document.getElementById('process').value, document.getElementById('startDate').value, document.getElementById('endDate').value);
     }
 
     function showData(orderNo, process, startDate, endDate) {
@@ -59,9 +59,9 @@
             var state = json[index].state;
             var createTime = json[index].createTime;
             var putOrderTime = json[index].putOrderTime;
-            htmlContext += "<tr><td>" + orderNo + "</td><td>" + price + "</td><td>"+getOrderStatus(state)+"</td><td>"+createTime+"</td><td>"+putOrderTime+"</td><td>"
+            htmlContext += "<tr><td>" + orderNo + "</td><td>" + price + "</td><td>" + getOrderStatus(state) + "</td><td>" + createTime + "</td><td>" + putOrderTime + "</td><td>"
             var requestParam = '?pageId=1011&pageUrl=order/edit&orderNo=' + orderNo
-            if(state == "DELIVERY_FAIL" || state == "PAY_SUCCESS"){
+            if (state == "DELIVERY_FAIL" || state == "PAY_SUCCESS") {
                 htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
             }
             var requestParam = '?pageId=1011&pageUrl=order/detail&orderNo=' + orderNo
@@ -71,21 +71,21 @@
         $("#list").html(htmlContext);
     }
 
-    function getOrderStatus(state){
+    function getOrderStatus(state) {
         var orderState = "未知"
-        if(state == "INIT"){
-            orderState = "初始化"
-        }else if(state == "WAIT_PAY"){
+        if (state == "INIT") {
+            orderState = "初始状态"
+        } else if (state == "WAIT_PAY") {
             orderState = "下单成功"
-        }else if(state == "ORDER_FAIL"){
+        } else if (state == "ORDER_FAIL") {
             orderState = "下单失败"
-        }else if(state == "PAY_SUCCESS"){
+        } else if (state == "PAY_SUCCESS") {
             orderState = "支付成功"
-        }else if(state == "PAY_FAIL"){
+        } else if (state == "PAY_FAIL") {
             orderState = "支付失败"
-        }else if(state == "DELIVERY_SUCCESS"){
+        } else if (state == "DELIVERY_SUCCESS") {
             orderState = "已发货"
-        }else if(state == "DELIVERY_FAIL"){
+        } else if (state == "DELIVERY_FAIL") {
             orderState = "发货失败"
         }
         return orderState;
@@ -144,16 +144,18 @@
                     <tr>
                         <td>开始日期:</td>
                         <td>
-                            <input id="startDate" class="common-text Wdate" name="startDate" value="<%=DateUtil.getDateAfter(0)%>"
+                            <input id="startDate" class="common-text Wdate" name="startDate"
+                                   value="<%=DateUtil.getDateAfter(0)%>"
                                    type="text"
                                    onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})"
-                                   >
+                                    >
                         </td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td>结束日期:</td>
                         <td>
-                            <input id="endDate" class="common-text Wdate" name="endDate" value="<%=DateUtil.getDateAfter(0)%>"
+                            <input id="endDate" class="common-text Wdate" name="endDate"
+                                   value="<%=DateUtil.getDateAfter(0)%>"
                                    type="text"
                                    onClick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
                         </td>

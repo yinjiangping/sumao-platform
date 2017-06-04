@@ -133,14 +133,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderDetailRes.setOrderAmt(MoneyUtil.changeF2Y(tOrder.getOrderamt()));
         orderDetailRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
         orderDetailRes.setState(ProcessEnum.getOrderStatus(tOrder.getProcess()));
-        TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-        orderDetailRes.setReceiveAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-        orderDetailRes.setReceiveName(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryName()));
-        orderDetailRes.setReceivePhone(tDeliveryAddress.getDeliveryTel());
-        TShop tShop = tShopMapper.selectByPrimaryKey(tOrder.getShopid());
-        orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
-        orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
-        orderDetailRes.setSendPhone(tShop.getShopPhone());
+        if (!tOrder.getProcess().equals(ProcessEnum.INIT.getCode())) {
+            TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
+            orderDetailRes.setReceiveAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
+            orderDetailRes.setReceiveName(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryName()));
+            orderDetailRes.setReceivePhone(tDeliveryAddress.getDeliveryTel());
+            TShop tShop = tShopMapper.selectByPrimaryKey(tOrder.getShopid());
+            orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
+            orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
+            orderDetailRes.setSendPhone(tShop.getShopPhone());
+        }
+
         TFileExample tFileExample = new TFileExample();
         tFileExample.createCriteria().andOrderIdEqualTo(tOrder.getOrderno());
         List<TFile> tFiles = tFileMapper.selectByExample(tFileExample);

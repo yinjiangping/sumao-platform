@@ -71,7 +71,6 @@ public class PayOrderManager {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
 
-
         String orderNo = NumberUtil.getOrderNoRandom();
         TOrder tOrder = new TOrder();
         tOrder.setOrderno(orderNo);
