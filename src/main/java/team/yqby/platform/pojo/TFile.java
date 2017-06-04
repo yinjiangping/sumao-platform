@@ -23,6 +23,12 @@ public class TFile {
 
     private Date updatetime;
 
+    private Long fileNum;
+
+    private Long fileSize;
+
+    private String singlePrice;
+
     public Long getId() {
         return id;
     }
@@ -101,5 +107,29 @@ public class TFile {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public Long getFileNum() {
+        return fileNum;
+    }
+
+    public void setFileNum(Long fileNum) {
+        this.fileNum = fileNum;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public String getSinglePrice() {
+        return singlePrice;
+    }
+
+    public void setSinglePrice(String singlePrice) {
+        this.singlePrice = singlePrice == null ? null : singlePrice.trim();
     }
 }

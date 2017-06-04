@@ -30,11 +30,12 @@ public enum ServiceErrorCode {
     ERROR_CODE_A20005("A20005", "默认收获地址已设置"),
     ERROR_CODE_A20006("A20006", "收货地址不存在"),
     ERROR_CODE_A20007("A20007", "收货地址已被使用"),
+    ERROR_CODE_A20008("A20008", "上传授权码无效"),
 
     ERROR_CODE_A10012("A10012", "用户名不存在"),
     ERROR_CODE_A10013("A10013", "用户名或密码有误"),
 
-    ERROR_CODE_F99999("F99999", "服务器繁忙，请稍后重试!"),
+    ERROR_CODE_F99999("F99999", "服务器在打瞌睡，请稍后重试!"),
     ERROR_CODE_F88888("F88888", "正在受理请求中"),
     ERROR_CODE_F777777("F77777", "当前无法操作");
     private String resCode;

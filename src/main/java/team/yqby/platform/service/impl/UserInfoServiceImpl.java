@@ -42,6 +42,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         if(!tUser.getPassword().equals(MD5Util.MD5Encode(userPwd))){
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10013);
         }
+        //查询角色信息
+
+
         TUserInfo tUserInfo = new TUserInfo();
         //查询门店信息
         TShopExample tShopExample = new TShopExample();

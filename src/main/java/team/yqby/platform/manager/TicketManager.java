@@ -25,7 +25,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class FlowTicketManager {
+public class TicketManager {
 
     /**
      * 根据code获取openID

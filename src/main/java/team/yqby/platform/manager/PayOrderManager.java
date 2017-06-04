@@ -49,8 +49,6 @@ public class PayOrderManager {
      */
     public String createPayOrder(String openID, String orderAmt, String fileIds) {
         String[] fileIdArr = StringUtils.split(fileIds, "|");
-        String businessInfo = "";
-        List<String> businessList = new ArrayList<>();
         Long pTotalAmt = 0L;
         Map<String, String> goodsMap = JSON.parseObject(redisService.get(PublicConfig.GOODS_REDIS_KEY), GoodsRes.class).getGoods();
         for (String fileInfo : fileIdArr) {
@@ -59,15 +57,21 @@ public class PayOrderManager {
             String picNum = files[1];
             String picSize = files[2];
             String picSinglePrice = goodsMap.get(Joiner.on("").join("c", picSize));
-            String picUrl = tFileMapper.selectByPrimaryKey(picId).getFileAddress();
-            businessInfo = Joiner.on(",").join(picId, picNum, picSize, picSinglePrice, picUrl);
-            businessList.add(businessInfo);
+            TFile tFile = new TFile();
+            tFile.setFileNum(Long.valueOf(picNum));
+            tFile.setFileSize(Long.valueOf(picSize));
+            tFile.setSinglePrice(MoneyUtil.changeY2F(picSinglePrice));
+            TFileExample tFileExample = new TFileExample();
+            tFileExample.createCriteria().andIdEqualTo(picId);
+            tFileMapper.updateByExampleSelective(tFile,tFileExample);
             pTotalAmt += Long.valueOf(picNum) * Long.valueOf(MoneyUtil.changeY2F(picSinglePrice));
         }
         //商品价格校验
         if (!StringUtils.equals(String.valueOf(pTotalAmt), orderAmt)) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
+
+
         String orderNo = NumberUtil.getOrderNoRandom();
         TOrder tOrder = new TOrder();
         tOrder.setOrderno(orderNo);
@@ -78,7 +82,6 @@ public class PayOrderManager {
         tOrder.setUpdatetime(new Date());
         tOrder.setIsPay(PayFlagEnum.N.getCode());
         tOrder.setProcess(ProcessEnum.INIT.getCode());
-        tOrder.setDeliveryinfo(Joiner.on("@").join(businessList));
         int i = tOrderMapper.insert(tOrder);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);
@@ -102,7 +105,7 @@ public class PayOrderManager {
             String[] files = StringUtils.split(fs, ",");
             longList.add(Long.valueOf(files[0]));
         }
-        tFileExample.createCriteria().andIdIn(longList);
+        tFileExample.createCriteria().andIdIn(longList).andOrderIdEqualTo("");
         int i = tFileMapper.updateByExampleSelective(tFile, tFileExample);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);

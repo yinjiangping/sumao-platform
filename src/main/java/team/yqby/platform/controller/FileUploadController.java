@@ -2,6 +2,7 @@ package team.yqby.platform.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import team.yqby.platform.base.Response;
+import team.yqby.platform.base.TUserInfo;
 import team.yqby.platform.base.res.GoodsRes;
 import team.yqby.platform.base.res.SinglePicRes;
+import team.yqby.platform.common.constant.SystemConstant;
+import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.PicPriceType;
 import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.config.PublicConfig;
+import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.pojo.TFile;
 import team.yqby.platform.service.IRedisService;
+import team.yqby.platform.service.TFileService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
@@ -35,6 +42,8 @@ public class FileUploadController {
     private final static String localPath = "/www/web/upload/";
     @Autowired
     private IRedisService iRedisService;
+    @Autowired
+    private TFileService tFileService;
 
     @RequestMapping(value = ApiUrls.UPLOAD_PIC)
     @ResponseBody
@@ -65,6 +74,9 @@ public class FileUploadController {
                 TFile tFile = new TFile();
                 tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
                 tFile.setFileName(fileName);
+                tFile.setFileNum(0L);
+                tFile.setFileSize(0L);
+                tFile.setSinglePrice("0");
                 tFile.setCreatetime(new Date());
                 tFile.setUpdatetime(new Date());
                 tFileMapper.insertSelective(tFile);
@@ -140,6 +152,9 @@ public class FileUploadController {
                 TFile tFile = new TFile();
                 tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
                 tFile.setFileName(fileName);
+                tFile.setFileNum(0L);
+                tFile.setFileSize(0L);
+                tFile.setSinglePrice("0");
                 tFile.setCreatetime(new Date());
                 tFile.setUpdatetime(new Date());
                 tFileMapper.insertSelective(tFile);
@@ -180,23 +195,6 @@ public class FileUploadController {
         return false;
     }
 
-
-    /**
-     * 查询商品价格
-     *
-     * @param openID 用户编号
-     * @return
-     */
-    @RequestMapping(value = ApiUrls.QUERY_GOODS_PRICE)
-    @ResponseBody
-    public Map<String, String> queryPrice(String openID) {
-        Map<String, String> priceMap = new HashMap<>();
-        for (PicPriceType picPriceType : PicPriceType.values()) {
-            priceMap.put(picPriceType.getPicMark(), picPriceType.getPicPrice());
-        }
-        return priceMap;
-    }
-
     /**
      * 查询商品价格
      *
@@ -212,5 +210,32 @@ public class FileUploadController {
             goodsRes = JSON.parseObject(redisGoodsPrice, GoodsRes.class);
         }
         return goodsRes;
+    }
+
+    /**
+     * 上传图片信息
+     *
+     * @param openID      用户编号
+     * @param uploadToken 上传token
+     * @return
+     */
+    @RequestMapping(value = ApiUrls.UPLOAD_PIC_INFO)
+    @ResponseBody
+    public Response<Long> uploadPicInfo(String openID, String uploadToken, String fileName) {
+        try {
+            log.info("uploadPicInfo started, request ");
+            String redisOpenId = iRedisService.get(uploadToken.split(":")[1]);
+            if (!openID.equals(redisOpenId)) {
+                return new Response<>(ServiceErrorCode.ERROR_CODE_A20008);
+            }
+            Long id = tFileService.uploadFileInfo(fileName);
+            log.info("uploadPicInfo finished,result:{}", id);
+            return new Response<>(id);
+        } catch (Exception e) {
+            log.error(" uploadPicInfo meet error, response:{}", Throwables.getStackTraceAsString(e));
+            return new Response<>(ServiceErrorCode.ERROR_CODE_F99999);
+        }
+
+
     }
 }

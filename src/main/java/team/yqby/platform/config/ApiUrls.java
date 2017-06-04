@@ -37,8 +37,8 @@ public class ApiUrls {
     //删除图片
     public static final String DELETE_PIC="/deletePic";
 
-    //查询商品价格
-    public static final String QUERY_GOODS_PRICE="/queryGoodsPrice";
+    //上传图片信息
+    public static final String UPLOAD_PIC_INFO="/uploadPicInfo";
 
     //查询商品价格
     public static final String QUERY_WARES_PRICE="/queryWaresPrice";

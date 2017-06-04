@@ -12,6 +12,9 @@
     <result column="updateBy" property="updateby" jdbcType="BIGINT" />
     <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="file_num" property="fileNum" jdbcType="BIGINT" />
+    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+    <result column="single_price" property="singlePrice" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -73,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, file_address, file_name, order_id, createBy, createByName, createTime, updateBy, 
-    updateByName, updateTime
+    updateByName, updateTime, file_num, file_size, single_price
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TFileExample" >
     select
@@ -109,13 +112,15 @@
     insert into t_file (id, file_address, file_name, 
       order_id, createBy, createByName, 
       createTime, updateBy, updateByName, 
-      updateTime)
+      updateTime, file_num, file_size, 
+      single_price)
     values (#{id,jdbcType=BIGINT}, #{fileAddress,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{orderId,jdbcType=VARCHAR}, #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, 
-      #{updatetime,jdbcType=TIMESTAMP})
+      #{updatetime,jdbcType=TIMESTAMP}, #{fileNum,jdbcType=BIGINT}, #{fileSize,jdbcType=BIGINT}, 
+      #{singlePrice,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TFile" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TFile" useGeneratedKeys="true" keyProperty="id">
     insert into t_file
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +153,15 @@
       <if test="updatetime != null" >
         updateTime,
       </if>
+      <if test="fileNum != null" >
+        file_num,
+      </if>
+      <if test="fileSize != null" >
+        file_size,
+      </if>
+      <if test="singlePrice != null" >
+        single_price,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -179,6 +193,15 @@
       </if>
       <if test="updatetime != null" >
         #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileNum != null" >
+        #{fileNum,jdbcType=BIGINT},
+      </if>
+      <if test="fileSize != null" >
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="singlePrice != null" >
+        #{singlePrice,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +244,15 @@
       <if test="record.updatetime != null" >
         updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.fileNum != null" >
+        file_num = #{record.fileNum,jdbcType=BIGINT},
+      </if>
+      <if test="record.fileSize != null" >
+        file_size = #{record.fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="record.singlePrice != null" >
+        single_price = #{record.singlePrice,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +269,10 @@
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateBy = #{record.updateby,jdbcType=BIGINT},
       updateByName = #{record.updatebyname,jdbcType=VARCHAR},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      file_num = #{record.fileNum,jdbcType=BIGINT},
+      file_size = #{record.fileSize,jdbcType=BIGINT},
+      single_price = #{record.singlePrice,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +307,15 @@
       <if test="updatetime != null" >
         updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
+      <if test="fileNum != null" >
+        file_num = #{fileNum,jdbcType=BIGINT},
+      </if>
+      <if test="fileSize != null" >
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="singlePrice != null" >
+        single_price = #{singlePrice,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -285,7 +329,10 @@
       createTime = #{createtime,jdbcType=TIMESTAMP},
       updateBy = #{updateby,jdbcType=BIGINT},
       updateByName = #{updatebyname,jdbcType=VARCHAR},
-      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      file_num = #{fileNum,jdbcType=BIGINT},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      single_price = #{singlePrice,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

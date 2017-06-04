@@ -1,6 +1,7 @@
 package team.yqby.platform.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import team.yqby.platform.base.TUserInfo;
@@ -17,17 +18,16 @@ public class SessionInterceptor implements HandlerInterceptor {
     /**
      * 过滤不校验session接口列表*
      */
-    private String noCheck = "/js/.*|/css/.*|/image/.*|/style/.*|/login.jsp|/WEB-INF/.|error|.jsp|.txt|.html|.jpeg|.png|.gif|/queryOpenID|/paySign||/uploadPic|/deletePic|/createOrder|/confirmOrder|/payCallBack|/queryGoodsPrice|/editAddress|/addAddress|/delAddress|/queryAddress|/confirmOrder|/createOrder|/queryOrder|/queryShop|/uploadMultiplePic|/queryWaresPrice|/getUploadToken";
+    private String noCheck = "/js/.*|/css/.*|/image/.*|/style/.*|/login.jsp|/WEB-INF/.|error|.jsp|.txt|.html|.jpeg|.png|.gif|/queryOpenID|/paySign|/uploadPic|/deletePic|/createOrder|/confirmOrder|/payCallBack|/editAddress|/addAddress|/delAddress|/queryAddress|/confirmOrder|/createOrder|/queryOrder|/queryShop|/uploadMultiplePic|/queryWaresPrice|/getUploadToken";
 
     private static final String LOGIN_URL = "/login";
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                             Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String visitUri = request.getRequestURI();
         String contextPath = request.getContextPath();
         visitUri = visitUri.replace(contextPath, "");
-
+        visitUri = StringUtils.contains(visitUri, "\\?") ? visitUri.split("\\?")[0] : visitUri;
         HttpSession session = request.getSession(true);
         Pattern p = Pattern.compile(noCheck);
         if (p.matcher(visitUri).find()) {
@@ -44,7 +44,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         }
 
         TUserInfo tUserInfo = (TUserInfo) session.getAttribute(SystemConstant.SESSION_USER);
-        if( "/".equals(visitUri)){
+        if ("/".equals(visitUri)) {
             return true;
         }
         if (tUserInfo == null) {
@@ -52,6 +52,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             response.sendRedirect(request.getSession().getServletContext().getContextPath() + LOGIN_URL);
             return false;
         }
+        session.setAttribute(SystemConstant.SESSION_USER, tUserInfo);
         log.info("登陆账号：{}，SESSION验证通过！", tUserInfo.getUsername());
         return true;
     }

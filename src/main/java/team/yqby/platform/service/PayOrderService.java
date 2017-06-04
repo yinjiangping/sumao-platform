@@ -1,6 +1,5 @@
 package team.yqby.platform.service;
 
-import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yqby.platform.base.req.PayConfirmReq;
@@ -8,8 +7,6 @@ import team.yqby.platform.base.req.PayNotifyReq;
 import team.yqby.platform.base.req.PayOrderReq;
 import team.yqby.platform.base.res.PayConfirmRes;
 import team.yqby.platform.base.res.PayNotifyRes;
-import team.yqby.platform.base.res.PayOrderRes;
-import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.common.util.WeChatXmlUtil;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.manager.PayOrderManager;

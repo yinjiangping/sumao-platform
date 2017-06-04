@@ -754,6 +754,196 @@ public class TFileExample {
             addCriterion("updateTime not between", value1, value2, "updatetime");
             return (Criteria) this;
         }
+
+        public Criteria andFileNumIsNull() {
+            addCriterion("file_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumIsNotNull() {
+            addCriterion("file_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumEqualTo(Long value) {
+            addCriterion("file_num =", value, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumNotEqualTo(Long value) {
+            addCriterion("file_num <>", value, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumGreaterThan(Long value) {
+            addCriterion("file_num >", value, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumGreaterThanOrEqualTo(Long value) {
+            addCriterion("file_num >=", value, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumLessThan(Long value) {
+            addCriterion("file_num <", value, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumLessThanOrEqualTo(Long value) {
+            addCriterion("file_num <=", value, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumIn(List<Long> values) {
+            addCriterion("file_num in", values, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumNotIn(List<Long> values) {
+            addCriterion("file_num not in", values, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumBetween(Long value1, Long value2) {
+            addCriterion("file_num between", value1, value2, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileNumNotBetween(Long value1, Long value2) {
+            addCriterion("file_num not between", value1, value2, "fileNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeIsNull() {
+            addCriterion("file_size is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeIsNotNull() {
+            addCriterion("file_size is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeEqualTo(Long value) {
+            addCriterion("file_size =", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeNotEqualTo(Long value) {
+            addCriterion("file_size <>", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeGreaterThan(Long value) {
+            addCriterion("file_size >", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeGreaterThanOrEqualTo(Long value) {
+            addCriterion("file_size >=", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeLessThan(Long value) {
+            addCriterion("file_size <", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeLessThanOrEqualTo(Long value) {
+            addCriterion("file_size <=", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeIn(List<Long> values) {
+            addCriterion("file_size in", values, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeNotIn(List<Long> values) {
+            addCriterion("file_size not in", values, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeBetween(Long value1, Long value2) {
+            addCriterion("file_size between", value1, value2, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeNotBetween(Long value1, Long value2) {
+            addCriterion("file_size not between", value1, value2, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceIsNull() {
+            addCriterion("single_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceIsNotNull() {
+            addCriterion("single_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceEqualTo(String value) {
+            addCriterion("single_price =", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceNotEqualTo(String value) {
+            addCriterion("single_price <>", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceGreaterThan(String value) {
+            addCriterion("single_price >", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceGreaterThanOrEqualTo(String value) {
+            addCriterion("single_price >=", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceLessThan(String value) {
+            addCriterion("single_price <", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceLessThanOrEqualTo(String value) {
+            addCriterion("single_price <=", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceLike(String value) {
+            addCriterion("single_price like", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceNotLike(String value) {
+            addCriterion("single_price not like", value, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceIn(List<String> values) {
+            addCriterion("single_price in", values, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceNotIn(List<String> values) {
+            addCriterion("single_price not in", values, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceBetween(String value1, String value2) {
+            addCriterion("single_price between", value1, value2, "singlePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andSinglePriceNotBetween(String value1, String value2) {
+            addCriterion("single_price not between", value1, value2, "singlePrice");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

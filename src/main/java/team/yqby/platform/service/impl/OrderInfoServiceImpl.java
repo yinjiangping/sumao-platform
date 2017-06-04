@@ -13,12 +13,10 @@ import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.common.util.MoneyUtil;
 import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.mapper.TDeliveryAddressMapper;
+import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.mapper.TOrderMapper;
 import team.yqby.platform.mapper.TShopMapper;
-import team.yqby.platform.pojo.TDeliveryAddress;
-import team.yqby.platform.pojo.TOrder;
-import team.yqby.platform.pojo.TOrderExample;
-import team.yqby.platform.pojo.TShop;
+import team.yqby.platform.pojo.*;
 import team.yqby.platform.service.OrderInfoService;
 
 import java.util.ArrayList;
@@ -33,6 +31,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private TDeliveryAddressMapper tDeliveryAddressMapper;
     @Autowired
     private TShopMapper tShopMapper;
+    @Autowired
+    private TFileMapper tFileMapper;
 
     @Override
     public List<OrderRes> queryAll(String openID, String orderNo) {
@@ -49,16 +49,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderRes.setOrderNo(tOrder.getOrderno());
             orderRes.setPrice(tOrder.getOrderamt());
             orderRes.setState(tOrder.getProcess());
-            String businessInfo = tOrder.getDeliveryinfo();
+            TFileExample tFileExample = new TFileExample();
+            tFileExample.createCriteria().andOrderIdEqualTo(tOrder.getOrderno());
+            List<TFile> tFiles = tFileMapper.selectByExample(tFileExample);
             List<ImagesRes> imagesResList = new ArrayList<>();
-            for (String fileInfo : StringUtils.split(businessInfo, "@")) {
-                String[] fileInfoArr = StringUtils.split(fileInfo, ",");
+            for (TFile tFile : tFiles) {
                 ImagesRes imagesRes = new ImagesRes();
-                imagesRes.setId(Long.valueOf(fileInfoArr[0]));
-                imagesRes.setNumber(fileInfoArr[1]);
-                imagesRes.setPicSize(fileInfoArr[2]);
-                imagesRes.setPrice(fileInfoArr[3]);
-                imagesRes.setImg(fileInfoArr[4]);
+                imagesRes.setId(tFile.getId());
+                imagesRes.setNumber(String.valueOf(tFile.getFileNum()));
+                imagesRes.setPicSize(String.valueOf(tFile.getFileSize()));
+                imagesRes.setPrice(tFile.getSinglePrice());
+                imagesRes.setImg(tFile.getFileAddress());
                 imagesResList.add(imagesRes);
                 orderRes.setImages(imagesResList);
             }
@@ -102,30 +103,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderRes.setOrderNo(tOrder.getOrderno());
             orderRes.setPrice(MoneyUtil.changeF2Y(tOrder.getOrderamt()));
             orderRes.setState(tOrder.getProcess());
-            String businessInfo = tOrder.getDeliveryinfo();
-            List<ImagesRes> imagesResList = new ArrayList<>();
-            for (String fileInfo : StringUtils.split(businessInfo, "@")) {
-                String[] fileInfoArr = StringUtils.split(fileInfo, ",");
-                ImagesRes imagesRes = new ImagesRes();
-                imagesRes.setId(Long.valueOf(fileInfoArr[0]));
-                imagesRes.setNumber(fileInfoArr[1]);
-                imagesRes.setPicSize(fileInfoArr[2]);
-                imagesRes.setPrice(fileInfoArr[3]);
-                imagesRes.setImg(fileInfoArr[4]);
-                imagesResList.add(imagesRes);
-                orderRes.setImages(imagesResList);
-            }
-            if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
-                TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-                if (tDeliveryAddress != null) {
-                    orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-                    orderRes.setAddressId(tDeliveryAddress.getId());
-                }
-            }
+            TFileExample tFileExample = new TFileExample();
+            tFileExample.createCriteria().andOrderIdEqualTo(tOrder.getOrderno());
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
             orderRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
-            orderResList.add(orderRes);
         }
         return orderResList;
     }
@@ -153,18 +135,21 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
         orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
         orderDetailRes.setSendPhone(tShop.getShopPhone());
+        TFileExample tFileExample = new TFileExample();
+        tFileExample.createCriteria().andOrderIdEqualTo(tOrder.getOrderno());
+        List<TFile> tFiles = tFileMapper.selectByExample(tFileExample);
         List<ImagesRes> imagesResList = new ArrayList<>();
-        for (String fileInfo : StringUtils.split(tOrder.getDeliveryinfo(), "@")) {
-            String[] fileInfoArr = StringUtils.split(fileInfo, ",");
+        for (TFile tFile : tFiles) {
             ImagesRes imagesRes = new ImagesRes();
-            imagesRes.setId(Long.valueOf(fileInfoArr[0]));
-            imagesRes.setNumber(fileInfoArr[1]);
-            imagesRes.setPicSize(fileInfoArr[2]);
-            imagesRes.setPrice(fileInfoArr[3]);
-            imagesRes.setImg(fileInfoArr[4]);
+            imagesRes.setId(tFile.getId());
+            imagesRes.setNumber(String.valueOf(tFile.getFileNum()));
+            imagesRes.setPicSize(String.valueOf(tFile.getFileSize()));
+            imagesRes.setPrice(MoneyUtil.changeF2Y(tFile.getSinglePrice()));
+            imagesRes.setImg(tFile.getFileAddress());
             imagesResList.add(imagesRes);
             orderDetailRes.setImagesResList(imagesResList);
         }
+
         orderDetailRes.setExpressInfo(ParamsValidate.strDecode(tOrder.getRemarks()));
         orderDetailRes.setResCode(tOrder.getRescode());
         orderDetailRes.setResDesc(ParamsValidate.strDecode(tOrder.getResdesc()));

@@ -1,14 +1,8 @@
 package team.yqby.platform.controller;
 
-import com.qiniu.common.Config;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.jettison.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,17 +13,15 @@ import team.yqby.platform.base.res.PaySignRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.ErrorCodeEnum;
 import team.yqby.platform.config.ApiUrls;
-import team.yqby.platform.config.PublicConfig;
-import team.yqby.platform.service.FlowTicketService;
+import team.yqby.platform.service.TicketService;
 
-import javax.crypto.Mac;
 
 @Slf4j
 @Controller
-public class FlowTicketController {
+public class TicketController {
 
     @Autowired
-    private FlowTicketService flowTicketService;
+    private TicketService ticketService;
 
     /**
      * @param code
@@ -39,7 +31,7 @@ public class FlowTicketController {
     @ResponseBody
     public Response<FlowOpenIDDto> queryByCode(String code) {
         Response response;
-        Response<String> stringResponse = flowTicketService.queryOpenIDByCode(code);
+        Response<String> stringResponse = ticketService.queryOpenIDByCode(code);
         if (stringResponse.isSuccess()) {
             FlowOpenIDDto flowOpenIDDto = new FlowOpenIDDto();
             flowOpenIDDto.setOpenID(stringResponse.getResult());
@@ -59,7 +51,7 @@ public class FlowTicketController {
     @ResponseBody
     public Response<PaySignRes> paySign(String openID, String url) {
         try {
-            PaySignRes paySignRes = flowTicketService.queryJsApiTicketEnc(openID, url);
+            PaySignRes paySignRes = ticketService.queryJsApiTicketEnc(openID, url);
             if (StringUtils.isEmpty(paySignRes.getSignature())) {
                 return new Response<>(ServiceErrorCode.ERROR_CODE_A10008);
             }
@@ -72,15 +64,14 @@ public class FlowTicketController {
 
     @RequestMapping(value = ApiUrls.GET_UPLOAD_TOKEN)
     @ResponseBody
-    public Response<String> makeToken() {
+    public Response<String> makeToken(String openID) {
         try {
-            Auth auth = Auth.create(PublicConfig.ACCESS_KEY, PublicConfig.SECRET_KEY);
-            return new Response(auth.uploadToken(PublicConfig.BUCKET_NAME));
+           String token = ticketService.getUploadToken(openID);
+            return new Response(token);
         } catch (Exception e) {
             log.error("makeToken exception,error", e);
             return new Response<>(ServiceErrorCode.ERROR_CODE_A10009);
         }
     }
-
 
 }

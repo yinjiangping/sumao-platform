@@ -1,12 +1,15 @@
 package team.yqby.platform.service.impl;
 
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team.yqby.platform.base.req.AddressReq;
 import team.yqby.platform.base.res.AddressRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
+import team.yqby.platform.common.enums.ProcessEnum;
 import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.common.util.ParamsValidate;
 import team.yqby.platform.exception.AutoPlatformException;
@@ -66,14 +69,15 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
         switch (operaFlag) {
             case "del":
                 TOrderExample tOrderExample1 = new TOrderExample();
-                tOrderExample1.createCriteria().andAddressidEqualTo(addressReq.getAddressId());
                 List<TOrder> tOrderList1 = tOrderMapper.selectByExample(tOrderExample1);
-                if(tOrderList1 != null && !tOrderList1.isEmpty()){
+                if (tOrderList1 != null && !tOrderList1.isEmpty()) {
                     throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20007);
                 }
                 TDeliveryAddressExample tDeliveryAddressExample = new TDeliveryAddressExample();
-                tDeliveryAddressExample.createCriteria().andIdEqualTo(addressReq.getAddressId()).andCustomerIdEqualTo(addressReq.getOpenID());
-                tDeliveryAddress.setId(addressReq.getAddressId());
+                List<String> processList1 = new ArrayList<>();
+                processList1.add(ProcessEnum.PAY_SUCCESS.getCode());
+                processList1.add(ProcessEnum.DELIVERY_SUCCESS.getCode());
+                tOrderExample1.createCriteria().andAddressidEqualTo(addressReq.getAddressId()).andProcessIn(processList1);
                 List<TDeliveryAddress> tDeliveryAddressList = tDeliveryAddressMapper.selectByExample(tDeliveryAddressExample);
                 if (tDeliveryAddressList == null || tDeliveryAddressList.isEmpty()) {
                     throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20006);
@@ -91,9 +95,12 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 break;
             case "edit":
                 TOrderExample tOrderExample2 = new TOrderExample();
-                tOrderExample2.createCriteria().andAddressidEqualTo(addressReq.getAddressId());
+                List<String> processList2 = new ArrayList<>();
+                processList2.add(ProcessEnum.PAY_SUCCESS.getCode());
+                processList2.add(ProcessEnum.DELIVERY_SUCCESS.getCode());
+                tOrderExample2.createCriteria().andAddressidEqualTo(addressReq.getAddressId()).andProcessIn(processList2);
                 List<TOrder> tOrderList2 = tOrderMapper.selectByExample(tOrderExample2);
-                if(tOrderList2 != null && !tOrderList2.isEmpty()){
+                if (tOrderList2 != null && !tOrderList2.isEmpty()) {
                     throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20007);
                 }
                 tDeliveryAddress.setId(addressReq.getAddressId());
