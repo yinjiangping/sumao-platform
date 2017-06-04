@@ -1,5 +1,6 @@
 package team.yqby.platform.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yqby.platform.base.req.PayConfirmReq;
@@ -43,14 +44,17 @@ public class PayOrderService {
      * @return
      */
     public PayConfirmRes confirmOrder(PayConfirmReq confirmReq) {
+
+        Long freightAmt = confirmReq.getFreightAmt() == null ? 0L : confirmReq.getFreightAmt();
+
         //1.检查订单(用户与订单关联，下单金额与确认金额)
-        payOrderManager.checkOrder(confirmReq.getOrderAmt(),confirmReq.getFreightAmt(), confirmReq.getOrderNo(), confirmReq.getOpenID());
+        payOrderManager.checkOrder(confirmReq.getOrderAmt(), freightAmt, confirmReq.getOrderNo(), confirmReq.getOpenID());
 
         //2.更新收获地址&门店信息
-        payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo(),confirmReq.getOrderAmt(),confirmReq.getFreightAmt());
+        payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(), freightAmt);
 
         //3.微信下单
-        WeChatXmlUtil weChatXmlUtil = payOrderManager.createWeChatOrder(confirmReq.getOpenID(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(),confirmReq.getFreightAmt());
+        WeChatXmlUtil weChatXmlUtil = payOrderManager.createWeChatOrder(confirmReq.getOpenID(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(), freightAmt);
 
         //4.返回结果转换
         PayConfirmRes payConfirmRes = payOrderManager.resultConversion(weChatXmlUtil);

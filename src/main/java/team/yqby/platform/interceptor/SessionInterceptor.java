@@ -27,7 +27,6 @@ public class SessionInterceptor implements HandlerInterceptor {
         String visitUri = request.getRequestURI();
         String contextPath = request.getContextPath();
         visitUri = visitUri.replace(contextPath, "");
-        visitUri = StringUtils.contains(visitUri, "\\?") ? visitUri.split("\\?")[0] : visitUri;
         HttpSession session = request.getSession(true);
         Pattern p = Pattern.compile(noCheck);
         if (p.matcher(visitUri).find()) {

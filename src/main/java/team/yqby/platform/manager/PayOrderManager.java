@@ -128,7 +128,6 @@ public class PayOrderManager {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
         }
 
-
         if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()) {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
