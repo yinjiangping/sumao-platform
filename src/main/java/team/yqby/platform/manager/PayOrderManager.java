@@ -105,7 +105,7 @@ public class PayOrderManager {
             String[] files = StringUtils.split(fs, ",");
             longList.add(Long.valueOf(files[0]));
         }
-        tFileExample.createCriteria().andIdIn(longList).andOrderIdEqualTo("");
+        tFileExample.createCriteria().andIdIn(longList);
         int i = tFileMapper.updateByExampleSelective(tFile, tFileExample);
         if (i == 0) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10003);
