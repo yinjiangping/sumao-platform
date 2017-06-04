@@ -113,6 +113,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
             orderRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
+            orderResList.add(orderRes);
         }
         return orderResList;
     }
