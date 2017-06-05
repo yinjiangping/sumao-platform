@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import team.yqby.platform.base.Response;
 import team.yqby.platform.base.req.FlowOpenIDDto;
 import team.yqby.platform.base.res.PaySignRes;
+import team.yqby.platform.base.res.UploadTokenRes;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
 import team.yqby.platform.common.enums.ErrorCodeEnum;
 import team.yqby.platform.config.ApiUrls;
@@ -64,13 +65,15 @@ public class TicketController {
 
     @RequestMapping(value = ApiUrls.GET_UPLOAD_TOKEN)
     @ResponseBody
-    public Response<String> makeToken(String openID) {
+    public UploadTokenRes makeToken() {
+        UploadTokenRes uploadTokenRes = new UploadTokenRes();
         try {
-           String token = ticketService.getUploadToken(openID);
-            return new Response(token);
+           String token = ticketService.getUploadToken();
+            uploadTokenRes.setUptoken(token);
+            return uploadTokenRes;
         } catch (Exception e) {
             log.error("makeToken exception,error", e);
-            return new Response<>(ServiceErrorCode.ERROR_CODE_A10009);
+            return uploadTokenRes;
         }
     }
 

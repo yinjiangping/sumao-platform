@@ -67,13 +67,12 @@ public class TicketService {
 
     /***
      * 获取上传授权信息
-     * @param openID
      * @return
      */
-    public String getUploadToken(String openID){
+    public String getUploadToken(){
         Auth auth = Auth.create(PublicConfig.ACCESS_KEY, PublicConfig.SECRET_KEY);
         String uploadToken = auth.uploadToken(PublicConfig.BUCKET_NAME);
-        iRedisService.set(uploadToken.split(":")[1],openID,60 * 45L);
+        iRedisService.set(uploadToken.split(":")[1],uploadToken.split(":")[1],60 * 20L);
         return uploadToken;
     }
 

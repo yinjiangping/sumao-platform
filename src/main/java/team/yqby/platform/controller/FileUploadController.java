@@ -224,8 +224,9 @@ public class FileUploadController {
     public Response<Long> uploadPicInfo(String openID, String uploadToken, String fileName) {
         try {
             log.info("uploadPicInfo started, request ");
-            String redisOpenId = iRedisService.get(uploadToken.split(":")[1]);
-            if (!openID.equals(redisOpenId)) {
+            String uploadTokenStr = iRedisService.get(uploadToken.split(":")[1]);
+            if (!StringUtils.equals(uploadTokenStr, uploadToken.split(":")[1])) {
+                log.error("uploadToken valid fail ,uploadToken:{},uploadTokenStr:{}",uploadToken,uploadTokenStr);
                 return new Response<>(ServiceErrorCode.ERROR_CODE_A20008);
             }
             Long id = tFileService.uploadFileInfo(fileName);
