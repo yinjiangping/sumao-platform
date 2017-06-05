@@ -1,0 +1,25 @@
+{
+    "result": [{
+        "orderNo": "12121",
+        "state": "INIT",
+        "price": "2000",
+        "addressId":"1212",
+        "shopId":"1212",
+        "address": "上海市区上海市区上海市区上海市区上海市区上海市区上海市区上海市区上海市区上海市区",
+        "images": [{
+            "id": "12",
+            "img": "images/small20170519124528707.png",
+            "price": "200",
+            "number": 1
+        }, {
+            "id": "12",
+            "img": "images/small20170519112921346.jpg",
+            "price": "200",
+            "number": 1
+        }]
+        
+ 
+
+    }],
+    "success": true
+}

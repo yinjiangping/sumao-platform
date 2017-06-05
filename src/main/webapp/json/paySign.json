@@ -1,0 +1,11 @@
+{
+    "success": true,
+    "result": {
+        "appId": "",
+        "timeStamp": "",
+        "nonceStr": "",
+        "signature": ""
+    },
+    "errorCode": null,
+    "errorMsg": null
+}

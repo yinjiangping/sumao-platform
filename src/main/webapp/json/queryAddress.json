@@ -1,0 +1,18 @@
+{
+    "result": [{
+        "addressId": "11",
+        "rUserName": "杨静",
+        "rPhone": "13323232323",
+        "rAddress": "上海市区",
+        "zipCode": "12121",
+        "isDefault": "Y"
+    }, {
+        "addressId": "12",
+        "rUserName": "杨静",
+        "rPhone": "13323232323",
+        "rAddress": "上海市区",
+        "zipCode": "12121",
+        "isDefault": "N"
+    }],
+    "success": true
+}

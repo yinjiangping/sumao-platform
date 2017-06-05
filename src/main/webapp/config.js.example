@@ -1,0 +1,8 @@
+module.exports = {
+    'ACCESS_KEY': 'WVDvbwpHUuosKYdpqzkQUpelbMRyoi37j4I2taVq',
+    'SECRET_KEY': 'WamqNPWQBYAyDg4cXyZ00KAm0V22hqpqQ9s0qqG3',
+    'Bucket_Name': 'sumao-upload',
+    'Port': 19110,
+    'Uptoken_Url': 'http://www.sumaophoto.net/webChat/uploadToken',
+    'Domain': 'http://oq8naz2op.bkt.clouddn.com/'
+};
