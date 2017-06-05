@@ -21,7 +21,6 @@ var imgMag = (function() {
         var Thisipt = $(this).siblings(".show-count");
         if (parseInt(Thisipt.text()) !== 1) {
             Thisipt.text(parseInt(Thisipt.text()) - 1);
-            cunt();
             setTotal();
             setTotalAll();
         }
@@ -30,13 +29,9 @@ var imgMag = (function() {
     //增加
     $(".box").on("click", ".btn-plus", function() {
         var Thisipt = $(this).siblings(".show-count");
-        var nub = cunt();
-        if (nub > 0) {
-            Thisipt.text(parseInt(Thisipt.text()) + 1);
-            cunt();
-            setTotal();
-            setTotalAll();
-        }
+        Thisipt.text(parseInt(Thisipt.text()) + 1);
+        setTotal();
+        setTotalAll();
         return false;
     });
     //手动选择尺寸
@@ -94,16 +89,16 @@ var imgMag = (function() {
     });
 
     //还可添加数量
-    // function cunt() {
-    //     var number = 36;
-    //     $(".box li").each(function() {
-    //         if (!$(this).find(".picture").is(":hidden")) {
-    //             number -= Number($(".show-count", $(this)).text());
-    //         }
-    //     });
-    //     $(".box li:last").find(".inner").find("p").text('还可添加' + number + '张相片');
-    //     return number;
-    // }
+     function cunt() {
+         var number = 36;
+         $(".box li").each(function() {
+             if (!$(this).find(".picture").is(":hidden")) {
+                 number -= Number($(".show-count", $(this)).text());
+             }
+         });
+         //$(".box li:last").find(".inner").find("p").text('还可添加' + number + '张相片');
+         return number;
+     }
     //单个商品总金额
     window.setTotal=function() {
         $(".box li").each(function() {
