@@ -119,15 +119,15 @@ public class FileUploadController {
     public GoodsRes queryWaresPrice(String openID) {
         GoodsRes goodsRes = new GoodsRes();
         TGoodsExample example = new TGoodsExample();
+        example.setOrderByClause("id");
         List<TGoods> goodsList = tGoodsMapper.selectByExample(example);
         Map<String, String> goods = new HashMap<>();
         for (TGoods tGoods : goodsList) {
-            goods.put(tGoods.getGoodsName(), MoneyUtil.changeF2Y(tGoods.getGoodsPrice()));
+            goods.put(tGoods.getGoodsDesc(), MoneyUtil.changeF2Y(tGoods.getGoodsPrice()));
         }
         goodsRes.setGoods(goods);
         goodsRes.setFreightAmt(PublicConfig.FREIGHT_AMT);
         return goodsRes;
     }
-
 
 }
