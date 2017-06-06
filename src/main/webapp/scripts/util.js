@@ -31,6 +31,16 @@ Util.prototype.checkTelecom = function(tel) {
     return true;
 };
 
+Util.prototype.setTop = function (num) {
+    $("input[multiple]").parent("div[id]").css({
+        "height":"1.813333rem",
+        "width": "1.813333rem",
+        "top":$("#downUpload").offset().top+num+"px",
+        "left": "50%",
+        "margin-left": "-0.906665rem"
+    });
+};
+
 Util.prototype.removeObjWithArr = function (_arr,id) {
     var length = _arr.length;
     for(var i = 0; i < length; i++)

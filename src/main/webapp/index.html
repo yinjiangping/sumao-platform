@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
     <!-- 声明文档使用的字符编码 -->
@@ -54,17 +54,21 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta content="telephone=no" name="format-detection" />
     <meta content="email=no" name="format-detection" />
-    <!--样式-->
-    <link href="css/reset.css?20170216_1.5" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/layer.css">
-    <link rel="stylesheet" type="text/css" href="css/css.css?20170216_1.5" />
-    <link rel="stylesheet" type="text/css" href="css/nav.css?20170216_1.5" />
-    <title>四茂摄影工作室</title>
-    <script src="js/lib/flexible.js?20170216_1.5"></script>
-    <script src="js/lib/flexible_css.js?20170216_1.5"></script>
+    <title>四茂摄影</title>
+    <!--<link href="images/favicon.ico" rel="shortcut icon">-->
+    <!--<link rel="stylesheet" href="scripts/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="scripts/main.css">-->
+    <!--<link rel="stylesheet" href="scripts/highlight.css">-->
+    <link href="styles/reset.css?20170216_1.5" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/layer.css">
+    <link rel="stylesheet" type="text/css" href="styles/css.css?20170216_1.5" />
+    <link rel="stylesheet" type="text/css" href="styles/nav.css?20170216_1.5" />
+    <script src="scripts/lib/flexible.js?20170216_1.5"></script>
+    <script src="scripts/lib/flexible_css.js?20170216_1.5"></script>
 </head>
 
 <body onload="onload()">
+
     <div class="bg"></div>
     <nav class="cd-stretchy-nav">
         <a class="cd-nav-trigger" href="javascript:void(0);">
@@ -79,20 +83,19 @@
         <span aria-hidden="true" class="stretchy-nav-bg"></span>
     </nav>
     <div id="wrapper" class="pb214">
-        <div class="box">
+        <div class="box" id="container">
             <h1>四茂摄影</h1>
-            <ul id="picture-img">
-                <li data-id="0" class="clearfix">
+            <ul id="fsUploadProgress">
+                <li data-id="0" class="clearfix" id="upUpload">
                     <div class="li-bj clearfix">
                         <div class="inner">
                             <img src="images/photo.png">
                             <div class="u-upload">
-                                <form action="#" method="post" enctype="multipart/form-data">
-                                    <button type="button">点击上传</button>
-                                    <input type="file" name="file" multiple="multiple" accept="image/*">
-                                </form>
+                                    <button type="button" id="pickfiles">点击上传</button>
+                                    <input type="hidden" id="domain" value="http://oq8naz2op.bkt.clouddn.com/">
+                                    <input type="hidden" id="uptoken_url" value="http://www.sumaophoto.net/webChat/getUploadToken">
                             </div>
-                            <p>单个订单可冲印36张相片</p>
+                           <!--  <p>单个订单可冲印36张相片</p> -->
                         </div>
                         <div class="picture">
                             <span><img src="images/photo.png"><a href="javascript:" class="close"></a></span>
@@ -129,16 +132,23 @@
     <div class="load-text"><img src="images/load2.gif">
         <p>正在上传请稍后...</p>
     </div>
-    <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
-    <script src="js/lib/jquery.form.js?20170216_1.5"></script>
-    <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
-    <script src="js/lib/jquery-jtemplates.js"></script>
-    <script src="js/config/config.js"></script>
-    <script src="js/layer.js?20170216_1.5"></script>
-    <script src="js/util.js?20170216_1.5"></script>
-    <script src="js/js.js?20170216_1.5"></script>
-    <script src="js/lib/modernizr.js?20170216_1.5"></script>
-    <script src="js/nav.js?20170216_1.5"></script>
+
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="http://jssdk.demo.qiniu.io/bower_components/plupload/js/moxie.js"></script>
+    <script type="text/javascript" src="http://jssdk.demo.qiniu.io/bower_components/plupload/js/plupload.dev.js"></script>
+    <script type="text/javascript" src="http://jssdk.demo.qiniu.io/bower_components/plupload/js/i18n/zh_CN.js"></script>
+    <script type="text/javascript" src="scripts/ui.js"></script>
+    <script type="text/javascript" src="scripts/qiniu.min.js"></script>
+    <!--<script type="text/javascript" src="scripts/highlight.js"></script>-->
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="scripts/lib/fastclick.js"></script>
+    <script src="scripts/config/config.js"></script>
+    <script src="scripts/layer.js?20170216_1.5"></script>
+    <script src="scripts/util.js?20170216_1.5"></script>
+    <script src="scripts/js.js?20170216_1.5"></script>
+    <script src="scripts/lib/modernizr.js?20170216_1.5"></script>
+    <script src="scripts/nav.js?20170216_1.5"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </body>
 

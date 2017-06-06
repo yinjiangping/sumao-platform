@@ -6,29 +6,21 @@ var g_code = util.GetRequest()["code"];
 var g_price = {}; //价格
 (function() {
     if (window.location.href.indexOf("index.html") < 0 && !util.getSessionKey("openID")) {
-        window.location.replace("./index.html");
-        return;
+         window.location.replace("./index.html");
+         return;
     }
+    $(function() {
+         FastClick.attach(document.body);
+    });
 })();
+
 //首页添加图片管理
-var imgMag = function() {
-    //还可添加数量
-    function cunt() {
-        var number = 36;
-        $(".box li").each(function() {
-            if (!$(this).find(".picture").is(":hidden")) {
-                number -= Number($(".show-count", $(this)).text());
-            }
-        });
-        $(".box li:last").find(".inner").find("p").text('还可添加' + number + '张相片');
-        return number;
-    }
+var imgMag = (function() {
     //减小
     $(".box").on("click", ".btn-minus", function() {
         var Thisipt = $(this).siblings(".show-count");
         if (parseInt(Thisipt.text()) !== 1) {
             Thisipt.text(parseInt(Thisipt.text()) - 1);
-            cunt();
             setTotal();
             setTotalAll();
         }
@@ -37,18 +29,78 @@ var imgMag = function() {
     //增加
     $(".box").on("click", ".btn-plus", function() {
         var Thisipt = $(this).siblings(".show-count");
-        var nub = cunt();
-        if (nub > 0) {
-            Thisipt.text(parseInt(Thisipt.text()) + 1);
-            cunt();
-            setTotal();
-            setTotalAll();
-        }
+        Thisipt.text(parseInt(Thisipt.text()) + 1);
+        setTotal();
+        setTotalAll();
         return false;
     });
+    //手动选择尺寸
+    $(".box").on("click", ".canclick", function() {
+        var This = $(this);
+        var ThisSize = This.attr("data-value");
+        var id=This.parents("li").attr("id");
+        ChoiceSize(id, ThisSize);
+    });
+    //不能选提示
+    $(".box").on("click", ".errtips", function() {
+        layer.alert('原图精度过低，不适合冲印这么大，茂茂做不到啊！', {
+            closeBtn: 0
+        });
+    });
+    //触发上传
+    $(".box").on("change", "input", function() {
+        var This = $(this);
 
+        if (This.val()) {
+            var file = This[0].files;
+            //count=0;//初始化
+            //countUp=file.length;//最大长度
+            //var file = This[0].files[0];
+            if (checkTypeImage(file)) {
+                //for(var i=0;i<file.length;i++){
+                //  upFile(This,file[i],file[i].size);
+                //}
+                upFile(This, file); //上传图片
+            } else {
+                layer.alert('请确保文件为图像类型', {
+                    closeBtn: 0
+                });
+                return false;
+            }
+        }
+    });
+    //发送删除图片请求
+    $(".box").on("click", ".close", function() {
+        var This = $(this);
+        var Id = This.parents("li").attr("data-id");
+        $.post(g_baseUrl + 'deletePic', { 'fileId': Id }, function(data) {
+            if (data != 'false') { //false
+                removeImg(This);
+                util.setTop(0);
+                //将本地数据del
+                //arrFiles
+                //arrFiles = util.removeObjWithArr(arrFiles,Id);
+            } else {
+                layer.alert('删除失败', {
+                    closeBtn: 0
+                });
+            }
+        }, "text");
+    });
+
+    //还可添加数量
+     function cunt() {
+         var number = 36;
+         $(".box li").each(function() {
+             if (!$(this).find(".picture").is(":hidden")) {
+                 number -= Number($(".show-count", $(this)).text());
+             }
+         });
+         //$(".box li:last").find(".inner").find("p").text('还可添加' + number + '张相片');
+         return number;
+     }
     //单个商品总金额
-    function setTotal() {
+    window.setTotal=function() {
         $(".box li").each(function() {
             var totalprice = parseFloat($(".show-count", $(this)).text()) * parseFloat($(".Unit-Price", $(this)).text());
             //console.log(totalprice);
@@ -56,7 +108,7 @@ var imgMag = function() {
         });
     }
     //全部商品总金额
-    function setTotalAll() {
+    window.setTotalAll = function() {
         var sum = 0.00;
         var number = 0;
         $(".box li").each(function() {
@@ -72,16 +124,20 @@ var imgMag = function() {
     setTotalAll(); //初始化
 
     //插入一个添加按钮
-    function addItem() {
+    window.addItem = function() {
+        //$(".downUpload").remove();//删除先有的上传节点
         var nub = $(".box li").length;
         var overnub = 36 - nub;
-        var LiHtml = '<li data-id="' + nub + '"><div class="inner inner2"><div class="u-upload u-upload2"><form action="#" method="post" enctype="multipart/form-data"><button type="button">点击上传</button><input type="file" name="file" multiple="multiple" accept="image/*"></form></div><p>还可添加' + cunt() + '张相片</p></div><div class="li-bj hide clearfix"><div class="picture"><span><img  src="images/photo.png"><a href="javascript:" class="close"></a></span></div><div class="inner-bar"><div class="amount">冲洗数量&emsp;<a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span><!--单个商品总价--></div><dl class="size"><dd class="curr" data-value="6">6寸</dd><dd data-value="8">8寸</dd><dd data-value="12">12寸</dd><dd data-value="18">18寸</dd></dl></div></div></li>';
+        var LiHtml = '<li data-id="' + nub + '" id="downUpload"><div class="inner inner2"><div class="u-upload u-upload2"><button type="button" id="pickfiles">点击上传</button></div></div><div class="li-bj hide clearfix"><div class="picture"><span><img  src="images/photo.png"><a href="javascript:" class="close"></a></span></div><div class="inner-bar"><div class="amount">冲洗数量&emsp;<a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span><!--单个商品总价--></div><dl class="size"><dd class="curr" data-value="6">6寸</dd><dd data-value="8">8寸</dd><dd data-value="12">12寸</dd><dd data-value="18">18寸</dd></dl></div></div></li>';
         if (nub < 36) {
             $(".box ul").append(LiHtml);
         }
     }
+    window.removeItem = function () {
+        $("#upUpload").remove();
+    }
     //回到底部
-    function scrollBottom() {
+    window.scrollBottom = function() {
         setTimeout(function() {
             var h = $(document).height() - $(window).height();
             //$(document).scrollTop(h);
@@ -89,10 +145,17 @@ var imgMag = function() {
         }, 10);
     }
     //选择尺寸计算价格
-    function ChoiceSize(id, szval) {
+    window.ChoiceSize = function(id, szval) {
         var uP = $("#"+id).find(".Unit-Price");
         var size = parseInt(szval);
-        $("#"+id).parents("li").find("dd[data-value=" + szval + "]").addClass("curr").siblings("dd").removeClass("curr");
+        $("#"+id).find("dd[data-value=" + szval + "]").addClass("curr").siblings("dd").removeClass("curr");
+        //测试用
+        g_price.goods={
+            c6:1,
+            c8:2,
+            c12:3,
+            c18:4
+        }
         switch (size) {
             case 6:
                 uP.text(g_price.goods.c6);
@@ -111,7 +174,7 @@ var imgMag = function() {
         setTotalAll(); //计算全部商品总金额
     }
     //推荐尺寸
-    function rSize(id, size) {
+    window.rSize = function(id, size) {
         var mb = (size / 1024 / 1024).toFixed(2); //获取图片字节转换成mb
         var mbSize = parseFloat(mb);
         var elLi =$("#"+id);
@@ -138,19 +201,7 @@ var imgMag = function() {
             elLi.find("dd:lt(5)").addClass('canclick');
         }
     }
-    //手动选择尺寸
-    $(".box").on("click", ".canclick", function() {
-        var This = $(this);
-        var ThisSize = This.attr("data-value");
-        var id=This.attr("data-id");
-        ChoiceSize(id, ThisSize);
-    });
-    //不能选提示
-    $(".box").on("click", ".errtips", function() {
-        layer.alert('原图精度过低，不适合冲印这么大，茂茂做不到啊！', {
-                closeBtn: 0
-            });
-    });
+
 
     //var arrFile=[];
     //var count=0;
@@ -199,92 +250,55 @@ var imgMag = function() {
             }
         });
     }
-    //触发上传
-    $(".box").on("change", "input", function() {
-        var This = $(this);
-       
-        if (This.val()) {
-            var file = This[0].files;
-            //count=0;//初始化
-            //countUp=file.length;//最大长度
-            //var file = This[0].files[0];
-            if (checkTypeImage(file)) {
-                //for(var i=0;i<file.length;i++){
-                  //  upFile(This,file[i],file[i].size);
-                //}
-                upFile(This, file); //上传图片
-            } else {
-                layer.alert('请确保文件为图像类型', {
-                    closeBtn: 0
-                });
-                return false;
-            }
-        }
-    });
+
     //检查文件类型
     function checkTypeImage(file){
         for(var i=0;i<file.length;i++){
             if(/image\/\w+/.test(file[i].type)){
 
             }else{
-                return false;    
+                return false;
             }
         }
         return true;
     }
     //删除图片
-    function removeImg(el) {
+    window.removeImg = function(el) {
         el.parents("li").remove();
-        var nub = 37 - $(".box li").length;
-        $(".box li:last").find(".inner").find('p').text("还可添加" + nub + "张相片"); //更改可添加数量
-        if ($(".box li:last").find("input").val()) {
-            addItem(); //删除最后一个再次插入一个添加按钮
-        }
-        cunt();
+        //var nub = 37 - $(".box li").length;
+        // $(".box li:last").find(".inner").find('p').text("还可添加" + nub + "张相片"); //更改可添加数量
+        // if ($(".box li:last").find("input").val()) {
+        //     addItem(); //删除最后一个再次插入一个添加按钮
+        // }
+        //cunt();
         setTotal(); //计算单个商品总金额
         setTotalAll(); //计算全部商品总金额
     }
-    //发送删除图片请求
-    $(".box").on("click", ".close", function() {
-        var This = $(this);
-        var Id = This.parents("li").attr("data-id");
-        $.post(g_baseUrl + 'deletePic', { 'fileId': Id }, function(data) {
-            if (data != 'false') { //false
-                removeImg(This);
-                //将本地数据del
-                //arrFiles
-                arrFiles = util.removeObjWithArr(arrFiles,Id);
-            } else {
-                layer.alert('删除失败', {
-                    closeBtn: 0
-                });
-            }
-        }, "text");
-    });
+
     /**
      * 页面加载失败重新加载
      * @param  e [description]
      * @return   [description]
      */
     window.onerror_=function(e){
-       var that = e;
-       var src=that.src;
-       var len=src.split("?").length;
-       if(len>8){
+        var that = e;
+        var src=that.src;
+        var len=src.split("?").length;
+        if(len>8){
             that.src="images/photo.png";
             that.onerror=null;
-       }else{
-          setTimeout(function(){
-            that.src=src+"?a="+new Date().getTime();
+        }else{
             setTimeout(function(){
-                setTotal(); //初始化
-                setTotalAll(); //初始化
-                scrollBottom(); //回到底部
-            },200);
-          },700);
-       }
+                that.src=src+"?a="+new Date().getTime();
+                setTimeout(function(){
+                    setTotal(); //初始化
+                    setTotalAll(); //初始化
+                    scrollBottom(); //回到底部
+                },200);
+            },700);
+        }
     }
-}();
+})();
 
 
 
@@ -304,7 +318,7 @@ function onload() {
             layer.alert('请重试', {
                 closeBtn: 0
             });
-                //window.location.reload();
+            //window.location.reload();
         })
     } else {
         util.sendAjax({
@@ -317,8 +331,8 @@ function onload() {
                 return data;
             } else {
                 alert("请重试")
-                    //window.location.reload();
-                    //new Toast({ context: $('body'), message: '网络异常' }).show();
+                //window.location.reload();
+                //new Toast({ context: $('body'), message: '网络异常' }).show();
             }
         }).done(function() {
             util.sendAjax({
@@ -328,7 +342,7 @@ function onload() {
                 g_price = data;
             }).fail(function() {
                 layer.msg("请重试");
-                    //window.location.reload();
+                //window.location.reload();
             });
         }).fail(function() {
             //alert(67)
@@ -336,9 +350,6 @@ function onload() {
             //new Toast({ context: $('body'), message: '网络异常' }).show();
         })
     }
-
-
-    //
 }
 
 //提交订单
@@ -426,11 +437,11 @@ $(".Payment-method").on("click", "a", function() {
 
 
 //实名认证-选择性别
-$(".sex label").on("click", function() {
-    var This = $(this);
-    This.addClass("curr").find("input").attr("checked", true).end().siblings().removeClass("curr").find("input").attr("checked", false);
-    return false;
-});
+// $(".sex label").on("click", function() {
+//     var This = $(this);
+//     This.addClass("curr").find("input").attr("checked", true).end().siblings().removeClass("curr").find("input").attr("checked", false);
+//     return false;
+// });
 
 //菜单
 $(".menu a").on("click", function() {
