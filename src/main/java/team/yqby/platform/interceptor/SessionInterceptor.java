@@ -18,7 +18,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     /**
      * 过滤不校验session接口列表*
      */
-    private String noCheck = "/js/.*|/css/.*|/image/.*|/style/.*|/login.jsp|/WEB-INF/.|error|.jsp|.txt|.html|.jpeg|.png|.gif|/queryOpenID|/paySign|/uploadPic|/deletePic|/createOrder|/confirmOrder|/payCallBack|/editAddress|/addAddress|/delAddress|/queryAddress|/confirmOrder|/createOrder|/queryOrder|/queryShop|/uploadMultiplePic|/queryWaresPrice|/getUploadToken";
+    private String noCheck = "/js/.*|/css/.*|/image/.*|/style/.*|/login.jsp|/WEB-INF/.|error|.jsp|.txt|.html|.jpeg|.png|.gif|/queryOpenID|/paySign|/uploadPic|/deletePic|/createOrder|/confirmOrder|/payCallBack|/editAddress|/addAddress|/delAddress|/queryAddress|/confirmOrder|/createOrder|/queryOrder|/queryShop|/uploadMultiplePic|/queryWaresPrice|/getUploadToken|/setDefaultAddress";
 
     private static final String LOGIN_URL = "/login";
 
