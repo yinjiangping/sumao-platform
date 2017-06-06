@@ -1,15 +1,12 @@
 package team.yqby.platform.manager;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team.yqby.platform.base.req.PayNotifyReq;
 import team.yqby.platform.base.req.WeChatCreateOrder;
-import team.yqby.platform.base.res.GoodsRes;
 import team.yqby.platform.base.res.PayConfirmRes;
 import team.yqby.platform.common.WebCall;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
@@ -18,18 +15,12 @@ import team.yqby.platform.common.util.*;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.exception.AutoPlatformException;
 import team.yqby.platform.mapper.TFileMapper;
+import team.yqby.platform.mapper.TGoodsMapper;
 import team.yqby.platform.mapper.TOrderMapper;
-import team.yqby.platform.pojo.TFile;
-import team.yqby.platform.pojo.TFileExample;
-import team.yqby.platform.pojo.TOrder;
-import team.yqby.platform.pojo.TOrderExample;
-import team.yqby.platform.service.IRedisService;
+import team.yqby.platform.pojo.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -39,7 +30,7 @@ public class PayOrderManager {
     @Autowired
     private TFileMapper tFileMapper;
     @Autowired
-    private IRedisService redisService;
+    private TGoodsMapper tGoodsMapper;
 
     /**
      * 支付下单
@@ -50,7 +41,12 @@ public class PayOrderManager {
     public String createPayOrder(String openID, String orderAmt, String fileIds) {
         String[] fileIdArr = StringUtils.split(fileIds, "|");
         Long pTotalAmt = 0L;
-        Map<String, String> goodsMap = JSON.parseObject(redisService.get(PublicConfig.GOODS_REDIS_KEY), GoodsRes.class).getGoods();
+        TGoodsExample example = new TGoodsExample();
+        List<TGoods> goodsList = tGoodsMapper.selectByExample(example);
+        Map<String, String> goodsMap = new HashMap<>();
+        for (TGoods tGoods : goodsList) {
+            goodsMap.put(tGoods.getName(), tGoods.getPrice());
+        }
         for (String fileInfo : fileIdArr) {
             String[] files = StringUtils.split(fileInfo, ",");
             Long picId = Long.valueOf(files[0]);
@@ -60,11 +56,11 @@ public class PayOrderManager {
             TFile tFile = new TFile();
             tFile.setFileNum(Long.valueOf(picNum));
             tFile.setFileSize(Long.valueOf(picSize));
-            tFile.setSinglePrice(MoneyUtil.changeY2F(picSinglePrice));
+            tFile.setSinglePrice(picSinglePrice);
             TFileExample tFileExample = new TFileExample();
             tFileExample.createCriteria().andIdEqualTo(picId);
             tFileMapper.updateByExampleSelective(tFile,tFileExample);
-            pTotalAmt += Long.valueOf(picNum) * Long.valueOf(MoneyUtil.changeY2F(picSinglePrice));
+            pTotalAmt += Long.valueOf(picNum) * Long.valueOf(picSinglePrice);
         }
         //商品价格校验
         if (!StringUtils.equals(String.valueOf(pTotalAmt), orderAmt)) {
@@ -119,7 +115,6 @@ public class PayOrderManager {
      * @param orderNo
      */
     public void checkOrder(Long orderAmt, Long freightAmt, String orderNo, String openID) {
-        String freightAmtStr = JSON.parseObject(redisService.get(PublicConfig.GOODS_REDIS_KEY), GoodsRes.class).getFreightAmt();
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andCustomerIdEqualTo(openID);
         List<TOrder> tOrderList = tOrderMapper.selectByExample(tOrderExample);
@@ -132,7 +127,7 @@ public class PayOrderManager {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
         if (!tOrderList.get(0).getProcess().equals(ProcessEnum.WAIT_PAY.getCode())) {
-            if (!StringUtils.equals(MoneyUtil.changeY2F(freightAmtStr), String.valueOf(freightAmt))) {
+            if (!StringUtils.equals(MoneyUtil.changeY2F(PublicConfig.FREIGHT_AMT), String.valueOf(freightAmt))) {
                 log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
                 throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
             }

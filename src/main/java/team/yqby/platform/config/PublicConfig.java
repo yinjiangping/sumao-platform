@@ -39,4 +39,6 @@ public class PublicConfig {
 
     public static final String BUCKET_NAME = "sumao-upload";
 
+    public static final String FREIGHT_AMT = "10.00";
+
 }
