@@ -3,9 +3,9 @@
 <mapper namespace="team.yqby.platform.mapper.TGoodsMapper" >
   <resultMap id="BaseResultMap" type="team.yqby.platform.pojo.TGoods" >
     <result column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="desc" property="desc" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" />
+    <result column="goods_price" property="goodsPrice" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, desc, price, createTime, updateTime
+    id, goods_name, goods_desc, goods_price, createTime, updateTime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TGoodsExample" >
     select
@@ -91,11 +91,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="team.yqby.platform.pojo.TGoods" >
-    insert into t_goods (id, name, desc, 
-      price, createTime, updateTime
+    insert into t_goods (id, goods_name, goods_desc, 
+      goods_price, createTime, updateTime
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
-      #{price,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsDesc,jdbcType=VARCHAR}, 
+      #{goodsPrice,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TGoods" >
@@ -104,14 +104,14 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="goodsName != null" >
+        goods_name,
       </if>
-      <if test="desc != null" >
-        desc,
+      <if test="goodsDesc != null" >
+        goods_desc,
       </if>
-      <if test="price != null" >
-        price,
+      <if test="goodsPrice != null" >
+        goods_price,
       </if>
       <if test="createtime != null" >
         createTime,
@@ -124,14 +124,14 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null" >
-        #{desc,jdbcType=VARCHAR},
+      <if test="goodsDesc != null" >
+        #{goodsDesc,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=VARCHAR},
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
@@ -153,14 +153,14 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.goodsName != null" >
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="record.desc != null" >
-        desc = #{record.desc,jdbcType=VARCHAR},
+      <if test="record.goodsDesc != null" >
+        goods_desc = #{record.goodsDesc,jdbcType=VARCHAR},
       </if>
-      <if test="record.price != null" >
-        price = #{record.price,jdbcType=VARCHAR},
+      <if test="record.goodsPrice != null" >
+        goods_price = #{record.goodsPrice,jdbcType=VARCHAR},
       </if>
       <if test="record.createtime != null" >
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -176,9 +176,9 @@
   <update id="updateByExample" parameterType="map" >
     update t_goods
     set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      desc = #{record.desc,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=VARCHAR},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_desc = #{record.goodsDesc,jdbcType=VARCHAR},
+      goods_price = #{record.goodsPrice,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >

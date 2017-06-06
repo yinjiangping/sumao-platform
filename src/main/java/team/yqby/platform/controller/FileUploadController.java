@@ -122,7 +122,7 @@ public class FileUploadController {
         List<TGoods> goodsList = tGoodsMapper.selectByExample(example);
         Map<String, String> goods = new HashMap<>();
         for (TGoods tGoods : goodsList) {
-            goods.put(tGoods.getDesc(), MoneyUtil.changeF2Y(tGoods.getPrice()));
+            goods.put(tGoods.getGoodsName(), MoneyUtil.changeF2Y(tGoods.getGoodsPrice()));
         }
         goodsRes.setGoods(goods);
         goodsRes.setFreightAmt(PublicConfig.FREIGHT_AMT);

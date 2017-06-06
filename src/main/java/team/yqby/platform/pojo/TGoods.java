@@ -5,11 +5,11 @@ import java.util.Date;
 public class TGoods {
     private Long id;
 
-    private String name;
+    private String goodsName;
 
-    private String desc;
+    private String goodsDesc;
 
-    private String price;
+    private String goodsPrice;
 
     private Date createtime;
 
@@ -23,28 +23,28 @@ public class TGoods {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getGoodsName() {
+        return goodsName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName == null ? null : goodsName.trim();
     }
 
-    public String getDesc() {
-        return desc;
+    public String getGoodsDesc() {
+        return goodsDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc == null ? null : desc.trim();
+    public void setGoodsDesc(String goodsDesc) {
+        this.goodsDesc = goodsDesc == null ? null : goodsDesc.trim();
     }
 
-    public String getPrice() {
-        return price;
+    public String getGoodsPrice() {
+        return goodsPrice;
     }
 
-    public void setPrice(String price) {
-        this.price = price == null ? null : price.trim();
+    public void setGoodsPrice(String goodsPrice) {
+        this.goodsPrice = goodsPrice == null ? null : goodsPrice.trim();
     }
 
     public Date getCreatetime() {

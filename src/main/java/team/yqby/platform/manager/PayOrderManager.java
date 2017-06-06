@@ -45,7 +45,7 @@ public class PayOrderManager {
         List<TGoods> goodsList = tGoodsMapper.selectByExample(example);
         Map<String, String> goodsMap = new HashMap<>();
         for (TGoods tGoods : goodsList) {
-            goodsMap.put(tGoods.getName(), tGoods.getPrice());
+            goodsMap.put(tGoods.getGoodsName(), tGoods.getGoodsPrice());
         }
         for (String fileInfo : fileIdArr) {
             String[] files = StringUtils.split(fileInfo, ",");
