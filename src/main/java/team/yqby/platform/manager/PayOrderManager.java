@@ -52,14 +52,14 @@ public class PayOrderManager {
             Long picId = Long.valueOf(files[0]);
             String picNum = files[1];
             String picSize = files[2];
-            String picSinglePrice = goodsMap.get(Joiner.on("").join("c", picSize));
+            String picSinglePrice = goodsMap.get(picSize);
             TFile tFile = new TFile();
             tFile.setFileNum(Long.valueOf(picNum));
             tFile.setFileSize(Long.valueOf(picSize));
             tFile.setSinglePrice(picSinglePrice);
             TFileExample tFileExample = new TFileExample();
             tFileExample.createCriteria().andIdEqualTo(picId);
-            tFileMapper.updateByExampleSelective(tFile,tFileExample);
+            tFileMapper.updateByExampleSelective(tFile, tFileExample);
             pTotalAmt += Long.valueOf(picNum) * Long.valueOf(picSinglePrice);
         }
         //商品价格校验
