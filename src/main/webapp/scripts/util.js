@@ -118,6 +118,23 @@ Util.prototype.sendAjax = function(obj) {
         layer.closeAll();
     });
 };
+Util.prototype.sendAjaxImg = function (id) {
+    var id=id.substr(1);
+     $(".load,.load-text").show(); //隐藏正在上传图片
+    util.sendAjax({
+        url: "http://www.sumaophoto.net/webChat/uploadPicInfo",
+        data:{
+            openID:util.getSessionKey("openID"),
+            uploadToken:util.getSessionKey("uptoken"),
+            fileName:util.getSessionKey(id)
+        }
+    }).then(function (data) {
+        console.log("789078907890")
+        console.log(data);
+        $("#a"+id).attr("data-id",data.result);
+        $(".load,.load-text").hide(); //隐藏正在上传图片
+    })
+}
 /**
  * 发送http请求
  * @param  {[type]} obj [发送对象]

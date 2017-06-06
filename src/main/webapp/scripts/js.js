@@ -360,6 +360,12 @@ var submitOrder = function() {
                 var ThisId = $(this).attr("data-id").replace(/^\s+|\s+| $/g, "");
                 var ThisVal = $(this).find(".show-count").text(); //数量
                 var ThisSize = $(this).find("dd.curr").attr("data-value"); //尺寸
+                if(!ThisId){
+                    util.sendAjaxImg($(this).attr("id"));//传递图片到后台
+                    layer.msg('等待2秒再试试');
+                    return;
+                }
+
                 //obj={id:ThisId,nub:ThisVal,size:ThisSize};
                 var c = "c" + ThisSize;
                 price += 100*g_price.goods[c] * parseInt(ThisVal); //计算价格

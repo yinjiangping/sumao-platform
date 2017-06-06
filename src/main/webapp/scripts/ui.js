@@ -61,7 +61,7 @@ function FileProgress(file, targetID) {
         // Wrappeer.append(progressBarTd);
         console.log("--------------");//拼接字符串
        // console.log(Wrappeer.toString());
-        this.fileProgressWrapper=Wrappeer=['<li id="a'+this.fileProgressID+'" data-id="'+this.fileProgressID+'" data-size="'+file.size+'" class="clearfix progressContainer">',
+        this.fileProgressWrapper=Wrappeer=['<li id="a'+this.fileProgressID+'" data-size="'+file.size+'" class="clearfix progressContainer">',
             '    <div class="li-bj clearfix" style="display:block;">',
             '        <div class="inner" style="display:none;">',
             '            <img src="images/photo.png">',
@@ -100,6 +100,7 @@ function FileProgress(file, targetID) {
                 $('#' + targetID).append(Wrappeer);
                 window.addItem();//删除节点，重新添加
             }
+             $(".load,.load-text").show(); //隐藏正在上传图片
             this.setTop(20);
     } else {
         this.reset();
@@ -129,6 +130,7 @@ FileProgress.prototype.sendAjaxImg = function (file,key) {
         console.log("789078907890")
         console.log(data);
         $("#a"+file.id).attr("data-id",data.result);
+        $(".load,.load-text").hide(); //隐藏正在上传图片
     })
 }
 
@@ -267,6 +269,7 @@ FileProgress.prototype.setComplete = function(up, info,file) {
     }
     //发送图片名称到接口服务器
     this.sendAjaxImg(file,res.key);
+    util.setSessionKey(file.id,res.key);//存入本地空间中
     rSize("a"+file.id, file.size); //推荐尺寸
 
     // tdProgress.html(str).removeClass().next().next('.status').hide();

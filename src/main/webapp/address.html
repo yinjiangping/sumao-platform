@@ -129,7 +129,6 @@
             $("#wrapper").hide();
             $("#city-wrap").show();
         });
-
         $("body").on("click", '#city-wrap .btn', function() {
             var provinceVal = $("#s_province").val();
             var cityVal = $("#s_city").val();
@@ -142,7 +141,7 @@
             } else if (countyVal == "县区") {
                 alert("请选择县区")
             } else {
-                var sVal = provinceVal + ' ' + cityVal + ' ' + countyVal + ' ';
+                var sVal = provinceVal + ' ' + cityVal + ' ' + countyVal;
                 $("#show-city").val(sVal);
                 $("#province-v").val(provinceVal);
                 $("#city-v").val(cityVal);
@@ -152,7 +151,6 @@
                 $("#city-wrap").hide();
             }
         });
-
         //地址添加检测
         $("#check-address").on("click", function() {
             //地址id
@@ -194,7 +192,7 @@
                         openID: util.getSessionKey('openID'),
                         rUserName:name,
                         rPhone:phone,
-                        rAddress:cityVal+address.substr(address.lastIndexOf(" ")),
+                        rAddress:cityVal+address,
                         zipCode:code,
                         addressId:id
                     }
