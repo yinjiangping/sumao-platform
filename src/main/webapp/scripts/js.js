@@ -149,13 +149,7 @@ var imgMag = (function() {
         var uP = $("#"+id).find(".Unit-Price");
         var size = parseInt(szval);
         $("#"+id).find("dd[data-value=" + szval + "]").addClass("curr").siblings("dd").removeClass("curr");
-        //测试用
-        g_price.goods={
-            c6:1,
-            c8:2,
-            c12:3,
-            c18:4
-        }
+        
         switch (size) {
             case 6:
                 uP.text(g_price.goods.c6);
