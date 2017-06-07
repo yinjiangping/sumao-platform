@@ -35,7 +35,7 @@ public class LoginController {
     public ModelAndView login(String userName, String userPwd, HttpServletRequest request) {
         try {
             log.info("login started, request params:{},{}", userName,userPwd);
-            TUserInfo tUserInfo = userInfoService.checkUser(userName,userPwd);
+            TUserInfo tUserInfo = userInfoService.checkUser(userName,userPwd,request);
 
             request.getSession().setAttribute(SystemConstant.SESSION_USER, tUserInfo);
             log.info("login finished, loginName:{}", userName);
