@@ -82,7 +82,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      */
     public void callIpRequest(HttpServletRequest request, String operaType) {
         String remoteIp = InternetProtocol.getRemoteAddr(request);
-        String remotePort = InternetProtocol.getRemoteAddr(request);
+        Long remotePort = InternetProtocol.getRemotePort(request);
         String redisKey = Joiner.on("_").join(remoteIp, remotePort);
         switch (operaType) {
             case "add":

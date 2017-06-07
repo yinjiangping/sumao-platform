@@ -10,8 +10,6 @@ public class PublicConfig {
     public static final String UTF_8="UTF-8";
     //签名类型
     public static final String SIGN_TYPE="MD5";
-    //系统用户
-    public static final String SYS_USER="system";
 
     public static final String APP_ID = "wxcc250a87184a9442";
 
@@ -30,8 +28,6 @@ public class PublicConfig {
     public static final String APP_SECRET = "abf8b6399d2021c49de6b7e0d0a4ae7e";
 
     public static final String QINIU_URL="http://oq8naz2op.bkt.clouddn.com";
-
-    public static final String GOODS_REDIS_KEY="redis_goodsPrice";
 
     public static final String ACCESS_KEY = "WVDvbwpHUuosKYdpqzkQUpelbMRyoi37j4I2taVq";
 
