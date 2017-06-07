@@ -72,18 +72,20 @@ var imgMag = (function() {
     //发送删除图片请求
     $(".box").on("click", ".close", function() {
         var This = $(this);
+        removeImg(This);
+        util.setTop(0);//重置上传按钮位置
         var Id = This.parents("li").attr("data-id");
         $.post(g_baseUrl + 'deletePic', { 'fileId': Id }, function(data) {
             if (data != 'false') { //false
-                removeImg(This);
-                util.setTop(0);//重置上传按钮位置
+                //removeImg(This);
+                //util.setTop(0);//重置上传按钮位置
                 //将本地数据del
                 //arrFiles
                 //arrFiles = util.removeObjWithArr(arrFiles,Id);
             } else {
-                layer.alert('删除失败', {
-                    closeBtn: 0
-                });
+                //layer.alert('删除失败', {
+                //    closeBtn: 0
+                //});
             }
         }, "text");
     });
