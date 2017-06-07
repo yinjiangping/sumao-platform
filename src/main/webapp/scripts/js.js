@@ -76,7 +76,7 @@ var imgMag = (function() {
         $.post(g_baseUrl + 'deletePic', { 'fileId': Id }, function(data) {
             if (data != 'false') { //false
                 removeImg(This);
-                util.setTop(0);
+                util.setTop(0);//重置上传按钮位置
                 //将本地数据del
                 //arrFiles
                 //arrFiles = util.removeObjWithArr(arrFiles,Id);
@@ -185,13 +185,16 @@ var imgMag = (function() {
             ChoiceSize(id, 6);
             elLi.find("dd:lt(2)").addClass('canclick').end().find('dd:gt(1)').addClass('errtips');
         } else if (mbSize > config.section_3 && mbSize < config.section_4) {
-            ChoiceSize(id, 8);
+            ChoiceSize(id, 6);
+            //ChoiceSize(id, 8);
             elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
         } else if (mbSize > config.section_4 && mbSize < config.section_5) {
-            ChoiceSize(id, 12);
+            ChoiceSize(id, 6);
+            //ChoiceSize(id, 12);
             elLi.find("dd:lt(5)").addClass('canclick');
         } else if (mbSize > config.section_5) {
-            ChoiceSize(id, 18);
+            ChoiceSize(id, 6);
+            //ChoiceSize(id, 18);
             elLi.find("dd:lt(5)").addClass('canclick');
         }
     }

@@ -109,7 +109,10 @@
                     "addressList": data.result
                 })
             }).fail(function() {
-                alert("获取失败");
+                layer.alert('获取失败', {
+                    closeBtn: 0
+                });
+                //alert("获取失败");
                 window.history.go(-1); //返回上一页
             });
     }
@@ -117,7 +120,7 @@
     var setDefault = (function(){
         $("body").on("click",'.select-icon',function(e){
             var parentId = $(this).parents("li").attr("data-id");
-            alert(parentId)
+            //alert(parentId)
             util.sendAjax({
                 url: g_baseUrl + "setDefaultAddress",
                 data: {
@@ -148,7 +151,7 @@
             obj.phone=that.attr("data-phone");
             obj.address=that.attr("data-address");
             obj.zipCode=that.attr("data-zipCode");
-            window.location.href="./address.html?address="+encodeURIComponent(JSON.stringify(obj));
+            window.location.replace("./address.html?address="+encodeURIComponent(JSON.stringify(obj)));
         })
     })()
 
@@ -169,10 +172,18 @@
                     addressId: delId
                 }
             }).done(function(data) {
+                if(!data.success){
+                    $(".dlg1,.bj-dialog").hide();
+                    layer.alert('与订单关联', {
+                        closeBtn: 0
+                    });
+                    return;
+                }
                 //绘制页面
                location.reload();
             }).fail(function() {
-                alert("请重试");
+                $(".dlg1,.bj-dialog").hide();
+                alert("与订单关联");
             });
         });
     }();
