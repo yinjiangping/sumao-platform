@@ -63,12 +63,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 imagesResList.add(imagesRes);
                 orderRes.setImages(imagesResList);
             }
-            if (tOrder.getAddressid() != null && tOrder.getAddressid() > 0) {
-                TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(tOrder.getAddressid()));
-                if (tDeliveryAddress != null) {
-                    orderRes.setAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-                    orderRes.setAddressId(tDeliveryAddress.getId());
-                }
+            if (StringUtils.isNotEmpty(tOrder.getDeliveryinfo())) {
+                String[] strs = StringUtils.split(tOrder.getDeliveryinfo(), "#");
+                orderRes.setAddressId(tOrder.getAddressid());
+                orderRes.setAddress(ParamsValidate.strDecode(strs[0]));
             }
             orderRes.setShopId(tOrder.getShopid());
             orderRes.setCreateTime(DateUtil.format(tOrder.getCreatetime(), DateUtil.settlePattern));
@@ -129,10 +127,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderDetailRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
         orderDetailRes.setState(ProcessEnum.getOrderStatus(tOrder.getProcess()));
         if (!tOrder.getProcess().equals(ProcessEnum.INIT.getCode())) {
-            TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(tOrder.getAddressid());
-            orderDetailRes.setReceiveAddress(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryAddress()));
-            orderDetailRes.setReceiveName(ParamsValidate.strDecode(tDeliveryAddress.getDeliveryName()));
-            orderDetailRes.setReceivePhone(tDeliveryAddress.getDeliveryTel());
+            if (StringUtils.isNotEmpty(tOrder.getDeliveryinfo())) {
+                String[] strs = StringUtils.split(tOrder.getDeliveryinfo(), "#");
+                orderDetailRes.setReceiveAddress(ParamsValidate.strDecode(strs[0]));
+                orderDetailRes.setReceiveName(ParamsValidate.strDecode(strs[1]));
+                orderDetailRes.setReceivePhone(strs[2]);
+            }
             TShop tShop = tShopMapper.selectByPrimaryKey(tOrder.getShopid());
             orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
             orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
@@ -153,7 +153,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             imagesResList.add(imagesRes);
             orderDetailRes.setImagesResList(imagesResList);
         }
-
         orderDetailRes.setExpressInfo(ParamsValidate.strDecode(tOrder.getRemarks()));
         orderDetailRes.setResCode(tOrder.getRescode());
         orderDetailRes.setResDesc(ParamsValidate.strDecode(tOrder.getResdesc()));

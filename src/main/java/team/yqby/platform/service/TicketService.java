@@ -33,7 +33,7 @@ public class TicketService {
         Response<FlowOpenIDRes> resResponse = ticketManager.queryByCode(code);
         if (resResponse.isSuccess()) {
             String openId = resResponse.getResult().getOpenid();
-            iRedisService.set(openId, openId, 60 * 10L);
+            iRedisService.set(openId, openId, 60 * 60 * 2L);
             response = new Response(openId);
         } else {
             response = new Response(resResponse.getErrorCode(), resResponse.getErrorMsg());
@@ -65,14 +65,15 @@ public class TicketService {
         return paySignRes;
     }
 
-    /***
+    /**
      * 获取上传授权信息
+     *
      * @return
      */
-    public String getUploadToken(){
+    public String getUploadToken() {
         Auth auth = Auth.create(PublicConfig.ACCESS_KEY, PublicConfig.SECRET_KEY);
         String uploadToken = auth.uploadToken(PublicConfig.BUCKET_NAME);
-        iRedisService.set(uploadToken.split(":")[1],uploadToken.split(":")[1],60 * 20L);
+        iRedisService.set(uploadToken.split(":")[1], uploadToken.split(":")[1], 60 * 20L);
         return uploadToken;
     }
 
