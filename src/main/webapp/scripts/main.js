@@ -11,7 +11,14 @@ $(function() {
         drop_element: 'container',
         max_file_size: '1000mb',
         flash_swf_url: 'https://cdn.staticfile.org/plupload/2.3.1/Moxie.swf',
-        dragdrop: true,
+        dragdrop: false,
+        filters : {
+                max_file_size : '100mb',
+                prevent_duplicates: true,
+                mime_types: [
+                    {title : "Image files", extensions : "jpg,gif,png,jpeg,tiff,psd,bmp"} // 限定jpg,gif,png后缀上传
+                ]
+        },
         chunk_size: '4mb',
         multi_selection: true,
         // uptoken_url: $('#uptoken_url').val(),
@@ -52,9 +59,10 @@ $(function() {
             'FilesAdded': function(up, files) {
                 $('table').show();
                 $('#success').hide();
+                $(".load,.load-text").show(); //显示正在上传图片
                 plupload.each(files, function(file) {
                     var progress = new FileProgress(file, 'fsUploadProgress');
-                    progress.setStatus("等待...");
+                    progress.setStatus("等待上传...");
                     //progress.bindUploadCancel(up);
                 });
             },
@@ -94,9 +102,11 @@ $(function() {
     });
     //uploader.init();
     uploader.bind('BeforeUpload', function () {
+        $(".load,.load-text").show(); //显示正在上传图片
         console.log("hello man, i am going to upload a file");
     });
     uploader.bind('FileUploaded', function () {
+        $(".load,.load-text").hide(); //显示正在上传图片
         console.log('hello man,a file is uploaded');
     });
 

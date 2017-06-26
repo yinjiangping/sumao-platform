@@ -85,10 +85,10 @@ function FileProgress(file, targetID) {
             '            </div>',
                         '<div class="status"></div>',
             '            <dl class="size">',
-            '                <dd class="curr" data-value="6">6寸</dd>',
-            '                <dd data-value="8">8寸</dd>',
-            '                <dd data-value="12">12寸</dd>',
-            '                <dd data-value="18">18寸</dd>',
+            '                <dd class="curr" data-value="5">5寸</dd>',
+            '                <dd data-value="6">6寸</dd>',
+            '                <dd data-value="7">7寸</dd>',
+            '                <dd data-value="10">10寸</dd>',
             '            </dl>',
             '        </div>',
             '    </div>',
@@ -100,7 +100,8 @@ function FileProgress(file, targetID) {
                 $('#' + targetID).append(Wrappeer);
                 window.addItem();//删除节点，重新添加
             }
-             $(".load,.load-text").show(); //隐藏正在上传图片
+            this.fileProgressWrapper = $("#a"+this.fileProgressID);
+           
             this.setTop(20);
     } else {
         this.reset();
@@ -130,7 +131,6 @@ FileProgress.prototype.sendAjaxImg = function (file,key) {
         console.log("789078907890")
         console.log(data);
         $("#a"+file.id).attr("data-id",data.result);
-        $(".load,.load-text").hide(); //隐藏正在上传图片
     })
 }
 
