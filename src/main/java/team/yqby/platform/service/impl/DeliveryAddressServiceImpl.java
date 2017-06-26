@@ -68,20 +68,8 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
         TDeliveryAddress tDeliveryAddress = new TDeliveryAddress();
         switch (operaFlag) {
             case "del":
-                TOrderExample tOrderExample1 = new TOrderExample();
-                List<TOrder> tOrderList1 = tOrderMapper.selectByExample(tOrderExample1);
-                if (tOrderList1 != null && !tOrderList1.isEmpty()) {
-                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20007);
-                }
                 TDeliveryAddressExample tDeliveryAddressExample = new TDeliveryAddressExample();
-                List<String> processList1 = new ArrayList<>();
-                processList1.add(ProcessEnum.PAY_SUCCESS.getCode());
-                processList1.add(ProcessEnum.DELIVERY_SUCCESS.getCode());
-                tOrderExample1.createCriteria().andAddressidEqualTo(addressReq.getAddressId()).andProcessIn(processList1);
-                List<TDeliveryAddress> tDeliveryAddressList = tDeliveryAddressMapper.selectByExample(tDeliveryAddressExample);
-                if (tDeliveryAddressList == null || tDeliveryAddressList.isEmpty()) {
-                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20006);
-                }
+                tDeliveryAddressExample.createCriteria().andCustomerIdEqualTo(addressReq.getOpenID()).andIdEqualTo(addressReq.getAddressId());
                 i = tDeliveryAddressMapper.deleteByExample(tDeliveryAddressExample);
                 break;
             case "add":
@@ -94,15 +82,6 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
                 i = tDeliveryAddressMapper.insertSelective(tDeliveryAddress);
                 break;
             case "edit":
-                TOrderExample tOrderExample2 = new TOrderExample();
-                List<String> processList2 = new ArrayList<>();
-                processList2.add(ProcessEnum.PAY_SUCCESS.getCode());
-                processList2.add(ProcessEnum.DELIVERY_SUCCESS.getCode());
-                tOrderExample2.createCriteria().andAddressidEqualTo(addressReq.getAddressId()).andProcessIn(processList2);
-                List<TOrder> tOrderList2 = tOrderMapper.selectByExample(tOrderExample2);
-                if (tOrderList2 != null && !tOrderList2.isEmpty()) {
-                    throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20007);
-                }
                 tDeliveryAddress.setId(addressReq.getAddressId());
                 tDeliveryAddress.setCustomerId(addressReq.getOpenID());
                 tDeliveryAddress.setDeliveryAddress(ParamsValidate.strEncode(addressReq.getRAddress()));

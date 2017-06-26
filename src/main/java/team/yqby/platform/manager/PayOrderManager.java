@@ -14,6 +14,7 @@ import team.yqby.platform.common.enums.*;
 import team.yqby.platform.common.util.*;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.exception.AutoPlatformException;
+import team.yqby.platform.mapper.TDeliveryAddressMapper;
 import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.mapper.TGoodsMapper;
 import team.yqby.platform.mapper.TOrderMapper;
@@ -31,6 +32,8 @@ public class PayOrderManager {
     private TFileMapper tFileMapper;
     @Autowired
     private TGoodsMapper tGoodsMapper;
+    @Autowired
+    private TDeliveryAddressMapper tDeliveryAddressMapper;
 
     /**
      * 支付下单
@@ -148,11 +151,14 @@ public class PayOrderManager {
      * @param orderNo
      */
     public void updateOrderInfo(Long addressId, Long shopId, String orderNo, Long orderAmt, Long freightAmt) {
+        //查询收货地址信息
+        TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(addressId));
         freightAmt = freightAmt == null ? 0L : freightAmt;
         TOrder tOrder = new TOrder();
         tOrder.setAddressid(Long.valueOf(addressId));
         tOrder.setShopid(shopId);
         tOrder.setOrderamt(String.valueOf(orderAmt + freightAmt));
+        tOrder.setDeliveryinfo(Joiner.on("#").join(tDeliveryAddress.getDeliveryAddress(),tDeliveryAddress.getDeliveryName(),tDeliveryAddress.getDeliveryTel()));
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
         int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
