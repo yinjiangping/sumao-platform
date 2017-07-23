@@ -16,4 +16,6 @@ public interface OrderInfoService {
 
     public boolean updateOrder(String orderNo, String process,String expressName,String expressNo,Long userId,String userName);
 
+    public boolean deleteOrder(String orderNo);
+
 }

@@ -938,6 +938,11 @@ select{
     color: #FFF
 }
 
+.order-list .info .col4 a.red-color {
+    background: #ff0000;
+    color: #FFF
+}
+
 .order-list .info .col4 a.violet-color {
     background: #8779BD;
     color: #FFF;

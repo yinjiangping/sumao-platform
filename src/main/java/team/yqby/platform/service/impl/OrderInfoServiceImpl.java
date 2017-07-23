@@ -176,4 +176,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return false;
     }
 
+    @Override
+    public boolean deleteOrder(String orderNo) {
+        return this.tOrderMapper.deleteByOrderNo(orderNo);
+    }
+
 }

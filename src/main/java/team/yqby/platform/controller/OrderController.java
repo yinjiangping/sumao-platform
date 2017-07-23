@@ -3,6 +3,7 @@ package team.yqby.platform.controller;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,29 @@ public class OrderController {
         } catch (Exception e) {
             log.error(" queryOrder meet error, userName:{}, response:{}", openID, Throwables.getStackTraceAsString(e));
             return new Response<>(ServiceErrorCode.ERROR_CODE_F99999);
+        }
+    }
+
+    /***
+     * 删除订单
+     * tony
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping(value = ApiUrls.DELETE_ORDER)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public boolean deleteDeleteOrder(String orderNo){
+        try {
+            log.info("delOrder started, request params:{}",orderNo);
+            this.orderInfoService.deleteOrder(orderNo);
+            return true;
+        } catch (AutoPlatformException e) {
+            log.error(" delOrder meet error, orderNo:{}, response:{}", orderNo, Throwables.getStackTraceAsString(e));
+            return false;
+        } catch (Exception e) {
+            log.error(" delOrder meet error, orderNo:{}, response:{}",orderNo, Throwables.getStackTraceAsString(e));
+            return false;
         }
     }
 

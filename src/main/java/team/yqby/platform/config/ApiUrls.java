@@ -67,6 +67,9 @@ public class ApiUrls {
     //查询订单
     public static final String QUERY_ORDER = "/queryOrder";
 
+    //删除订单
+    public static final String DELETE_ORDER = "/deleteOrder";
+
     //查询所有订单
     public static final String QUERY_ALL_ORDER = "/queryAllOrder";
 
