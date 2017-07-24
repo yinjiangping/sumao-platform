@@ -46,7 +46,7 @@
                     {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"}
                     <div class="col4">
                         <a href="javascript:void(0);" data-id="{$T.order.orderNo}" data-price="{$T.order.price}" data-shopId="{$T.order.shopId}" data-state="{$T.order.state}" data-addressId="{$T.order.addressId}" class="blue-color payNow">立即支付</a>
-                        <a href="javascript:void(0);" data-id="{$T.order.orderNo}" data-price="{$T.order.price}" data-shopId="{$T.order.shopId}" data-state="{$T.order.state}" data-addressId="{$T.order.addressId}" class="blue-color deleteOrder">删除</a>
+                        <a href="javascript:void(0);" data-id="{$T.order.orderNo}" data-price="{$T.order.price}" data-shopId="{$T.order.shopId}" data-state="{$T.order.state}" data-addressId="{$T.order.addressId}" class="red-color deleteOrder">删除</a>
                     </div>
                     {#else}
                     <div class="col4"></div>

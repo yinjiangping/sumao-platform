@@ -913,7 +913,8 @@ select{
 
 .order-list .info .col4 {
     width: 2.133333rem;
-    text-align: center
+    text-align: center;
+    height: auto;
 }
 
 .order-list .info .col4 a {
