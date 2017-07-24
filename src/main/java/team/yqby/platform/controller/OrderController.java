@@ -64,7 +64,7 @@ public class OrderController {
     @RequestMapping(value = ApiUrls.DELETE_ORDER)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public boolean deleteDeleteOrder(String orderNo){
+    public boolean deleteDeleteOrder(String openID,String orderNo){
         try {
             log.info("delOrder started, request params:{}",orderNo);
             this.orderInfoService.deleteOrder(orderNo);

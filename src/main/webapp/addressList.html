@@ -153,10 +153,10 @@
             obj.zipCode=that.attr("data-zipCode");
             window.location.replace("./address.html?address="+encodeURIComponent(JSON.stringify(obj)));
         })
-    })()
+    })();
 
     //删除地址
-    var deladdress = function() {
+    var delAddress = function() {
         var delId;
         $("body").on("click", '.address-list li .title .del',function() {
             delId = $(this).parents("li").attr("data-id");
