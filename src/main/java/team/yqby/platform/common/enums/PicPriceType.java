@@ -14,10 +14,10 @@ import java.util.Map;
 @NoArgsConstructor
 @ToString
 public enum PicPriceType {
-    pri_price_6(6, "c6", "0.99", "6寸照片价格"),
-    pri_price_8(8, "c8", "2.49", "8寸照片价格"),
-    pri_price_12(12, "c12", "12.49", "12寸照片价格"),
-    pri_price_18(18, "c18", "52.49", "18寸照片价格");
+    pri_price_6(5, "c5", "0.95", "5寸照片价格"),
+    pri_price_8(6, "c6", "1.15", "6寸照片价格"),
+    pri_price_12(7, "c7", "2.85", "7寸照片价格"),
+    pri_price_18(10, "c10", "18.00", "10寸照片价格");
 
     //图片大小
     private int picSize;
