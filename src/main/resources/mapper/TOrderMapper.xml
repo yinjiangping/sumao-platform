@@ -465,6 +465,6 @@
 
   <delete id="deleteByOrderNo" >
     DELETE * FROM t_order
-    WHERE orderNo = #{orderno,jdbcType=VARCHAR}
+    WHERE orderNo = #{orderNo,jdbcType=VARCHAR}
   </delete>
 </mapper>
