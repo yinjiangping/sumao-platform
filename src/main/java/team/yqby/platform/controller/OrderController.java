@@ -64,17 +64,17 @@ public class OrderController {
     @RequestMapping(value = ApiUrls.DELETE_ORDER)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public boolean deleteDeleteOrder(String openID,String orderNo){
+    public Response deleteDeleteOrder(String openID,String orderNo){
         try {
             log.info("delOrder started, request params:{}",orderNo);
             this.orderInfoService.deleteOrder(orderNo);
-            return true;
+            return new Response("操作成功");
         } catch (AutoPlatformException e) {
             log.error(" delOrder meet error, orderNo:{}, response:{}", orderNo, Throwables.getStackTraceAsString(e));
-            return false;
+            return new Response("100005","删除失败");
         } catch (Exception e) {
             log.error(" delOrder meet error, orderNo:{}, response:{}",orderNo, Throwables.getStackTraceAsString(e));
-            return false;
+            return new Response("100005","删除失败");
         }
     }
 
