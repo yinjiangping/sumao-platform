@@ -29,5 +29,5 @@ public interface TOrderMapper {
 
     int updateByPrimaryKey(TOrder record);
 
-    boolean deleteByOrderNo(@Param("orderNo") String orderNo);
+    void deleteByOrderNo(@Param("orderNo") String orderNo);
 }

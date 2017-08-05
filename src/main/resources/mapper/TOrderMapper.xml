@@ -463,8 +463,8 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <delete id="deleteByOrderNo" >
-    DELETE * FROM t_order
+  <delete id="deleteByOrderNo" parameterType="java.lang.String">
+    DELETE FROM t_order
     WHERE orderNo = #{orderNo,jdbcType=VARCHAR}
   </delete>
 </mapper>
