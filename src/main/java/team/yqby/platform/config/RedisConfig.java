@@ -43,22 +43,15 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
-    public JedisConnectionFactory redisConnectionFactory() {
-        JedisConnectionFactory factory = new JedisConnectionFactory();
-        factory.setHostName(host);
-        factory.setPort(port);
-        factory.setPassword(password);
-        factory.setTimeout(timeout);
-        return factory;
-    }
-
-
-    @Bean
     @ConfigurationProperties(prefix = "spring.redis")
     public JedisConnectionFactory getConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         JedisPoolConfig config = getRedisConfig();
         factory.setPoolConfig(config);
+        factory.setHostName(host);
+        factory.setPort(port);
+        factory.setPassword(password);
+        factory.setTimeout(timeout);
         log.info("JedisConnectionFactory bean init success.");
         return factory;
     }
@@ -74,10 +67,8 @@ public class RedisConfig extends CachingConfigurerSupport {
 
 
     @Bean
-    public RedisTemplate<String, String> getRedisTemplate(RedisConnectionFactory factory) {
-        StringRedisTemplate template = new StringRedisTemplate(factory);
-        setSerializer(template); //设置序列化工具，这样ReportBean不需要实现Serializable接口
-        template.afterPropertiesSet();
+    public RedisTemplate<?, ?> getRedisTemplate() {
+        RedisTemplate<?, ?> template = new StringRedisTemplate(getConnectionFactory());
         return template;
     }
 
