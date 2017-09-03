@@ -11,15 +11,14 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
+import org.springframework.cache.interceptor.KeyGenerator;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Method;
 
 @Configuration
 @PropertySource(value = "classpath:/properties/config.properties")
@@ -34,6 +33,23 @@ public class RedisConfig extends CachingConfigurerSupport {
     private String password;
     @Value("${spring.redis.timeout}")
     private int timeout;
+
+    @Bean
+    public KeyGenerator wiselyKeyGenerator(){
+        return new KeyGenerator() {
+            @Override
+            public Object generate(Object target, Method method, Object... params) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(target.getClass().getName());
+                sb.append(method.getName());
+                for (Object obj : params) {
+                    sb.append(obj.toString());
+                }
+                return sb.toString();
+            }
+        };
+
+    }
 
     @Bean
     @ConfigurationProperties(prefix = "spring.redis")
