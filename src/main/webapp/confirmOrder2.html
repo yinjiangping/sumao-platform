@@ -162,7 +162,7 @@ var init = (function () {
         }
     }).done(function (data) {
         //console.log(data);
-        util.setSessionKey("rAddressKey",data.result[0].raddress);
+        util.setSessionKey("rAddressKey", data.result[0].raddress);
         if (data.result && data.result.length > 0) {
 
             //addressId
@@ -249,10 +249,24 @@ function pushHistory() {
 function getPrice(obj) {
     var res = 0;
     $.each(obj, function (k, v) {
-        res = res + v.price * v.number * 100;
+        res = Number(0) + accMul(v.price, v.number) * 100;
     })
     return res;
 }
+
+function accMul(arg1, arg2) {
+    var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+    try {
+        m += s1.split(".")[1].length
+    } catch (e) {
+    }
+    try {
+        m += s2.split(".")[1].length
+    } catch (e) {
+    }
+    return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+}
+
 //确定订单
 var Flg = true;
 if (Flg) {
