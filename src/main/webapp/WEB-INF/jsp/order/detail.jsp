@@ -21,8 +21,8 @@
             success: function (data) {
                 var json = eval(data);
                 $("#openID").html(json.openID);
+                $("#totalAmt").html(toDecimal(json.orderAmt)+toDecimal(json.freightAmt));
                 $("#orderAmt").html(json.orderAmt);
-                $("#totalAmt").html(json.orderAmt+json.freightAmt);
                 $("#freightAmt").html(json.freightAmt);
                 $("#deliverType").html(getDeliverType(json.deliverType));
                 $("#putOrderTime").html(json.putOrderTime);
@@ -46,6 +46,15 @@
             }
         });
     }
+
+    function toDecimal(x) {
+        var val = Number(x)
+        if(!isNaN(parseFloat(val))) {
+            val = val.toFixed(2);
+        }
+        return  val;
+    }
+
     function getDeliverType(type) {
         var deliverType = "未知"
         if ( type== "0") {
@@ -100,6 +109,9 @@
                         </td>
                         <td>
                             <span id="orderAmt"></span>
+                        </td>
+                        <td>
+                            <span id="freightAmt"></span>
                         </td>
                         <td>
                             <span id="deliverType"></span>
