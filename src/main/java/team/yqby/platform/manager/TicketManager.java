@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import team.yqby.platform.base.Response;
@@ -19,6 +20,7 @@ import team.yqby.platform.common.util.MD5Util;
 import team.yqby.platform.common.util.WeChatXmlUtil;
 import team.yqby.platform.config.PublicConfig;
 import team.yqby.platform.exception.AutoPlatformException;
+import team.yqby.platform.service.IRedisService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.List;
 @Service
 @Slf4j
 public class TicketManager {
+    @Autowired
+    private IRedisService iRedisService;
 
     /**
      * 根据code获取openID
@@ -36,12 +40,16 @@ public class TicketManager {
     public Response<FlowOpenIDRes> queryByCode(String code) {
         Response response;
         try {
-            List<NameValuePair> formParams = new ArrayList<>();
-            formParams.add(new BasicNameValuePair("appid", PublicConfig.APP_ID));
-            formParams.add(new BasicNameValuePair("secret", PublicConfig.APP_SECRET));
-            formParams.add(new BasicNameValuePair("code", code));
-            formParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
-            String resString = WebCall.closeableHttpClientPost("https://api.weixin.qq.com/sns/oauth2/access_token", formParams);
+            String resString = iRedisService.get(code);
+            if (StringUtils.isEmpty(resString)) {
+                List<NameValuePair> formParams = new ArrayList<>();
+                formParams.add(new BasicNameValuePair("appid", PublicConfig.APP_ID));
+                formParams.add(new BasicNameValuePair("secret", PublicConfig.APP_SECRET));
+                formParams.add(new BasicNameValuePair("code", code));
+                formParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
+                resString = WebCall.closeableHttpClientPost("https://api.weixin.qq.com/sns/oauth2/access_token", formParams);
+                iRedisService.set(code, resString, 7000);
+            }
             FlowOpenIDRes flowOpenIDRes = JSON.parseObject(resString, FlowOpenIDRes.class);
             log.info("请求微信获取openID，参数code：{}, 响应结果：{}", code, flowOpenIDRes);
             response = new Response(flowOpenIDRes);
