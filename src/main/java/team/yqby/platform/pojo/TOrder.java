@@ -15,18 +15,6 @@ public class TOrder {
 
     private String process;
 
-    private Long createby;
-
-    private String createbyname;
-
-    private Date createtime;
-
-    private Long updateby;
-
-    private String updatebyname;
-
-    private Date updatetime;
-
     private String orderno;
 
     private String resorderno;
@@ -44,6 +32,22 @@ public class TOrder {
     private Long shopid;
 
     private String remarks;
+
+    private Long createby;
+
+    private String createbyname;
+
+    private Date createtime;
+
+    private Long updateby;
+
+    private String updatebyname;
+
+    private Date updatetime;
+
+    private Long delivertype;
+
+    private String freightamt;
 
     public Long getId() {
         return id;
@@ -91,54 +95,6 @@ public class TOrder {
 
     public void setProcess(String process) {
         this.process = process == null ? null : process.trim();
-    }
-
-    public Long getCreateby() {
-        return createby;
-    }
-
-    public void setCreateby(Long createby) {
-        this.createby = createby;
-    }
-
-    public String getCreatebyname() {
-        return createbyname;
-    }
-
-    public void setCreatebyname(String createbyname) {
-        this.createbyname = createbyname == null ? null : createbyname.trim();
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public Long getUpdateby() {
-        return updateby;
-    }
-
-    public void setUpdateby(Long updateby) {
-        this.updateby = updateby;
-    }
-
-    public String getUpdatebyname() {
-        return updatebyname;
-    }
-
-    public void setUpdatebyname(String updatebyname) {
-        this.updatebyname = updatebyname == null ? null : updatebyname.trim();
-    }
-
-    public Date getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(Date updatetime) {
-        this.updatetime = updatetime;
     }
 
     public String getOrderno() {
@@ -211,5 +167,69 @@ public class TOrder {
 
     public void setRemarks(String remarks) {
         this.remarks = remarks == null ? null : remarks.trim();
+    }
+
+    public Long getCreateby() {
+        return createby;
+    }
+
+    public void setCreateby(Long createby) {
+        this.createby = createby;
+    }
+
+    public String getCreatebyname() {
+        return createbyname;
+    }
+
+    public void setCreatebyname(String createbyname) {
+        this.createbyname = createbyname == null ? null : createbyname.trim();
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public Long getUpdateby() {
+        return updateby;
+    }
+
+    public void setUpdateby(Long updateby) {
+        this.updateby = updateby;
+    }
+
+    public String getUpdatebyname() {
+        return updatebyname;
+    }
+
+    public void setUpdatebyname(String updatebyname) {
+        this.updatebyname = updatebyname == null ? null : updatebyname.trim();
+    }
+
+    public Date getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(Date updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public Long getDelivertype() {
+        return delivertype;
+    }
+
+    public void setDelivertype(Long delivertype) {
+        this.delivertype = delivertype;
+    }
+
+    public String getFreightamt() {
+        return freightamt;
+    }
+
+    public void setFreightamt(String freightamt) {
+        this.freightamt = freightamt == null ? null : freightamt.trim();
     }
 }

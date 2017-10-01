@@ -48,10 +48,10 @@ public class PayOrderService {
         Long freightAmt = confirmReq.getFreightAmt() == null ? 0L : confirmReq.getFreightAmt();
 
         //1.检查订单(用户与订单关联，下单金额与确认金额)
-        payOrderManager.checkOrder(confirmReq.getOrderAmt(), freightAmt, confirmReq.getOrderNo(), confirmReq.getOpenID());
+        payOrderManager.checkOrder(confirmReq.getOrderAmt(), freightAmt, confirmReq.getDeliverType(), confirmReq.getOrderNo(), confirmReq.getOpenID());
 
         //2.更新收获地址&门店信息
-        payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(), freightAmt);
+        payOrderManager.updateOrderInfo(confirmReq.getAddressId(), confirmReq.getShopId(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(), freightAmt, confirmReq.getDeliverType());
 
         //3.微信下单
         WeChatXmlUtil weChatXmlUtil = payOrderManager.createWeChatOrder(confirmReq.getOpenID(), confirmReq.getOrderNo(), confirmReq.getOrderAmt(), freightAmt);

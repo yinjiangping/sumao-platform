@@ -48,6 +48,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             OrderRes orderRes = new OrderRes();
             orderRes.setOrderNo(tOrder.getOrderno());
             orderRes.setPrice(tOrder.getOrderamt());
+            orderRes.setFreightAmt(tOrder.getFreightamt());
+            orderRes.setDeliverType(tOrder.getFreightamt());
             orderRes.setState(tOrder.getProcess());
             TFileExample tFileExample = new TFileExample();
             tFileExample.createCriteria().andOrderIdEqualTo(tOrder.getOrderno());
@@ -100,6 +102,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             OrderRes orderRes = new OrderRes();
             orderRes.setOrderNo(tOrder.getOrderno());
             orderRes.setPrice(MoneyUtil.changeF2Y(tOrder.getOrderamt()));
+            orderRes.setFreightAmt(tOrder.getFreightamt());
+            orderRes.setDeliverType(tOrder.getFreightamt());
             orderRes.setState(tOrder.getProcess());
             TFileExample tFileExample = new TFileExample();
             tFileExample.createCriteria().andOrderIdEqualTo(tOrder.getOrderno());
@@ -124,6 +128,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderDetailRes.setOrderNo(orderNo);
         orderDetailRes.setOpenID(tOrder.getCustomerId());
         orderDetailRes.setOrderAmt(MoneyUtil.changeF2Y(tOrder.getOrderamt()));
+        orderDetailRes.setFreightAmt(tOrder.getFreightamt());
+        orderDetailRes.setDeliverType(tOrder.getFreightamt());
         orderDetailRes.setPutOrderTime(DateUtil.format(tOrder.getPutOrderTime(), DateUtil.settlePattern));
         orderDetailRes.setState(ProcessEnum.getOrderStatus(tOrder.getProcess()));
         if (!tOrder.getProcess().equals(ProcessEnum.INIT.getCode())) {
@@ -178,7 +184,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public void deleteOrder(String orderNo) {
-        this.tOrderMapper.deleteByOrderNo(orderNo);
+        TOrderExample tOrderExample = new TOrderExample();
+        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
+        this.tOrderMapper.deleteByExample(tOrderExample);
     }
 
 }

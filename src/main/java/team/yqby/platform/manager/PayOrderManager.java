@@ -117,25 +117,21 @@ public class PayOrderManager {
      * @param orderAmt
      * @param orderNo
      */
-    public void checkOrder(Long orderAmt, Long freightAmt, String orderNo, String openID) {
+    public void checkOrder(Long orderAmt, Long freightAmt, Long deliverType, String orderNo, String openID) {
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andCustomerIdEqualTo(openID);
         List<TOrder> tOrderList = tOrderMapper.selectByExample(tOrderExample);
         if (tOrderList == null || tOrderList.isEmpty()) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
         }
-
         if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()) {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
-        if (!tOrderList.get(0).getProcess().equals(ProcessEnum.WAIT_PAY.getCode())) {
-            if (!StringUtils.equals(MoneyUtil.changeY2F(PublicConfig.FREIGHT_AMT), String.valueOf(freightAmt))) {
-                log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
-                throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
-            }
+        if (deliverType.equals(1) && freightAmt < Long.valueOf(PublicConfig.FREIGHT_AMT)) {
+            log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
-
         if (tOrderList.get(0).getProcess().equals(ProcessEnum.PAY_SUCCESS.getCode())) {
             log.error("订单已支付成功过,订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10010);
@@ -150,15 +146,16 @@ public class PayOrderManager {
      * @param shopId
      * @param orderNo
      */
-    public void updateOrderInfo(Long addressId, Long shopId, String orderNo, Long orderAmt, Long freightAmt) {
+    public void updateOrderInfo(Long addressId, Long shopId, String orderNo, Long orderAmt, Long freightAmt,Long deliverType) {
         //查询收货地址信息
         TDeliveryAddress tDeliveryAddress = tDeliveryAddressMapper.selectByPrimaryKey(Long.valueOf(addressId));
-        freightAmt = freightAmt == null ? 0L : freightAmt;
         TOrder tOrder = new TOrder();
         tOrder.setAddressid(Long.valueOf(addressId));
         tOrder.setShopid(shopId);
-        tOrder.setOrderamt(String.valueOf(orderAmt + freightAmt));
-        tOrder.setDeliveryinfo(Joiner.on("#").join(tDeliveryAddress.getDeliveryAddress(),tDeliveryAddress.getDeliveryName(),tDeliveryAddress.getDeliveryTel()));
+        tOrder.setOrderamt(String.valueOf(orderAmt));
+        tOrder.setFreightamt(String.valueOf(freightAmt));
+        tOrder.setDelivertype(deliverType);
+        tOrder.setDeliveryinfo(Joiner.on("#").join(tDeliveryAddress.getDeliveryAddress(), tDeliveryAddress.getDeliveryName(), tDeliveryAddress.getDeliveryTel()));
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
         int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
@@ -179,7 +176,6 @@ public class PayOrderManager {
      */
     public WeChatXmlUtil createWeChatOrder(String openId, String orderNo, Long orderAmt, Long freightAmt) {
         try {
-            freightAmt = freightAmt == null ? 0L : freightAmt;
             WeChatCreateOrder weChatCreateOrder = new WeChatCreateOrder();
             weChatCreateOrder.setAppid(PublicConfig.APP_ID);
             weChatCreateOrder.setMch_id(PublicConfig.MCH_ID);

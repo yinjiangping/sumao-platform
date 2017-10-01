@@ -21,6 +21,8 @@ public class OrderDetailRes {
     private String sendPhone;
     private String sendName;
     private String expressInfo;
+    private String deliverType;
+    private String freightAmt;
     private String resCode;
     private String resDesc;
     private List<ImagesRes> imagesResList;

@@ -28,6 +28,4 @@ public interface TOrderMapper {
     int updateByPrimaryKeySelective(TOrder record);
 
     int updateByPrimaryKey(TOrder record);
-
-    void deleteByOrderNo(@Param("orderNo") String orderNo);
 }

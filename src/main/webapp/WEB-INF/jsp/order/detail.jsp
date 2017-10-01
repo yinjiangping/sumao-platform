@@ -22,6 +22,9 @@
                 var json = eval(data);
                 $("#openID").html(json.openID);
                 $("#orderAmt").html(json.orderAmt);
+                $("#totalAmt").html(json.orderAmt+json.freightAmt);
+                $("#freightAmt").html(json.freightAmt);
+                $("#deliverType").html(getDeliverType(json.deliverType));
                 $("#putOrderTime").html(json.putOrderTime);
                 $("#state").html(json.state);
                 $("#resCode").html(json.resCode);
@@ -42,6 +45,17 @@
                 return;
             }
         });
+    }
+    function getDeliverType(type) {
+        var deliverType = "未知"
+        if ( type== "0") {
+            deliverType = "未选择"
+        } else if (type == "1") {
+            deliverType = "快递上门"
+        } else if (type == "2") {
+            deliverType = "上门自提"
+        }
+        return deliverType;
     }
     function downloadImage(src) {
         var a = $("<a></a>").attr("href", src).attr("download", "img.png").appendTo("body");
@@ -68,6 +82,9 @@
                     <tr>
                         <td><i class="require-red"></i>订单编号</td>
                         <td><i class="require-red"></i>订单金额</td>
+                        <td><i class="require-red"></i>商品金额</td>
+                        <td><i class="require-red"></i>运费</td>
+                        <td><i class="require-red"></i>配送类型</td>
                         <td><i class="require-red"></i>支付时间</td>
                         <td><i class="require-red"></i>订单状态</td>
                         <td><i class="require-red"></i>响应码</td>
@@ -79,7 +96,13 @@
                             <span id="orderNo">${paramMaps.orderNo}</span>
                         </td>
                         <td>
+                            <span id="totalAmt"></span>
+                        </td>
+                        <td>
                             <span id="orderAmt"></span>
+                        </td>
+                        <td>
+                            <span id="deliverType"></span>
                         </td>
                         <td>
                             <span id="putOrderTime"></span>

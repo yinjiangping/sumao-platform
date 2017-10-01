@@ -8,12 +8,6 @@
     <result column="refuse_time" property="refuseTime" jdbcType="TIMESTAMP" />
     <result column="is_pay" property="isPay" jdbcType="VARCHAR" />
     <result column="process" property="process" jdbcType="VARCHAR" />
-    <result column="createBy" property="createby" jdbcType="BIGINT" />
-    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
-    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
-    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
     <result column="resOrderNo" property="resorderno" jdbcType="VARCHAR" />
     <result column="orderAmt" property="orderamt" jdbcType="VARCHAR" />
@@ -23,6 +17,14 @@
     <result column="deliveryInfo" property="deliveryinfo" jdbcType="VARCHAR" />
     <result column="shopId" property="shopid" jdbcType="BIGINT" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="createBy" property="createby" jdbcType="BIGINT" />
+    <result column="createByName" property="createbyname" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateBy" property="updateby" jdbcType="BIGINT" />
+    <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="deliverType" property="delivertype" jdbcType="BIGINT" />
+    <result column="freightAmt" property="freightamt" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,9 +85,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, customer_id, put_order_time, refuse_time, is_pay, process, createBy, createByName, 
-    createTime, updateBy, updateByName, updateTime, orderNo, resOrderNo, orderAmt, resCode, 
-    resDesc, addressId, deliveryInfo, shopId, remarks
+    id, customer_id, put_order_time, refuse_time, is_pay, process, orderNo, resOrderNo, 
+    orderAmt, resCode, resDesc, addressId, deliveryInfo, shopId, remarks, createBy, createByName, 
+    createTime, updateBy, updateByName, updateTime, deliverType, freightAmt
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="team.yqby.platform.pojo.TOrderExample" >
     select
@@ -120,20 +122,20 @@
   <insert id="insert" parameterType="team.yqby.platform.pojo.TOrder" >
     insert into t_order (id, customer_id, put_order_time, 
       refuse_time, is_pay, process, 
-      createBy, createByName, createTime, 
-      updateBy, updateByName, updateTime, 
       orderNo, resOrderNo, orderAmt, 
       resCode, resDesc, addressId, 
-      deliveryInfo, shopId, remarks
-      )
+      deliveryInfo, shopId, remarks, 
+      createBy, createByName, createTime, 
+      updateBy, updateByName, updateTime, 
+      deliverType, freightAmt)
     values (#{id,jdbcType=BIGINT}, #{customerId,jdbcType=VARCHAR}, #{putOrderTime,jdbcType=TIMESTAMP}, 
       #{refuseTime,jdbcType=TIMESTAMP}, #{isPay,jdbcType=VARCHAR}, #{process,jdbcType=VARCHAR}, 
-      #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
       #{orderno,jdbcType=VARCHAR}, #{resorderno,jdbcType=VARCHAR}, #{orderamt,jdbcType=VARCHAR}, 
       #{rescode,jdbcType=VARCHAR}, #{resdesc,jdbcType=VARCHAR}, #{addressid,jdbcType=BIGINT}, 
-      #{deliveryinfo,jdbcType=VARCHAR}, #{shopid,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}
-      )
+      #{deliveryinfo,jdbcType=VARCHAR}, #{shopid,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, 
+      #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{delivertype,jdbcType=BIGINT}, #{freightamt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TOrder" >
     insert into t_order
@@ -155,24 +157,6 @@
       </if>
       <if test="process != null" >
         process,
-      </if>
-      <if test="createby != null" >
-        createBy,
-      </if>
-      <if test="createbyname != null" >
-        createByName,
-      </if>
-      <if test="createtime != null" >
-        createTime,
-      </if>
-      <if test="updateby != null" >
-        updateBy,
-      </if>
-      <if test="updatebyname != null" >
-        updateByName,
-      </if>
-      <if test="updatetime != null" >
-        updateTime,
       </if>
       <if test="orderno != null" >
         orderNo,
@@ -201,6 +185,30 @@
       <if test="remarks != null" >
         remarks,
       </if>
+      <if test="createby != null" >
+        createBy,
+      </if>
+      <if test="createbyname != null" >
+        createByName,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updateby != null" >
+        updateBy,
+      </if>
+      <if test="updatebyname != null" >
+        updateByName,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="delivertype != null" >
+        deliverType,
+      </if>
+      <if test="freightamt != null" >
+        freightAmt,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -220,24 +228,6 @@
       </if>
       <if test="process != null" >
         #{process,jdbcType=VARCHAR},
-      </if>
-      <if test="createby != null" >
-        #{createby,jdbcType=BIGINT},
-      </if>
-      <if test="createbyname != null" >
-        #{createbyname,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateby != null" >
-        #{updateby,jdbcType=BIGINT},
-      </if>
-      <if test="updatebyname != null" >
-        #{updatebyname,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="orderno != null" >
         #{orderno,jdbcType=VARCHAR},
@@ -265,6 +255,30 @@
       </if>
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createby != null" >
+        #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null" >
+        #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null" >
+        #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delivertype != null" >
+        #{delivertype,jdbcType=BIGINT},
+      </if>
+      <if test="freightamt != null" >
+        #{freightamt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -295,24 +309,6 @@
       <if test="record.process != null" >
         process = #{record.process,jdbcType=VARCHAR},
       </if>
-      <if test="record.createby != null" >
-        createBy = #{record.createby,jdbcType=BIGINT},
-      </if>
-      <if test="record.createbyname != null" >
-        createByName = #{record.createbyname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createtime != null" >
-        createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateby != null" >
-        updateBy = #{record.updateby,jdbcType=BIGINT},
-      </if>
-      <if test="record.updatebyname != null" >
-        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updatetime != null" >
-        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.orderno != null" >
         orderNo = #{record.orderno,jdbcType=VARCHAR},
       </if>
@@ -340,6 +336,30 @@
       <if test="record.remarks != null" >
         remarks = #{record.remarks,jdbcType=VARCHAR},
       </if>
+      <if test="record.createby != null" >
+        createBy = #{record.createby,jdbcType=BIGINT},
+      </if>
+      <if test="record.createbyname != null" >
+        createByName = #{record.createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null" >
+        updateBy = #{record.updateby,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatebyname != null" >
+        updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delivertype != null" >
+        deliverType = #{record.delivertype,jdbcType=BIGINT},
+      </if>
+      <if test="record.freightamt != null" >
+        freightAmt = #{record.freightamt,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -353,12 +373,6 @@
       refuse_time = #{record.refuseTime,jdbcType=TIMESTAMP},
       is_pay = #{record.isPay,jdbcType=VARCHAR},
       process = #{record.process,jdbcType=VARCHAR},
-      createBy = #{record.createby,jdbcType=BIGINT},
-      createByName = #{record.createbyname,jdbcType=VARCHAR},
-      createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      updateBy = #{record.updateby,jdbcType=BIGINT},
-      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       orderNo = #{record.orderno,jdbcType=VARCHAR},
       resOrderNo = #{record.resorderno,jdbcType=VARCHAR},
       orderAmt = #{record.orderamt,jdbcType=VARCHAR},
@@ -367,7 +381,15 @@
       addressId = #{record.addressid,jdbcType=BIGINT},
       deliveryInfo = #{record.deliveryinfo,jdbcType=VARCHAR},
       shopId = #{record.shopid,jdbcType=BIGINT},
-      remarks = #{record.remarks,jdbcType=VARCHAR}
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      createBy = #{record.createby,jdbcType=BIGINT},
+      createByName = #{record.createbyname,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateBy = #{record.updateby,jdbcType=BIGINT},
+      updateByName = #{record.updatebyname,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      deliverType = #{record.delivertype,jdbcType=BIGINT},
+      freightAmt = #{record.freightamt,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -389,24 +411,6 @@
       </if>
       <if test="process != null" >
         process = #{process,jdbcType=VARCHAR},
-      </if>
-      <if test="createby != null" >
-        createBy = #{createby,jdbcType=BIGINT},
-      </if>
-      <if test="createbyname != null" >
-        createByName = #{createbyname,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        createTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateby != null" >
-        updateBy = #{updateby,jdbcType=BIGINT},
-      </if>
-      <if test="updatebyname != null" >
-        updateByName = #{updatebyname,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        updateTime = #{updatetime,jdbcType=TIMESTAMP},
       </if>
       <if test="orderno != null" >
         orderNo = #{orderno,jdbcType=VARCHAR},
@@ -435,6 +439,30 @@
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
+      <if test="createby != null" >
+        createBy = #{createby,jdbcType=BIGINT},
+      </if>
+      <if test="createbyname != null" >
+        createByName = #{createbyname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        updateBy = #{updateby,jdbcType=BIGINT},
+      </if>
+      <if test="updatebyname != null" >
+        updateByName = #{updatebyname,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delivertype != null" >
+        deliverType = #{delivertype,jdbcType=BIGINT},
+      </if>
+      <if test="freightamt != null" >
+        freightAmt = #{freightamt,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -445,12 +473,6 @@
       refuse_time = #{refuseTime,jdbcType=TIMESTAMP},
       is_pay = #{isPay,jdbcType=VARCHAR},
       process = #{process,jdbcType=VARCHAR},
-      createBy = #{createby,jdbcType=BIGINT},
-      createByName = #{createbyname,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      updateBy = #{updateby,jdbcType=BIGINT},
-      updateByName = #{updatebyname,jdbcType=VARCHAR},
-      updateTime = #{updatetime,jdbcType=TIMESTAMP},
       orderNo = #{orderno,jdbcType=VARCHAR},
       resOrderNo = #{resorderno,jdbcType=VARCHAR},
       orderAmt = #{orderamt,jdbcType=VARCHAR},
@@ -459,12 +481,15 @@
       addressId = #{addressid,jdbcType=BIGINT},
       deliveryInfo = #{deliveryinfo,jdbcType=VARCHAR},
       shopId = #{shopid,jdbcType=BIGINT},
-      remarks = #{remarks,jdbcType=VARCHAR}
+      remarks = #{remarks,jdbcType=VARCHAR},
+      createBy = #{createby,jdbcType=BIGINT},
+      createByName = #{createbyname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateBy = #{updateby,jdbcType=BIGINT},
+      updateByName = #{updatebyname,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      deliverType = #{delivertype,jdbcType=BIGINT},
+      freightAmt = #{freightamt,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <delete id="deleteByOrderNo" parameterType="java.lang.String">
-    DELETE FROM t_order
-    WHERE orderNo = #{orderNo,jdbcType=VARCHAR}
-  </delete>
 </mapper>
