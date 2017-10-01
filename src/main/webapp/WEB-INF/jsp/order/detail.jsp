@@ -21,7 +21,8 @@
             success: function (data) {
                 var json = eval(data);
                 $("#openID").html(json.openID);
-                $("#totalAmt").html(accAdd(parseFloat(json.orderAmt),parseFloat(json.freightAmt)));
+                var totalAmt = accAdd(parseFloat(json.orderAmt),parseFloat(json.freightAmt));
+                $("#totalAmt").html(totalAmt.toFixed(2));
                 $("#orderAmt").html(json.orderAmt);
                 $("#freightAmt").html(json.freightAmt);
                 $("#deliverType").html(getDeliverType(json.deliverType));
