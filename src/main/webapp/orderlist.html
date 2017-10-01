@@ -190,6 +190,9 @@
             var that = $(this);
             var orderNo = that.attr("data-id"); //订单id
             var price = that.attr("data-price"); //订单价格
+            var freightAmt = that.attr("data-freightAmt"); //运费
+            var address = that.attr("data-address"); //地址
+            var deliverType = that.attr("data-deliverType"); //配送类型
             var shopId = that.attr("data-shopId"); //收货地址id
             var addressId = that.attr("data-addressId"); //收货地址id
             var state = that.attr("data-state"); //订单状态
@@ -223,8 +226,9 @@
                         addressId: addressId,
                         shopId: shopId,
                         orderNo: orderNo,
-                        orderAmt: price, //总价，包括运费
-                        freightAmt:"0"
+                        orderAmt: price, //商品价格
+                        freightAmt:freightAmt,//运费
+                        deliverType:deliverType
                     }
                 }).done(function(data) {
                     var res = data.result ? data.result : {};

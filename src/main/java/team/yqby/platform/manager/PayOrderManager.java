@@ -59,7 +59,7 @@ public class PayOrderManager {
             TFile tFile = new TFile();
             tFile.setFileNum(Long.valueOf(picNum));
             tFile.setFileSize(Long.valueOf(picSize));
-            tFile.setSinglePrice(picSinglePrice);
+            tFile.setSinglePrice("0");
             TFileExample tFileExample = new TFileExample();
             tFileExample.createCriteria().andIdEqualTo(picId);
             tFileMapper.updateByExampleSelective(tFile, tFileExample);

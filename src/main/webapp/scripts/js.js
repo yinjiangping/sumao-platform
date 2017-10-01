@@ -401,7 +401,6 @@ var submitOrder = function() {
                     return;
                 } else {
                     Flg = true;
-                    util.setSessionKey("freightAmt",parseInt(g_price.freightAmt*100));
                     window.location.href = "confirmOrder2.html?o=" + data.result; //页面跳转
                 }
             }).fail(function() {
