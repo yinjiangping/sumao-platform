@@ -128,7 +128,7 @@ public class PayOrderManager {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
-        if (deliverType.equals(1) && freightAmt < Long.valueOf(PublicConfig.FREIGHT_AMT)) {
+        if (deliverType == 1L && freightAmt < Long.valueOf(PublicConfig.FREIGHT_AMT)) {
             log.error("订单金额freightAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);
         }
