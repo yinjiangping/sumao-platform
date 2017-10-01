@@ -58,7 +58,7 @@
     <link href="styles/reset.css?20170216_1.5" type="text/css" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="styles/layer.css">
     <link rel="stylesheet" type="text/css" href="styles/css.css?20170216_1.5" />
-    <title>四茂摄影工作室</title>
+    <title>四茂冲印</title>
     <script src="scripts/lib/flexible.js?20170216_1.5"></script>
     <script src="scripts/lib/flexible_css.js?20170216_1.5"></script>
 </head>
@@ -67,7 +67,7 @@
     <div class="bg"></div>
     <div id="wrapper" class="pb160">
         <div class="gd-address mg26">
-            <a href="addressList.html?o=H1994052645838&type=order">
+            <a href="javascript:void(0)" onclick="goAddr()">
                 <dl id="addressId">
                 </dl>
             </a>
@@ -80,6 +80,12 @@
             <div class="money">
                 <em class="fl">门店</em>
                 <select style="height:1.44rem;color: #7C6CB7;" class="fr" name="shop" id="shopId">
+                </select>
+            </div>
+            <div class="money">
+                <em class="fl">配送方式</em>
+                <select style="height:1.44rem;color: #7C6CB7;" class="fr">
+                    <option>门店自取</option>
                 </select>
             </div>
         </div>
@@ -109,7 +115,7 @@
                 url: g_baseUrl + "paySign",
                 data: {
                     "openID": util.getSessionKey('openID'),
-                    "url": "http://www.sumaophoto.net/webChat/confirmOrder2.html"
+                    "url": window.location.href
                 }
             })
             .done(function(data) {
@@ -199,6 +205,9 @@
         });
     })();
 
+    function goAddr(){
+        window.location.href = "./addressList.html?o=" +orderId+'&type=order'
+    }
     function setHistory(){
         pushHistory();  
         window.addEventListener("popstate", function(e) {  

@@ -58,7 +58,7 @@
     <link href="styles/reset.css?20170216_1.5" type="text/css" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="styles/layer.css">
     <link rel="stylesheet" type="text/css" href="styles/css.css?20170216_1.5" />
-    <title>四茂摄影工作室</title>
+    <title>四茂冲印</title>
     <script src="scripts/lib/flexible.js?20170216_1.5"></script>
     <script src="scripts/lib/flexible_css.js?20170216_1.5"></script>
 </head>
@@ -72,7 +72,7 @@
         </div>
         <div class="footer">
             <div class="foot-btn">
-                <a href="address.html">新增地址</a>
+                <a class="addAddress" href="javascript:void(0)">新增地址</a>
             </div>
         </div>
         <!--底部-end-->
@@ -151,7 +151,13 @@
             obj.phone=that.attr("data-phone");
             obj.address=that.attr("data-address");
             obj.zipCode=that.attr("data-zipCode");
-            window.location.replace("./address.html?address="+encodeURIComponent(JSON.stringify(obj)));
+            window.location.replace("./address.html?o="+util.GetQueryString('o')+"&address="+encodeURIComponent(JSON.stringify(obj)));
+        })
+    })();
+
+    var addAddress = (function(){
+        $("body").on("click",".addAddress",function(){
+            window.location.replace("./address.html?o="+util.GetQueryString('o'));
         })
     })();
 

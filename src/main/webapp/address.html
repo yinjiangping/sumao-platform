@@ -58,7 +58,7 @@
     <link href="styles/reset.css?20170216_1.5" type="text/css" rel="stylesheet">
      <link rel="stylesheet" type="text/css" href="styles/layer.css">
     <link rel="stylesheet" type="text/css" href="styles/css.css?20170216_1.5" />
-    <title>四茂摄影工作室</title>
+    <title>四茂冲印</title>
     <script src="scripts/lib/flexible.js?20170216_1.5"></script>
     <script src="scripts/lib/flexible_css.js?20170216_1.5"></script>
 </head>
@@ -177,10 +177,10 @@
                 alert("请输入11位手机号码");
                 return false;
             }
-            if (code == "") {
-                alert("请输入邮政编码");
-                return false;
-            }
+            // if (code == "") {
+            //     alert("请输入邮政编码");
+            //     return false;
+            // }
             if (address == "") {
                 alert("地址不能为空");
                 return false;
@@ -202,7 +202,10 @@
                         layer.msg("添加失败");
                         return;
                     }
-                    window.location.replace("./addressList.html");
+                    setDefaultAddr(id,function(){
+                        window.location.replace("./confirmOrder2.html?o="+util.GetQueryString('o'));
+                    })
+                    // window.location.replace("./addressList.html");
                 }).fail(function() {
                     alert("请重试");
                 });
@@ -217,18 +220,44 @@
                         zipCode:code
                     }
                 }).done(function(data) {
-                    //绘制页面
+                    //绘制页面 data.result
                     if(!data||!data.success){
                         layer.msg("添加失败");
                         return;
                     }
-                    window.location.replace("./addressList.html");
+                    setDefaultAddr(data.result,function(){
+                        window.location.replace("./confirmOrder2.html?o="+util.GetQueryString('o'));
+                    })
+                    // window.location.replace("./addressList.html");
+                    
                 }).fail(function() {
                     alert("请重试");
                 });
             }
 
         });
+
+        function setDefaultAddr(id,cb){
+            var parentId = id;
+            //alert(parentId)
+            util.sendAjax({
+                url: g_baseUrl + "setDefaultAddress",
+                data: {
+                    openID: util.getSessionKey('openID'),
+                    addressId: parentId
+                }
+            }).done(function(data) {
+                //绘制页面
+               //window.location.replace("./confirmOrder2.html");
+                if(!data||!data.success){
+                    alert(data.errorMsg||"操作失败！");
+                    return;
+                }
+                cb();
+            }).fail(function() {
+                alert("请重试");
+            });
+        }
     }())
     </script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

@@ -118,11 +118,11 @@ Util.prototype.sendAjax = function(obj) {
         layer.closeAll();
     });
 };
-Util.prototype.sendAjaxImg = function (id) {
+Util.prototype.sendAjaxImg = function (id,base) {
     var id=id.substr(1);
      $(".load,.load-text").show(); //隐藏正在上传图片
     util.sendAjax({
-        url: "http://www.sumaophoto.net/webChat/uploadPicInfo",
+        url: base+"uploadPicInfo",
         data:{
             openID:util.getSessionKey("openID"),
             uploadToken:util.getSessionKey("uptoken"),
@@ -209,6 +209,12 @@ Util.prototype.isLocalFlow=function(){
         return 3;
     }
 
+}
+Util.prototype.GetQueryString = function(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
 }
  Util.prototype.GetRequest=function() {
     var url = window.decodeURIComponent(location.search); //获取url中"?"符后的字串

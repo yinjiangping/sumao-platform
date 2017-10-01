@@ -119,9 +119,9 @@ FileProgress.prototype.getTimer = function(timer) {
     return this.fileProgressWrapper.FP_TIMER || null;
 };
 
-FileProgress.prototype.sendAjaxImg = function (file,key) {
+FileProgress.prototype.sendAjaxImg = function (file,key,base) {
     util.sendAjax({
-        url: "http://www.sumaophoto.net/webChat/uploadPicInfo",
+        url: base+"uploadPicInfo",
         data:{
             openID:util.getSessionKey("openID"),
             uploadToken:util.getSessionKey("uptoken"),
@@ -268,7 +268,7 @@ FileProgress.prototype.setComplete = function(up, info,file) {
         //     "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     }
     //发送图片名称到接口服务器
-    this.sendAjaxImg(file,res.key);
+    this.sendAjaxImg(file,res.key,window.g_baseUrl);
     util.setSessionKey(file.id,res.key);//存入本地空间中
     rSize("a"+file.id, file.size); //推荐尺寸
 

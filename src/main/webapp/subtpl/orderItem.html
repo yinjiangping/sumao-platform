@@ -37,7 +37,7 @@
                     <div class="col2">已收货</div>
                     {#/if}
                     {#if $T.order.state=="INIT"}
-                        <div class="col3">￥{(parseInt($T.order.price)+parseInt($T.freightAmt))/100}</div>
+                        <div class="col3">￥{(parseInt($T.order.price||0)+parseInt($T.freightAmt||0))/100}</div>
                     {#else}
                         <div class="col3">￥{$T.order.price/100}</div>
                     {#/if}

@@ -1,4 +1,4 @@
-//var g_baseUrl = "http://192.168.144.183:8093/mock/";
+//var g_baseUrl = "http://192.168.0.102:7300/mock/59cd9c4f55deb8dfcb498e17/mock/";
 //var g_baseUrl = "http://www.189tel.cn/";//http://www.djtx.com.cn/
 var g_baseUrl = "http://www.sumaophoto.net/webChat/";
 //var g_baseUrl = "/json/";
@@ -179,22 +179,25 @@ var imgMag = (function() {
             layer.msg('图片质量有点低，照片可能不太清晰噢~');
 
             ChoiceSize(id, 5);
-            elLi.find('dd:gt(0)').addClass('errtips');
+            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            // elLi.find('dd:gt(0)').addClass('errtips');
         } else if (mbSize < config.section_2) {
             ChoiceSize(id, 5);
-            elLi.find('dd:gt(0)').addClass('errtips');
-        } else if (mbSize > config.section_2 && mbSize < config.section_3) {
+            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            // elLi.find('dd:gt(0)').addClass('errtips');
+        } else if (mbSize >= config.section_2 && mbSize < config.section_3) {
             ChoiceSize(id, 5);
-            elLi.find("dd:lt(2)").addClass('canclick').end().find('dd:gt(1)').addClass('errtips');
-        } else if (mbSize > config.section_3 && mbSize < config.section_4) {
+            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            // elLi.find("dd:lt(2)").addClass('canclick').end().find('dd:gt(1)').addClass('errtips');
+        } else if (mbSize >= config.section_3 && mbSize < config.section_4) {
             ChoiceSize(id, 5);
             //ChoiceSize(id, 8);
             elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
-        } else if (mbSize > config.section_4 && mbSize < config.section_5) {
+        } else if (mbSize >= config.section_4 && mbSize < config.section_5) {
             ChoiceSize(id, 5);
             //ChoiceSize(id, 12);
             elLi.find("dd:lt(5)").addClass('canclick');
-        } else if (mbSize > config.section_5) {
+        } else if (mbSize >= config.section_5) {
             ChoiceSize(id, 5);
             //ChoiceSize(id, 18);
             elLi.find("dd:lt(5)").addClass('canclick');
@@ -366,7 +369,7 @@ var submitOrder = function() {
                 var ThisVal = $(this).find(".show-count").text(); //数量
                 var ThisSize = $(this).find("dd.curr").attr("data-value"); //尺寸
                 if(!ThisId){
-                    util.sendAjaxImg($(this).attr("id"));//传递图片到后台
+                    util.sendAjaxImg($(this).attr("id"),g_baseUrl);//传递图片到后台
                     layer.msg('等待2秒再试试');
                     return;
                 }
