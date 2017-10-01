@@ -249,7 +249,7 @@ function pushHistory() {
 function getPrice(obj) {
     var res = 0;
     $.each(obj, function (k, v) {
-        res = Number(0) + accMul(v.price, v.number) * 100;
+        res = res + accMul(v.price, v.number) * 100;
     })
     return res;
 }
