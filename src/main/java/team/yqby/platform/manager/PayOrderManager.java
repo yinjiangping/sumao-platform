@@ -124,6 +124,10 @@ public class PayOrderManager {
         if (tOrderList == null || tOrderList.isEmpty()) {
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A10006);
         }
+        if (deliverType == null | deliverType == 0L) {
+            log.error("未选择配送方式，订单号:{}", orderNo);
+            throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20009);
+        }
         if (Long.valueOf(tOrderList.get(0).getOrderamt()).longValue() != orderAmt.longValue()) {
             log.error("订单金额orderAmt被篡改，订单号:{}", orderNo);
             throw new AutoPlatformException(ServiceErrorCode.ERROR_CODE_A20002);

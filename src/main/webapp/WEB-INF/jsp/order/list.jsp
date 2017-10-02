@@ -56,11 +56,13 @@
             //循环获取数据
             var orderNo = json[index].orderNo;
             var price = json[index].price;
+            var freightAmt = json[index].freightAmt;
+            var totalAmt = accAdd(parseFloat(price),parseFloat(freightAmt));
             var state = json[index].state;
             var deliverType =  json[index].deliverType;
             var createTime = json[index].createTime;
             var putOrderTime = json[index].putOrderTime;
-            htmlContext += "<tr><td>" + orderNo + "</td><td>" + price + "</td><td>" + getOrderStatus(state) + "</td><td>" + createTime + "</td><td>" + putOrderTime + "</td><td>"
+            htmlContext += "<tr><td>" + orderNo + "</td><td>" + totalAmt.toFixed(2) + "</td><td>" + getOrderStatus(state) + "</td><td>" + createTime + "</td><td>" + putOrderTime + "</td><td>"
             var requestParam = '?pageId=1011&pageUrl=order/edit&orderNo=' + orderNo
             if (state == "DELIVERY_FAIL" || state == "PAY_SUCCESS") {
                 if ( deliverType == "1") {
@@ -74,6 +76,13 @@
         $("#list").html(htmlContext);
     }
 
+    function accAdd(arg1,arg2){
+        var r1,r2,m;
+        try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+        try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+        m=Math.pow(10,Math.max(r1,r2));
+        return (arg1*m+arg2*m)/m;
+    }
     function getOrderStatus(state) {
         var orderState = "未知"
         if (state == "INIT") {

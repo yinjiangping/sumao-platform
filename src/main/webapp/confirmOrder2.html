@@ -209,11 +209,15 @@ var init = (function () {
         layer.msg("网络繁忙，请稍候再试！");
     });
 })();
+
 $('#deliverType').change(function () {
     var choiceValue = $(this).children('option:selected').val();
     if (choiceValue == "1") {
         var patExp = new RegExp("江苏省|浙江省|上海市|安徽省");
         var rAddressValue = util.getSessionKey("rAddressKey")
+        if (!rAddressValue) {
+            return;
+        }
         var result = patExp.test(rAddressValue);
         if (result) {
             $("#freightAmt").text("6.00");
@@ -278,6 +282,7 @@ if (Flg) {
         var addressId = $("#addressId").find("dt").attr("data-id");
         var shopId = $("#shopId").val();
         var deliverType = $("#deliverType").val();
+        var freightAmt = $("#freightAmt").val();
         var orderAmt = totalprice;
         if (!orderId) {
             alert("订单编号不能为空");
@@ -293,6 +298,14 @@ if (Flg) {
         }
         if (!orderAmt) {
             alert("订单金额不能为空");
+            return;
+        }
+        if (deliverType == "0") {
+            alert("配送方式未选择");
+            return;
+        }
+        if (deliverType == "1" &&  !freightAmt){
+            alert("收货地址不能为空");
             return;
         }
         // var size = [],

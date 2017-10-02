@@ -185,6 +185,7 @@
                 alert("地址不能为空");
                 return false;
             }
+            address = address.substring(address.lastIndexOf(" "))
             if (id) {
                 util.sendAjax({
                     url: g_baseUrl + "editAddress",
@@ -192,7 +193,7 @@
                         openID: util.getSessionKey('openID'),
                         rUserName: name,
                         rPhone: phone,
-                        rAddress: cityVal + address,
+                        rAddress: cityVal +" "+ address,
                         zipCode: code,
                         addressId: id
                     }
@@ -216,7 +217,7 @@
                         openID: util.getSessionKey('openID'),
                         rUserName: name,
                         rPhone: phone,
-                        rAddress: cityVal + address,
+                        rAddress: cityVal +" "+ address,
                         zipCode: code
                     }
                 }).done(function (data) {

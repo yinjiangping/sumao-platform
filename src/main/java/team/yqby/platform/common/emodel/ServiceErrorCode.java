@@ -31,6 +31,7 @@ public enum ServiceErrorCode {
     ERROR_CODE_A20006("A20006", "收货地址不存在"),
     ERROR_CODE_A20007("A20007", "收货地址已被使用"),
     ERROR_CODE_A20008("A20008", "上传授权码无效"),
+    ERROR_CODE_A20009("A20009", "配送方式未选择"),
 
     ERROR_CODE_A10012("A10012", "用户名不存在"),
     ERROR_CODE_A10013("A10013", "用户名或密码有误"),

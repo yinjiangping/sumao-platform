@@ -21,8 +21,6 @@
             success: function (data) {
                 var json = eval(data);
                 $("#openID").html(json.openID);
-                var totalAmt = accAdd(parseFloat(json.orderAmt),parseFloat(json.freightAmt));
-                $("#totalAmt").html(totalAmt.toFixed(2));
                 $("#orderAmt").html(json.orderAmt);
                 $("#freightAmt").html(json.freightAmt);
                 $("#deliverType").html(getDeliverType(json.deliverType));
@@ -46,14 +44,6 @@
                 return;
             }
         });
-    }
-
-    function accAdd(arg1,arg2){
-        var r1,r2,m;
-        try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
-        try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
-        m=Math.pow(10,Math.max(r1,r2));
-        return (arg1*m+arg2*m)/m;
     }
 
     function getDeliverType(type) {
@@ -91,7 +81,6 @@
                     <tbody>
                     <tr>
                         <td><i class="require-red"></i>订单编号</td>
-                        <td><i class="require-red"></i>订单金额</td>
                         <td><i class="require-red"></i>商品金额</td>
                         <td><i class="require-red"></i>运费</td>
                         <td><i class="require-red"></i>配送类型</td>
@@ -104,9 +93,6 @@
                     <tr>
                         <td>
                             <span id="orderNo">${paramMaps.orderNo}</span>
-                        </td>
-                        <td>
-                            <span id="totalAmt"></span>
                         </td>
                         <td>
                             <span id="orderAmt"></span>

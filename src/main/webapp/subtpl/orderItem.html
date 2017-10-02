@@ -36,12 +36,7 @@
                     {#elseif $T.order.state=="DELIVERY_SUCCESS"}
                     <div class="col2">已收货</div>
                     {#/if}
-                    {#if $T.order.state=="INIT"}
-                        <div class="col3">￥{(parseInt($T.order.price||0))/100}</div>
-                    {#else}
-                        <div class="col3">￥{$T.order.price/100}</div>
-                    {#/if}
-                    
+                    <div class="col3">￥{(parseInt($T.order.price)+parseInt($T.order.freightAmt))/100}</div>
                     <!-- 未支付 -->
                     {#if $T.order.state=="INIT"||$T.order.state=="WAIT_PAY"}
                     <div class="col4">

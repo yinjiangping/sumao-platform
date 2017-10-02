@@ -9,22 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sun.security.krb5.internal.TGSRep;
 import team.yqby.platform.base.Response;
-import team.yqby.platform.base.TUserInfo;
 import team.yqby.platform.base.res.GoodsRes;
-import team.yqby.platform.base.res.SinglePicRes;
-import team.yqby.platform.common.constant.SystemConstant;
 import team.yqby.platform.common.emodel.ServiceErrorCode;
-import team.yqby.platform.common.enums.PicPriceType;
-import team.yqby.platform.common.util.DateUtil;
 import team.yqby.platform.common.util.MoneyUtil;
 import team.yqby.platform.config.ApiUrls;
 import team.yqby.platform.config.PublicConfig;
-import team.yqby.platform.exception.AutoPlatformException;
-import team.yqby.platform.manager.FileUploadThread;
 import team.yqby.platform.mapper.TFileMapper;
 import team.yqby.platform.mapper.TGoodsMapper;
 import team.yqby.platform.pojo.TFile;
@@ -33,10 +23,7 @@ import team.yqby.platform.pojo.TGoodsExample;
 import team.yqby.platform.service.IRedisService;
 import team.yqby.platform.service.TFileService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.*;
 
 @Slf4j

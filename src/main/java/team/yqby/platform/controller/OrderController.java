@@ -55,26 +55,27 @@ public class OrderController {
         }
     }
 
-    /***
+    /**
      * 删除订单
      * tony
+     *
      * @param orderNo
      * @return
      */
     @RequestMapping(value = ApiUrls.DELETE_ORDER)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Response deleteDeleteOrder(String openID,String orderNo){
+    public Response deleteDeleteOrder(String openID, String orderNo) {
         try {
-            log.info("delOrder started, request params:{}",orderNo);
+            log.info("delOrder started, request params:{},{}", openID, orderNo);
             this.orderInfoService.deleteOrder(orderNo);
             return new Response("操作成功");
         } catch (AutoPlatformException e) {
             log.error(" delOrder meet error, orderNo:{}, response:{}", orderNo, Throwables.getStackTraceAsString(e));
-            return new Response("100005","删除失败");
+            return new Response("100005", "删除失败");
         } catch (Exception e) {
-            log.error(" delOrder meet error, orderNo:{}, response:{}",orderNo, Throwables.getStackTraceAsString(e));
-            return new Response("100005","删除失败");
+            log.error(" delOrder meet error, orderNo:{}, response:{}", orderNo, Throwables.getStackTraceAsString(e));
+            return new Response("100005", "删除失败");
         }
     }
 
@@ -141,7 +142,7 @@ public class OrderController {
         try {
             log.info("orderDelivery started, request ");
             TUserInfo tUserInfo = (TUserInfo) request.getSession().getAttribute(SystemConstant.SESSION_USER);
-            boolean updateResult = orderInfoService.updateOrder(orderNo, ProcessEnum.DELIVERY_SUCCESS.getCode(), ParamsValidate.strDecode(expressName), expressNo, tUserInfo.getId(),tUserInfo.getUsername());
+            boolean updateResult = orderInfoService.updateOrder(orderNo, ProcessEnum.DELIVERY_SUCCESS.getCode(), ParamsValidate.strDecode(expressName), expressNo, tUserInfo.getId(), tUserInfo.getUsername());
             log.info("orderDelivery finished,result:{}", updateResult);
             return updateResult;
         } catch (AutoPlatformException e) {
