@@ -282,7 +282,7 @@ if (Flg) {
         var addressId = $("#addressId").find("dt").attr("data-id");
         var shopId = $("#shopId").val();
         var deliverType = $("#deliverType").val();
-        var freightAmt = $("#freightAmt").val();
+        var freightAmt = $("#freightAmt").text();
         var orderAmt = totalprice;
         if (!orderId) {
             alert("订单编号不能为空");
