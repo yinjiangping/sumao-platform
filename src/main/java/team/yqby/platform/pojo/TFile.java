@@ -25,7 +25,7 @@ public class TFile {
 
     private Long fileNum;
 
-    private Long fileSize;
+    private String fileSize;
 
     private String singlePrice;
 
@@ -117,12 +117,12 @@ public class TFile {
         this.fileNum = fileNum;
     }
 
-    public Long getFileSize() {
+    public String getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Long fileSize) {
-        this.fileSize = fileSize;
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize == null ? null : fileSize.trim();
     }
 
     public String getSinglePrice() {

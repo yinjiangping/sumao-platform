@@ -130,7 +130,7 @@ var imgMag = (function() {
         //$(".downUpload").remove();//删除先有的上传节点
         var nub = $(".box li").length;
         var overnub = 36 - nub;
-        var LiHtml = '<li data-id="' + nub + '" id="downUpload"><div class="inner inner2"><div class="u-upload u-upload2"><button type="button" id="pickfiles">点击上传</button></div></div><div class="li-bj hide clearfix"><div class="picture"><span><img  src="images/photo.png"><a href="javascript:" class="close"></a></span></div><div class="inner-bar"><div class="amount">冲洗数量&emsp;<a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span><!--单个商品总价--></div><dl class="size"><dd class="curr" data-value="5">5寸</dd><dd data-value="6">6寸</dd><dd data-value="7">7寸</dd><dd data-value="10">10寸</dd></dl></div></div></li>';
+        var LiHtml = '<li data-id="' + nub + '" id="downUpload"><div class="inner inner2"><div class="u-upload u-upload2"><button type="button" id="pickfiles">点击上传</button></div></div><div class="li-bj hide clearfix"><div class="picture"><span><img  src="images/photo.png"><a href="javascript:" class="close"></a></span></div><div class="inner-bar"><div class="amount">冲洗数量&emsp;<a href="javascript:" class="btn-minus"></a><span class="show-count">1</span><a href="javascript:" class="btn-plus"></a>&emsp;￥<span class="Unit-Price">0.99</span> /张<span class="hide total-single">0.00</span><!--单个商品总价--></div><dl class="size"><dd class="curr" data-value="5">5寸</dd><dd data-value="6">6寸</dd><dd data-value="6.5">6.5寸</dd><dd data-value="7">7寸</dd><dd data-value="3">3寸</dd><dd data-value="8">8寸</dd></dl></div></div></li>';
         if (nub < 36) {
             $(".box ul").append(LiHtml);
         }
@@ -149,8 +149,8 @@ var imgMag = (function() {
     //选择尺寸计算价格
     window.ChoiceSize = function(id, szval) {
         var uP = $("#"+id).find(".Unit-Price");
-        var size = parseInt(szval);
-        $("#"+id).find("dd[data-value=" + szval + "]").addClass("curr").siblings("dd").removeClass("curr");
+        var size = parseFloat(szval);
+        $("#"+id).find("dd[data-value='" + szval + "']").addClass("curr").siblings("dd").removeClass("curr");
         
         switch (size) {
             case 5:
@@ -159,11 +159,17 @@ var imgMag = (function() {
             case 6:
                 uP.text(g_price.goods["6c"]);
                 break;
+            case 6.5:
+                uP.text(g_price.goods["6.5c"]);
+                break;
             case 7:
                 uP.text(g_price.goods["7c"]);
                 break;
-            case 10:
-                uP.text(g_price.goods["10c"]);
+            case 3:
+                uP.text(g_price.goods["3c"]);
+                break;
+            case 8:
+                uP.text(g_price.goods["8c"]);
                 break;
         }
         setTotal(); //计算单个商品总金额
@@ -179,28 +185,28 @@ var imgMag = (function() {
             layer.msg('图片质量有点低，照片可能不太清晰噢~');
 
             ChoiceSize(id, 5);
-            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:eq(4)').addClass('canclick').end().find('dd:eq(3)').addClass('errtips').end().find('dd:eq(5)').addClass('errtips');
             // elLi.find('dd:gt(0)').addClass('errtips');
         } else if (mbSize < config.section_2) {
             ChoiceSize(id, 5);
-            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:eq(4)').addClass('canclick').end().find('dd:eq(3)').addClass('errtips').end().find('dd:eq(5)').addClass('errtips');
             // elLi.find('dd:gt(0)').addClass('errtips');
         } else if (mbSize >= config.section_2 && mbSize < config.section_3) {
             ChoiceSize(id, 5);
-            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:eq(4)').addClass('canclick').end().find('dd:eq(3)').addClass('errtips').end().find('dd:eq(5)').addClass('errtips');
             // elLi.find("dd:lt(2)").addClass('canclick').end().find('dd:gt(1)').addClass('errtips');
         } else if (mbSize >= config.section_3 && mbSize < config.section_4) {
             ChoiceSize(id, 5);
             //ChoiceSize(id, 8);
-            elLi.find("dd:lt(3)").addClass('canclick').end().find('dd:gt(2)').addClass('errtips');
+            elLi.find("dd:lt(5)").addClass('canclick').end().find('dd:eq(5)').addClass('errtips');
         } else if (mbSize >= config.section_4 && mbSize < config.section_5) {
             ChoiceSize(id, 5);
             //ChoiceSize(id, 12);
-            elLi.find("dd:lt(5)").addClass('canclick');
+            elLi.find("dd:lt(6)").addClass('canclick');
         } else if (mbSize >= config.section_5) {
             ChoiceSize(id, 5);
             //ChoiceSize(id, 18);
-            elLi.find("dd:lt(5)").addClass('canclick');
+            elLi.find("dd:lt(6)").addClass('canclick');
         }
     }
 

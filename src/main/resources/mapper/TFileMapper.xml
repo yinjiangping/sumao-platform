@@ -13,7 +13,7 @@
     <result column="updateByName" property="updatebyname" jdbcType="VARCHAR" />
     <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
     <result column="file_num" property="fileNum" jdbcType="BIGINT" />
-    <result column="file_size" property="fileSize" jdbcType="BIGINT" />
+    <result column="file_size" property="fileSize" jdbcType="VARCHAR" />
     <result column="single_price" property="singlePrice" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -117,7 +117,7 @@
     values (#{id,jdbcType=BIGINT}, #{fileAddress,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{orderId,jdbcType=VARCHAR}, #{createby,jdbcType=BIGINT}, #{createbyname,jdbcType=VARCHAR}, 
       #{createtime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=BIGINT}, #{updatebyname,jdbcType=VARCHAR}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{fileNum,jdbcType=BIGINT}, #{fileSize,jdbcType=BIGINT}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{fileNum,jdbcType=BIGINT}, #{fileSize,jdbcType=VARCHAR}, 
       #{singlePrice,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="team.yqby.platform.pojo.TFile" useGeneratedKeys="true" keyProperty="id">
@@ -198,7 +198,7 @@
         #{fileNum,jdbcType=BIGINT},
       </if>
       <if test="fileSize != null" >
-        #{fileSize,jdbcType=BIGINT},
+        #{fileSize,jdbcType=VARCHAR},
       </if>
       <if test="singlePrice != null" >
         #{singlePrice,jdbcType=VARCHAR},
@@ -248,7 +248,7 @@
         file_num = #{record.fileNum,jdbcType=BIGINT},
       </if>
       <if test="record.fileSize != null" >
-        file_size = #{record.fileSize,jdbcType=BIGINT},
+        file_size = #{record.fileSize,jdbcType=VARCHAR},
       </if>
       <if test="record.singlePrice != null" >
         single_price = #{record.singlePrice,jdbcType=VARCHAR},
@@ -271,7 +271,7 @@
       updateByName = #{record.updatebyname,jdbcType=VARCHAR},
       updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
       file_num = #{record.fileNum,jdbcType=BIGINT},
-      file_size = #{record.fileSize,jdbcType=BIGINT},
+      file_size = #{record.fileSize,jdbcType=VARCHAR},
       single_price = #{record.singlePrice,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -311,7 +311,7 @@
         file_num = #{fileNum,jdbcType=BIGINT},
       </if>
       <if test="fileSize != null" >
-        file_size = #{fileSize,jdbcType=BIGINT},
+        file_size = #{fileSize,jdbcType=VARCHAR},
       </if>
       <if test="singlePrice != null" >
         single_price = #{singlePrice,jdbcType=VARCHAR},
@@ -331,7 +331,7 @@
       updateByName = #{updatebyname,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=TIMESTAMP},
       file_num = #{fileNum,jdbcType=BIGINT},
-      file_size = #{fileSize,jdbcType=BIGINT},
+      file_size = #{fileSize,jdbcType=VARCHAR},
       single_price = #{singlePrice,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>

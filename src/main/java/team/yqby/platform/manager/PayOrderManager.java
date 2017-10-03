@@ -58,7 +58,7 @@ public class PayOrderManager {
             String picSinglePrice = goodsMap.get(picSize);
             TFile tFile = new TFile();
             tFile.setFileNum(Long.valueOf(picNum));
-            tFile.setFileSize(Long.valueOf(picSize));
+            tFile.setFileSize(picSize);
             tFile.setSinglePrice(picSinglePrice);
             TFileExample tFileExample = new TFileExample();
             tFileExample.createCriteria().andIdEqualTo(picId);

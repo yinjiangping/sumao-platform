@@ -825,52 +825,62 @@ public class TFileExample {
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeEqualTo(Long value) {
+        public Criteria andFileSizeEqualTo(String value) {
             addCriterion("file_size =", value, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeNotEqualTo(Long value) {
+        public Criteria andFileSizeNotEqualTo(String value) {
             addCriterion("file_size <>", value, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeGreaterThan(Long value) {
+        public Criteria andFileSizeGreaterThan(String value) {
             addCriterion("file_size >", value, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeGreaterThanOrEqualTo(Long value) {
+        public Criteria andFileSizeGreaterThanOrEqualTo(String value) {
             addCriterion("file_size >=", value, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeLessThan(Long value) {
+        public Criteria andFileSizeLessThan(String value) {
             addCriterion("file_size <", value, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeLessThanOrEqualTo(Long value) {
+        public Criteria andFileSizeLessThanOrEqualTo(String value) {
             addCriterion("file_size <=", value, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeIn(List<Long> values) {
+        public Criteria andFileSizeLike(String value) {
+            addCriterion("file_size like", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeNotLike(String value) {
+            addCriterion("file_size not like", value, "fileSize");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileSizeIn(List<String> values) {
             addCriterion("file_size in", values, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeNotIn(List<Long> values) {
+        public Criteria andFileSizeNotIn(List<String> values) {
             addCriterion("file_size not in", values, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeBetween(Long value1, Long value2) {
+        public Criteria andFileSizeBetween(String value1, String value2) {
             addCriterion("file_size between", value1, value2, "fileSize");
             return (Criteria) this;
         }
 
-        public Criteria andFileSizeNotBetween(Long value1, Long value2) {
+        public Criteria andFileSizeNotBetween(String value1, String value2) {
             addCriterion("file_size not between", value1, value2, "fileSize");
             return (Criteria) this;
         }

@@ -19,7 +19,7 @@ public class TFileService {
         tFile.setFileAddress(Joiner.on("/").join(PublicConfig.QINIU_URL, fileName));
         tFile.setFileName(fileName);
         tFile.setFileNum(0L);
-        tFile.setFileSize(0L);
+        tFile.setFileSize("0");
         tFile.setSinglePrice("0");
         tFile.setCreatetime(new Date());
         tFile.setUpdatetime(new Date());
