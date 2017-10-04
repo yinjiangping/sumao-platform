@@ -68,7 +68,7 @@ public class OrderController {
     public Response deleteDeleteOrder(String openID, String orderNo) {
         try {
             log.info("delOrder started, request params:{},{}", openID, orderNo);
-            this.orderInfoService.deleteOrder(orderNo);
+            this.orderInfoService.deleteOrder(openID,orderNo);
             return new Response("操作成功");
         } catch (AutoPlatformException e) {
             log.error(" delOrder meet error, orderNo:{}, response:{}", orderNo, Throwables.getStackTraceAsString(e));

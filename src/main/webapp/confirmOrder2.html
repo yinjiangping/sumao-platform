@@ -76,20 +76,23 @@
         <h3>新增订单</h3>
         <ul data-id="1" id="orderList">
         </ul>
-        <div class="money"><em class="fl">运费</em><span class="fr" id="freightAmt">10.00</span>元</div>
+        <div class="money"><em class="fl">支付方式</em><p style="line-height: 23px"><span class="fr">在线支付</span><br><span class="fr">如需要发票请联系四茂客服</span></p></div>
         <div class="money">
             <em class="fl">门店</em>
-            <select style="height:1.44rem;color: #7C6CB7;" class="fr" name="shop" id="shopId">
+            <select style="height:1.44rem;color: #7C6CB7;background:#f5f5f5" class="fr" name="shop" id="shopId">
             </select>
         </div>
         <div class="money">
             <em class="fl">配送方式</em>
-            <select style="height:1.44rem;color: #7C6CB7;" class="fr" name="deliverType" id="deliverType">
-                <option value="0">--请选择--</option>
+            <select style="height:1.44rem;color: #7C6CB7;background:#f5f5f5" class="fr" name="deliverType" id="deliverType">
+                <option value="0">-请选择-</option>
                 <option value="1">快递上门</option>
                 <option value="2">门店自取</option>
             </select>
         </div>
+        <div class="money"><em class="fl">运费</em><span class="fr">元</span><span class="fr" id="freightAmt">10.00</span></div>
+        <div class="money"><em class="fl">实付款</em><span class="fr">元</span><span class="fr" style="color: #ff2601" id="totalAmt">0.00</span></div>
+
     </div>
     <div class="footer">
         <div class="foot-btn">
@@ -142,6 +145,7 @@ var init = (function () {
         }
     }).done(function (data) {
         totalprice = getPrice(data.result[0].images);
+        $("#totalAmt").text(fenToYuan(totalprice));
         if (!data || !data.success) {
             layer.msg("网络繁忙，请稍候再试！");
         }
@@ -219,15 +223,24 @@ $('#deliverType').change(function () {
             return;
         }
         var result = patExp.test(rAddressValue);
+        var freightAmt = "0.00";
         if (result) {
-            $("#freightAmt").text("6.00");
+            freightAmt="6.00";
         } else {
-            $("#freightAmt").text("10.00");
+            freightAmt="10.00";
         }
     } else {
-        $("#freightAmt").text("0.00");
+        freightAmt = "0.00";
     }
+    $("#freightAmt").text(freightAmt);
+     var goodsAmtY = fenToYuan(totalprice);
+    $("#totalAmt").text(accAdd(goodsAmtY,freightAmt).toFixed(2));
 })
+
+function fenToYuan(fen){
+    var yuan=fen/100.0;
+    return yuan.toFixed(2);
+}
 
 function goAddr() {
     window.location.href = "./addressList.html?o=" + orderId + '&type=order'
@@ -269,6 +282,14 @@ function accMul(arg1, arg2) {
     } catch (e) {
     }
     return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+}
+
+function accAdd(arg1,arg2){
+    var r1,r2,m;
+    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+    m=Math.pow(10,Math.max(r1,r2))
+    return (arg1*m+arg2*m)/m
 }
 
 //确定订单

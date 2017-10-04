@@ -183,9 +183,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public void deleteOrder(String orderNo) {
+    public void deleteOrder(String openID, String orderNo) {
         TOrderExample tOrderExample = new TOrderExample();
-        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
+        tOrderExample.createCriteria().andCustomerIdEqualTo(openID).andOrdernoEqualTo(orderNo);
         this.tOrderMapper.deleteByExample(tOrderExample);
     }
 
