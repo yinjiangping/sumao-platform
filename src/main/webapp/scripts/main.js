@@ -14,10 +14,10 @@ $(function() {
         dragdrop: false,
         filters : {
                 max_file_size : '100mb',
-                prevent_duplicates: true,
-                mime_types: [
-                    {title : "Image files", extensions : "jpg,gif,png,jpeg,tiff,psd,bmp"} // 限定jpg,gif,png后缀上传
-                ]
+                prevent_duplicates: true
+//                mime_types: [
+//                    {title : "Image files", extensions : "jpg,gif,png,jpeg,tiff,psd,bmp"} // 限定jpg,gif,png后缀上传
+//                ]
         },
         chunk_size: '4mb',
         multi_selection: true,
