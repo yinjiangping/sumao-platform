@@ -16,7 +16,7 @@ public class PayOrderReq implements Serializable {
    //用户微信唯一标识
     private String openID;
 
-    //订单金额(包含运费)
+    //订单金额
     private Long orderAmt;
 
     //文件编号列表

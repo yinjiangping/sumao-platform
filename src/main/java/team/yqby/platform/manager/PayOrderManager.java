@@ -75,7 +75,8 @@ public class PayOrderManager {
         tOrder.setOrderno(orderNo);
         tOrder.setCustomerId(openID);
         tOrder.setOrderamt(orderAmt);
-        tOrder.setCreatetime(new Date());
+        tOrder.setOrderamt(orderAmt);
+        tOrder.setFreightamt("0");
         tOrder.setPutOrderTime(new Date());
         tOrder.setUpdatetime(new Date());
         tOrder.setIsPay(PayFlagEnum.N.getCode());
