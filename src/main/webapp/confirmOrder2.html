@@ -166,9 +166,8 @@ var init = (function () {
         }
     }).done(function (data) {
         //console.log(data);
-        util.setSessionKey("rAddressKey", data.result[0].raddress);
         if (data.result && data.result.length > 0) {
-
+            util.setSessionKey("rAddressKey", data.result[0].raddress);
             //addressId
             util.fetchTpl("addressId", './subtpl/comfirmAddress.html', {
                 "address": data.result[0]
