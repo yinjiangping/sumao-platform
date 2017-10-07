@@ -124,6 +124,7 @@
                         <td><i class="require-red"></i>收件人</td>
                         <td><i class="require-red"></i>收件人电话</td>
                         <td colspan="4"><i class="require-red"></i>收件人地址</td>
+                        <td colspan="2"><i class="require-red"></i>备注</td>
                     </tr>
                     <tr>
                         <td>
@@ -138,14 +139,16 @@
                         <td colspan="4">
                             <span id="rAddress"></span>
                         </td>
+                        <td colspan="2">
+                            <span style="font-size:18px;color:dodgerblue;" id="showData"></span>
+                        </td>
                     </tr>
                     </tbody>
-
                 </table>
+
                 <div class="result-content" id="list">
                 </div>
                 <br>
-                <span id="showData"></span>
                 <H5 align="center"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
                                           value="返回" type="button"></H5>
             </form>

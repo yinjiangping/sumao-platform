@@ -28,6 +28,7 @@
     }
 
     function showData(orderNo, process, startDate, endDate) {
+        process = orderNo != '' ? '' : process;
         $.ajax({
             url: '${pageContext.request.contextPath}/queryAllOrder?orderNo=' + orderNo + "&process=" + process + "&startDate=" + startDate + "&endDate=" + endDate,
             type: 'GET',
@@ -57,15 +58,15 @@
             var orderNo = json[index].orderNo;
             var price = json[index].price;
             var freightAmt = json[index].freightAmt;
-            var totalAmt = accAdd(parseFloat(price),parseFloat(freightAmt));
+            var totalAmt = accAdd(parseFloat(price), parseFloat(freightAmt));
             var state = json[index].state;
-            var deliverType =  json[index].deliverType;
+            var deliverType = json[index].deliverType;
             var createTime = json[index].createTime;
             var putOrderTime = json[index].putOrderTime;
             htmlContext += "<tr><td>" + orderNo + "</td><td>" + totalAmt.toFixed(2) + "</td><td>" + getOrderStatus(state) + "</td><td>" + createTime + "</td><td>" + putOrderTime + "</td><td>"
             var requestParam = '?pageId=1011&pageUrl=order/edit&orderNo=' + orderNo
             if (state == "DELIVERY_FAIL" || state == "PAY_SUCCESS") {
-                if ( deliverType == "1") {
+                if (deliverType == "1") {
                     htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
                 }
             }
@@ -76,12 +77,20 @@
         $("#list").html(htmlContext);
     }
 
-    function accAdd(arg1,arg2){
-        var r1,r2,m;
-        try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
-        try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
-        m=Math.pow(10,Math.max(r1,r2));
-        return (arg1*m+arg2*m)/m;
+    function accAdd(arg1, arg2) {
+        var r1, r2, m;
+        try {
+            r1 = arg1.toString().split(".")[1].length
+        } catch (e) {
+            r1 = 0
+        }
+        try {
+            r2 = arg2.toString().split(".")[1].length
+        } catch (e) {
+            r2 = 0
+        }
+        m = Math.pow(10, Math.max(r1, r2));
+        return (arg1 * m + arg2 * m) / m;
     }
     function getOrderStatus(state) {
         var orderState = "未知"
@@ -146,7 +155,7 @@
                                 <option value="">请选择</option>
                                 <option value="INIT">初始状态</option>
                                 <option value="WAIT_PAY">下单成功</option>
-                                <option value="PAY_SUCCESS">支付成功</option>
+                                <option value="PAY_SUCCESS" selected>支付成功</option>
                                 <option value="PAY_FAIL">支付失败</option>
                                 <option value="DELIVERY_SUCCESS">已发货</option>
                                 <option value="DELIVERY_FAIL">发货失败</option>

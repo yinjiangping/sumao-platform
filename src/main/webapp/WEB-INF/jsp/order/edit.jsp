@@ -14,14 +14,13 @@
 <body>
 <script type="text/javascript">
     function submitFrom() {
-
         var orderNo = $("#orderNo").val();
         if (orderNo == "" || orderNo == undefined || orderNo == null) {
             alert("请输入订单编号");
             return;
         }
 
-        var expressName = $("#expressName").val();
+        var expressName = $("#expressName option:selected").val();
         if (expressName == "" || expressName == undefined || expressName == null) {
             alert("请输入快递公司名称");
             return;
@@ -33,10 +32,12 @@
             return;
         }
 
-        var requestParams = "?orderNo=" + $("#orderNo").val() + "&expressName=" + encodeURI($("#expressName").val()) + "&expressNo=" + $("#expressNo").val();
+        var requestParams = "?orderNo=" + orderNo + "&expressName=" + encodeURI(expressName) + "&expressNo=" + expressNo;
         htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
-        if (htmlobj.responseText == true) {
-            alert("发货成功");
+        if (htmlobj.responseJSON == true) {
+            alert("更新成功");
+        }else{
+            alert("更新失败");
         }
 
     }
@@ -44,8 +45,7 @@
 <div class="main-wrap">
 
     <div class="crumb-wrap">
-        <div class="crumb-list"><i class="icon-font"></i><a href="/jscss/admin/design/">首页</a><span class="crumb-step">&gt;</span><a
-                class="crumb-name" href="/jscss/admin/design/">订单管理</a><span
+        <div class="crumb-list"><i class="icon-font"></i>首页<span class="crumb-step">&gt;</span>订单管理<span
                 class="crumb-step">&gt;</span><span>更新订单</span></div>
     </div>
     <div class="result-wrap">
@@ -65,8 +65,17 @@
                     <tr>
                         <td><i class="require-red"></i>快递公司：</td>
                         <td>
-                            <input class="common-text required" id="expressName" name="expressName" size="50"
-                                   value="${paramMaps.expressName}" type="text">
+                            <select id="expressName" name="expressName"  style="width:332px;">
+                                <option value="申通快递">申通快递</option>
+                                <option value="圆通快递">圆通快递</option>
+                                <option value="中通快递">中通快递</option>
+                                <option value="百世快递">百世快递</option>
+                                <option value="韵达快递">韵达快递</option>
+                                <option value="天天快递">天天快递</option>
+                                <option value="中国邮政">中国邮政</option>
+                                <option value="EMS专递">EMS专递</option>
+                                <option value="其它快递">其它快递</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>

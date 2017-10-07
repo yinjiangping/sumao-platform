@@ -176,7 +176,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         tOrder.setUpdateby(userId);
         tOrder.setUpdatebyname(userName);
         TOrderExample tOrderExample = new TOrderExample();
-        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
+        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andProcessEqualTo(ProcessEnum.PAY_SUCCESS.getCode());
         int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
         if (i > 0) {
             return true;

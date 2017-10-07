@@ -34,7 +34,7 @@
                     {#elseif $T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"}
                     <div class="col2">已支付</div>
                     {#elseif $T.order.state=="DELIVERY_SUCCESS"}
-                    <div class="col2">已收货</div>
+                    <div class="col2">已发货</div>
                     {#/if}
                     <div class="col3">￥{(parseInt($T.order.price)+parseInt($T.order.freightAmt))/100}</div>
                     <!-- 未支付 -->
