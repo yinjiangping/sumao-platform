@@ -207,6 +207,8 @@ var init = (function () {
             util.fetchTpl("shopId", './subtpl/select.html', {
                 "shops": data.result
             });
+            //设置默认门店
+            $("#shopId option[value='3']").attr("selected", true);
         }
     }).fail(function () {
         layer.msg("网络繁忙，请稍候再试！");
@@ -309,7 +311,7 @@ if (Flg) {
             return;
         }
         if (!addressId) {
-            alert("收货地址不能为空");
+            goAddr();
             return;
         }
         if (!shopId) {

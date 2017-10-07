@@ -119,6 +119,7 @@
             "address": address
         })
     }
+
     $('#distpicker1').distpicker({
         placeholder: false
     });
@@ -128,7 +129,10 @@
         $("body").on("click", '#show-city', function () {
             $("#wrapper").hide();
             $("#city-wrap").show();
+            $("#s_province option[data-code='310000']").attr("selected", true);
+            $("#s_province").change();
         });
+
         $("body").on("click", '#city-wrap .btn', function () {
             var provinceVal = $("#s_province").val();
             var cityVal = $("#s_city").val();
