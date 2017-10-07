@@ -140,9 +140,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 orderDetailRes.setReceivePhone(strs[2]);
             }
             TShop tShop = tShopMapper.selectByPrimaryKey(tOrder.getShopid());
-            orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
-            orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
-            orderDetailRes.setSendPhone(tShop.getShopPhone());
+            if (tShop != null) {
+                orderDetailRes.setSendAddress(ParamsValidate.strDecode(tShop.getShopAddress()));
+                orderDetailRes.setSendName(ParamsValidate.strDecode(tShop.getShopName()));
+                orderDetailRes.setSendPhone(tShop.getShopPhone());
+            }
         }
 
         TFileExample tFileExample = new TFileExample();
