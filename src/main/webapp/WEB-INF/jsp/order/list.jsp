@@ -65,10 +65,8 @@
             var putOrderTime = json[index].putOrderTime;
             htmlContext += "<tr><td>" + orderNo + "</td><td>" + totalAmt.toFixed(2) + "</td><td>" + getOrderStatus(state) + "</td><td>" + createTime + "</td><td>" + putOrderTime + "</td><td>"
             var requestParam = '?pageId=1011&pageUrl=order/edit&orderNo=' + orderNo
-            if (state == "DELIVERY_FAIL" || state == "PAY_SUCCESS") {
-                if (deliverType == "1") {
-                    htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
-                }
+            if (state == "BEGIN_MADE") {
+                htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='发货' type='button'>&nbsp;"
             }
             var requestParam = '?pageId=1011&pageUrl=order/detail&orderNo=' + orderNo
             htmlContext += "<input class='btn text-big input-big btn2' label='${pageContext.request.contextPath}/forwardFunPage" + requestParam + "' onclick='operaRequest(this)' value='订单详情' type='button'>"
