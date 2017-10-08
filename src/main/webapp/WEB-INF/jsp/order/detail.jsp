@@ -33,13 +33,13 @@
                 $("#rPhone").html(json.receivePhone);
                 $("#rAddress").html(json.receiveAddress);
                 $("#showData").html(json.expressInfo);
-                if(json.state == "支付成功"){
-                    $("#beginMade").css('display','');
+                if (json.state == "支付成功") {
+                    $("#beginMade").css('display', '');
                 }
                 var htmlContext = "<br><br><table class='result-tab' width='100%'>"
                 var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td><td>操作</td></tr>"
                 $.each(json.imagesResList, function (index, item) {
-                    htmlContext += "<tr><td><img style='width:70px;height:50px;' src='" + item.img + "' /></td><td>" + item.price + "</td><td>" + item.picSize + "</td><td>" + item.number + "</td><td><input class='btn btn4 border-back text-big input-big' onclick= downloadImage('"+item.img+"') value='下载' type=button /></td></tr>"
+                    htmlContext += "<tr><td><img style='width:70px;height:50px;' src='" + item.img + "' /></td><td>" + item.price + "</td><td>" + item.picSize + "</td><td>" + item.number + "</td><td><input class='btn btn4 border-back text-big input-big' onclick= downloadImage('" + item.img + "') value='下载' type=button /></td></tr>"
                 });
                 $("#list").html(htmlContext);
             },
@@ -51,7 +51,7 @@
 
     function getDeliverType(type) {
         var deliverType = "未知"
-        if ( type== "0") {
+        if (type == "0") {
             deliverType = "未选择"
         } else if (type == "1") {
             deliverType = "快递上门"
@@ -66,18 +66,16 @@
         a.remove();
     }
 
-    function updateOrder(){
+    function updateOrder() {
         var processKey = "状态";
         var processValue = "正在制作";
-        var requestParams = "?orderNo=" + '${paramMaps.orderNo}' +"&cType=cz" +"&processKey=" + encodeURI(processKey) + "&processValue=" + encodeURI(processValue);
+        var requestParams = "?orderNo=" + '${paramMaps.orderNo}' + "&cType=cz" + "&processKey=" + encodeURI(processKey) + "&processValue=" + encodeURI(processValue);
         htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
         if (htmlobj.responseJSON == true) {
-            $("#showData").html(processKey +":"+processValue);
-            $("#state").html(processValue);
-            $("#beginMade").css('display','none');
-        }else{
-            $("#showData").html(processKey+ ":"+"接单失败");
-            $("#beginMade").css('display','none');
+            showData('${paramMaps.orderNo}');
+        } else {
+            $("#showData").html(processKey + ":" + "接单失败");
+            $("#beginMade").css('display', 'none');
         }
     }
 </script>
@@ -86,8 +84,8 @@
     <div class="crumb-wrap">
         <div class="crumb-list">
             <span class="crumb-name">首页</span><span class="crumb-step">&gt;</span><span
-                    class="crumb-name">订单管理</span><span
-                    class="crumb-step">&gt;</span><span>订单详情</span>
+                class="crumb-name">订单管理</span><span
+                class="crumb-step">&gt;</span><span>订单详情</span>
         </div>
     </div>
     <div class="result-wrap">
@@ -167,9 +165,11 @@
                 <div class="result-content" id="list">
                 </div>
                 <br>
-                <H5 align="center"><input class="btn btn4 border-back text-big input-big" id="beginMade" style="display: none" onclick="updateOrder()"
-                                          value="接单制作" type="button">&nbsp;&nbsp;<input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
-                                          value="返回" type="button"></H5>
+                <H5 align="center"><input class="btn btn4 border-back text-big input-big" id="beginMade"
+                                          style="display: none" onclick="updateOrder()"
+                                          value="接单制作" type="button">&nbsp;&nbsp;<input
+                        class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
+                        value="返回" type="button"></H5>
             </form>
         </div>
     </div>
