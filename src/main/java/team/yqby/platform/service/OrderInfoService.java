@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface OrderInfoService {
 
-    public List<OrderRes> queryAll(String openID,String orderNo);
+    public List<OrderRes> queryAll(String openID, String orderNo);
 
-    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate,Long shopId);
+    public List<OrderRes> queryAllOrder(String orderNo, String process, String startDate, String endDate, Long shopId);
 
-    public OrderDetailRes queryOrderDetail(String orderNo,Long shopId);
+    public OrderDetailRes queryOrderDetail(String orderNo, Long shopId);
 
-    public boolean updateOrder(String orderNo, String process,String expressName,String expressNo,Long userId,String userName);
+    public boolean updateOrder(String orderNo, String updateProcess, String queryProcess, String expressName, String expressNo, Long userId, String userName);
 
     public void deleteOrder(String openID, String orderNo);
 

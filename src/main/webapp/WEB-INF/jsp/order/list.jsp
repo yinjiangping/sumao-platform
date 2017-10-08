@@ -104,6 +104,8 @@
             orderState = "支付成功"
         } else if (state == "PAY_FAIL") {
             orderState = "支付失败"
+        } else if (state == "BEGIN_MADE") {
+            orderState = "正在制作"
         } else if (state == "DELIVERY_SUCCESS") {
             orderState = "已发货"
         } else if (state == "DELIVERY_FAIL") {
@@ -153,10 +155,12 @@
                         <td>
                             <select id="process" name="process">
                                 <option value="">请选择</option>
+                                <option value="NO_INIT" selected>待处理订单</option>
                                 <option value="INIT">初始状态</option>
                                 <option value="WAIT_PAY">下单成功</option>
-                                <option value="PAY_SUCCESS" selected>支付成功</option>
+                                <option value="PAY_SUCCESS">支付成功</option>
                                 <option value="PAY_FAIL">支付失败</option>
+                                <option value="BEGIN_MADE">正在制作</option>
                                 <option value="DELIVERY_SUCCESS">已发货</option>
                                 <option value="DELIVERY_FAIL">发货失败</option>
                             </select>

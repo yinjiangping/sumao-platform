@@ -33,6 +33,9 @@
                 $("#rPhone").html(json.receivePhone);
                 $("#rAddress").html(json.receiveAddress);
                 $("#showData").html(json.expressInfo);
+                if(json.state == "PAY_SUCCESS"){
+                    ("#beginMade$").css('display','block');
+                }
                 var htmlContext = "<br><br><table class='result-tab' width='100%'>"
                 var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td><td>操作</td></tr>"
                 $.each(json.imagesResList, function (index, item) {
@@ -62,19 +65,31 @@
         a[0].click();
         a.remove();
     }
+
+    function updateOrder(){
+        var processKey = "状态";
+        var processValue = "正在制作";
+        var requestParams = "?orderNo=" + '${paramMaps.orderNo}' +"&cType=cz" +"&processKey=" + encodeURI(processKey) + "&processValue=" + encodeURI(processValue);
+        htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
+        if (htmlobj.responseJSON == true) {
+            $("#showData").html(processKey +":"+processValue);
+        }else{
+            $("#showData").html(processKey+ ":"+"接单失败");
+        }
+    }
 </script>
 <div class="main-wrap">
 
     <div class="crumb-wrap">
-        <div class="crumb-list"><i class="icon-font"></i>
-            <pan class="crumb-name">首页</span><span class="crumb-step">&gt;</span><span
+        <div class="crumb-list">
+            <span class="crumb-name">首页</span><span class="crumb-step">&gt;</span><span
                     class="crumb-name">订单管理</span><span
                     class="crumb-step">&gt;</span><span>订单详情</span>
         </div>
     </div>
     <div class="result-wrap">
         <div class="result-content">
-            <form action="" method="post" id="myform" name="myform"
+            <form action="${pageContext.request.contextPath}/orderDelivery" method="post" id="myform" name="myform"
                   enctype="multipart/form-data">
                 <table class='result-tab' width="100%" border="1" cellspacing="0" cellpadding="0"
                        style="border-collapse:collapse">
@@ -149,7 +164,8 @@
                 <div class="result-content" id="list">
                 </div>
                 <br>
-                <H5 align="center"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
+                <H5 align="center"><input class="btn btn4 border-back text-big input-big" id="beginMade" style="display: none" onclick="updateOrder()"
+                                          value="接单制作" type="button"><input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
                                           value="返回" type="button"></H5>
             </form>
         </div>

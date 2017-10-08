@@ -17,6 +17,7 @@ public enum ProcessEnum {
     ORDER_FAIL("ORDER_FAIL", "下单失败"),
     PAY_SUCCESS("PAY_SUCCESS", "支付成功"),
     PAY_FAIL("PAY_FAIL", "支付失败"),
+    BEING_MADE("BEGIN_MADE", "正在制作"),
     DELIVERY_SUCCESS("DELIVERY_SUCCESS", "已发货"),
     DELIVERY_FAIL("DELIVERY_FAIL", "发货失败");
 

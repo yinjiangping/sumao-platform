@@ -2,7 +2,7 @@
     {#foreach $T.orderList as order}
     {#if $T.state==0||
     ($T.state==1&&($T.order.state=="INIT"||$T.order.state=="WAIT_PAY"||$T.order.state=="ORDER_FAIL"))||
-    ($T.state==2&&($T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"))||
+    ($T.state==2&&($T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"||$T.order.state=="BEGIN_MADE"))||
     ($T.state==3&&($T.order.state=="DELIVERY_SUCCESS"))}
     <!--未支付-->
     <li data-order="{$T.order.orderId}" class="mg26">
@@ -33,6 +33,8 @@
                     <div class="col2">已失效</div>
                     {#elseif $T.order.state=="PAY_SUCCESS"||$T.order.state=="DELIVERY_FAIL"}
                     <div class="col2">已支付</div>
+                    {#elseif $T.order.state=="BEGIN_MADE"}
+                    <div class="col2">正在制作</div>
                     {#elseif $T.order.state=="DELIVERY_SUCCESS"}
                     <div class="col2">已发货</div>
                     {#/if}

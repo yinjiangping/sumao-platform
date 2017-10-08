@@ -88,7 +88,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             criteria.andOrdernoEqualTo(orderNo);
         }
         if (StringUtils.isNotEmpty(process)) {
-            criteria.andProcessEqualTo(process);
+            if("NO_INIT".equals(process)){
+                criteria.andProcessNotEqualTo(ProcessEnum.INIT.getCode());
+            }else {
+                criteria.andProcessEqualTo(process);
+            }
         }
         if (StringUtils.isNotEmpty(startDate)) {
             criteria.andPutOrderTimeGreaterThanOrEqualTo(DateUtil.parse(startDate + " 00:00:00", DateUtil.settlePattern));
@@ -168,15 +172,15 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     @Override
-    public boolean updateOrder(String orderNo, String process, String expressName, String expressNo, Long userId, String userName) {
+    public boolean updateOrder(String orderNo, String updateProcess,String queryProcess, String expressName, String expressNo, Long userId, String userName) {
         TOrder tOrder = new TOrder();
         tOrder.setRemarks(ParamsValidate.strEncode(Joiner.on(":").join(expressName, expressNo)));
-        tOrder.setProcess(process);
+        tOrder.setProcess(updateProcess);
         tOrder.setUpdatetime(new Date());
         tOrder.setUpdateby(userId);
         tOrder.setUpdatebyname(userName);
         TOrderExample tOrderExample = new TOrderExample();
-        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andProcessEqualTo(ProcessEnum.PAY_SUCCESS.getCode());
+        tOrderExample.createCriteria().andOrdernoEqualTo(orderNo).andProcessEqualTo(queryProcess);
         int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);
         if (i > 0) {
             return true;

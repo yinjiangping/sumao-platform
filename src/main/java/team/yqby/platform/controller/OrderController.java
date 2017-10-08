@@ -68,7 +68,7 @@ public class OrderController {
     public Response deleteDeleteOrder(String openID, String orderNo) {
         try {
             log.info("delOrder started, request params:{},{}", openID, orderNo);
-            this.orderInfoService.deleteOrder(openID,orderNo);
+            this.orderInfoService.deleteOrder(openID, orderNo);
             return new Response("操作成功");
         } catch (AutoPlatformException e) {
             log.error(" delOrder meet error, orderNo:{}, response:{}", orderNo, Throwables.getStackTraceAsString(e));
@@ -131,18 +131,29 @@ public class OrderController {
     }
 
     /**
-     * 更新订单信息发货
+     * 更新订单状态
      *
      * @return
      */
     @RequestMapping(value = ApiUrls.ORDER_DELIVERY)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public boolean orderDelivery(String orderNo, String expressName, String expressNo, HttpServletRequest request) {
+    public boolean orderDelivery(String orderNo, String cType, String processKey, String processValue, HttpServletRequest request) {
         try {
-            log.info("orderDelivery started, request ");
+            String updateProcess;
+            String queryProcess;
             TUserInfo tUserInfo = (TUserInfo) request.getSession().getAttribute(SystemConstant.SESSION_USER);
-            boolean updateResult = orderInfoService.updateOrder(orderNo, ProcessEnum.DELIVERY_SUCCESS.getCode(), ParamsValidate.strDecode(expressName), expressNo, tUserInfo.getId(), tUserInfo.getUsername());
+            log.info("orderDelivery started, request ,orderNo:{},cType:{},cUser:{}", orderNo, cType,tUserInfo.getUsername());
+            if ("fh".equals(cType)) {
+                //更新为正在制作状态  (必须满足支付成功)
+                updateProcess = ProcessEnum.DELIVERY_SUCCESS.getCode();
+                queryProcess = ProcessEnum.BEING_MADE.getCode();
+            } else {
+                //更新为已发货状态  (必须满足制作成功)
+                updateProcess = ProcessEnum.BEING_MADE.getCode();
+                queryProcess = ProcessEnum.PAY_SUCCESS.getCode();
+            }
+            boolean updateResult = orderInfoService.updateOrder(orderNo, updateProcess, queryProcess, ParamsValidate.strDecode(processKey), ParamsValidate.strDecode(processValue), tUserInfo.getId(), tUserInfo.getUsername());
             log.info("orderDelivery finished,result:{}", updateResult);
             return updateResult;
         } catch (AutoPlatformException e) {

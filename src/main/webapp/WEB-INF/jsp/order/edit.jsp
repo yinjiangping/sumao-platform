@@ -32,7 +32,7 @@
             return;
         }
 
-        var requestParams = "?orderNo=" + orderNo + "&expressName=" + encodeURI(expressName) + "&expressNo=" + expressNo;
+        var requestParams = "?orderNo=" + orderNo +"&cType=fh" +"&processKey=" + encodeURI(expressName) + "&processValue=" + encodeURI(expressNo);
         htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
         if (htmlobj.responseJSON == true) {
             alert("更新成功");
