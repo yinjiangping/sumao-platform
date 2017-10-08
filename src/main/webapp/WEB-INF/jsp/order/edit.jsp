@@ -35,9 +35,9 @@
         var requestParams = "?orderNo=" + orderNo +"&cType=fh" +"&processKey=" + encodeURI(expressName) + "&processValue=" + encodeURI(expressNo);
         htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
         if (htmlobj.responseJSON == true) {
-            alert("更新成功");
+            $("#updateOrder").val("成功");
         }else{
-            alert("更新失败");
+            $("#updateOrder").val("失败");
         }
 
     }
@@ -88,7 +88,7 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input class="btn btn6 border-back text-big input-big" onclick="submitFrom()" value="更新订单"
+                            <input class="btn btn6 border-back text-big input-big" id="updateOrder" onclick="submitFrom()" value="更新订单"
                                    type="button">
                             <input class="btn btn4 border-back text-big input-big" onclick="history.go(-1)" value="返回"
                                    type="button">

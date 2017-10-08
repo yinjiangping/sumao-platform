@@ -74,8 +74,10 @@
         if (htmlobj.responseJSON == true) {
             $("#showData").html(processKey +":"+processValue);
             $("#state").html(processValue);
+            $("#beginMade").css('display','none');
         }else{
             $("#showData").html(processKey+ ":"+"接单失败");
+            $("#beginMade").css('display','none');
         }
     }
 </script>
