@@ -33,7 +33,7 @@
         }
 
         var requestParams = "?orderNo=" + orderNo +"&cType=fh" +"&processKey=" + encodeURI(expressName) + "&processValue=" + encodeURI(expressNo);
-        htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
+        htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false, cache:false});
         if (htmlobj.responseJSON == true) {
             $("#updateOrder").val("成功");
         }else{

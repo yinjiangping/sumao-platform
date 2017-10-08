@@ -70,7 +70,7 @@
         var processKey = "状态";
         var processValue = "正在制作";
         var requestParams = "?orderNo=" + '${paramMaps.orderNo}' + "&cType=cz" + "&processKey=" + encodeURI(processKey) + "&processValue=" + encodeURI(processValue);
-        htmlobj = $.ajax({url: $("#myform").attr("action") + requestParams, async: false});
+        htmlobj = $.ajax({url: '${pageContext.request.contextPath}/orderDelivery' + requestParams, async: false, cache:false});
         if (htmlobj.responseJSON == true) {
             showData('${paramMaps.orderNo}');
         } else {
