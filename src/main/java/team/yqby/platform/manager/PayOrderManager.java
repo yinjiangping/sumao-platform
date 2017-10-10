@@ -160,7 +160,7 @@ public class PayOrderManager {
         tOrder.setOrderamt(String.valueOf(orderAmt));
         tOrder.setFreightamt(String.valueOf(freightAmt));
         tOrder.setDelivertype(deliverType);
-        if(!"2".equals(deliverType)){
+        if(deliverType != 2L){
             tOrder.setDeliveryinfo(Joiner.on("#").join(tDeliveryAddress.getDeliveryAddress(), tDeliveryAddress.getDeliveryName(), tDeliveryAddress.getDeliveryTel()));
         }
         TOrderExample tOrderExample = new TOrderExample();
