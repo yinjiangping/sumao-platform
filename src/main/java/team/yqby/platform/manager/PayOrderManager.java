@@ -160,7 +160,9 @@ public class PayOrderManager {
         tOrder.setOrderamt(String.valueOf(orderAmt));
         tOrder.setFreightamt(String.valueOf(freightAmt));
         tOrder.setDelivertype(deliverType);
-        tOrder.setDeliveryinfo(Joiner.on("#").join(tDeliveryAddress.getDeliveryAddress(), tDeliveryAddress.getDeliveryName(), tDeliveryAddress.getDeliveryTel()));
+        if(!"2".equals(deliverType)){
+            tOrder.setDeliveryinfo(Joiner.on("#").join(tDeliveryAddress.getDeliveryAddress(), tDeliveryAddress.getDeliveryName(), tDeliveryAddress.getDeliveryTel()));
+        }
         TOrderExample tOrderExample = new TOrderExample();
         tOrderExample.createCriteria().andOrdernoEqualTo(orderNo);
         int i = tOrderMapper.updateByExampleSelective(tOrder, tOrderExample);

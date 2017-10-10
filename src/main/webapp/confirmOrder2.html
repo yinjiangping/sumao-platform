@@ -76,22 +76,28 @@
         <h3>新增订单</h3>
         <ul data-id="1" id="orderList">
         </ul>
-        <div class="money"><em class="fl">支付方式</em><p style="line-height: 23px"><span class="fr">在线支付</span><br><span class="fr">如需要发票请联系四茂客服</span></p></div>
-        <div class="money">
-            <em class="fl">门店</em>
-            <select style="height:1.44rem;color: #7C6CB7;background: url('images/arrow.png') no-repeat scroll right center transparent;padding-right:12px;" class="fr" name="shop" id="shopId">
-            </select>
-        </div>
+        <div class="money"><em class="fl">支付方式</em>
+
+            <p style="line-height: 23px"><span class="fr">在线支付</span><br><span class="fr">如需要发票请联系四茂客服</span></p></div>
         <div class="money">
             <em class="fl">配送方式</em>
-            <select style="height:1.44rem;color: #7C6CB7;background: url('images/arrow.png') no-repeat scroll right center transparent;padding-right:12px;" class="fr" name="deliverType" id="deliverType">
+            <select style="height:1.44rem;color: #7C6CB7;background: url('images/arrow.png') no-repeat scroll right center transparent;padding-right:12px;"
+                    class="fr" name="deliverType" id="deliverType">
                 <option value="0">-请选择-</option>
                 <option value="1">快递上门</option>
                 <option value="2">门店自取</option>
             </select>
         </div>
-        <div class="money"><em class="fl">运费</em><span class="fr">元</span><span class="fr" id="freightAmt">10.00</span></div>
-        <div class="money"><em class="fl">实付款</em><span class="fr">元</span><span class="fr" style="color: #ff2601" id="totalAmt">0.00</span></div>
+        <div class="money" id="shopDiv" style="display: none">
+            <em class="fl">门店</em>
+            <select style="height:1.44rem;color: #7C6CB7;background: url('images/arrow.png') no-repeat scroll right center transparent;padding-right:12px;"
+                    class="fr" name="shop" id="shopId">
+            </select>
+        </div>
+        <div class="money"><em class="fl">运费</em><span class="fr">元</span><span class="fr" id="freightAmt">10.00</span>
+        </div>
+        <div class="money"><em class="fl">实付款</em><span class="fr">元</span><span class="fr" style="color: #ff2601"
+                                                                                 id="totalAmt">0.00</span></div>
 
     </div>
     <div class="footer">
@@ -123,18 +129,18 @@ var init = (function () {
             "url": window.location.href
         }
     }).done(function (data) {
-                var res = data.result ? data.result : {};
-                wx.config({
-                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                    appId: res.appId, // 必填，公众号的唯一标识
-                    timestamp: res.timeStamp, // 必填，生成签名的时间戳
-                    nonceStr: res.nonceStr, // 必填，生成签名的随机串
-                    signature: res.signature, // 必填，签名，见附录1
-                    jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-                });
-            }).fail(function (data) {
+        var res = data.result ? data.result : {};
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: res.appId, // 必填，公众号的唯一标识
+            timestamp: res.timeStamp, // 必填，生成签名的时间戳
+            nonceStr: res.nonceStr, // 必填，生成签名的随机串
+            signature: res.signature, // 必填，签名，见附录1
+            jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+    }).fail(function (data) {
 
-            });
+    });
     //查询订单
     util.sendAjax({
         url: g_baseUrl + "queryOrder",
@@ -226,20 +232,22 @@ $('#deliverType').change(function () {
         var result = patExp.test(rAddressValue);
         var freightAmt = "0.00";
         if (result) {
-            freightAmt="6.00";
+            freightAmt = "6.00";
         } else {
-            freightAmt="10.00";
+            freightAmt = "10.00";
         }
+        $("#shopDiv").css('display', 'none');
     } else {
+        $("#shopDiv").css('display', 'block');
         freightAmt = "0.00";
     }
     $("#freightAmt").text(freightAmt);
-     var goodsAmtY = fenToYuan(totalprice);
-    $("#totalAmt").text(accAdd(goodsAmtY,freightAmt).toFixed(2));
+    var goodsAmtY = fenToYuan(totalprice);
+    $("#totalAmt").text(accAdd(goodsAmtY, freightAmt).toFixed(2));
 })
 
-function fenToYuan(fen){
-    var yuan=fen/100.0;
+function fenToYuan(fen) {
+    var yuan = fen / 100.0;
     return yuan.toFixed(2);
 }
 
@@ -285,12 +293,20 @@ function accMul(arg1, arg2) {
     return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
 }
 
-function accAdd(arg1,arg2){
-    var r1,r2,m;
-    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
-    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
-    m=Math.pow(10,Math.max(r1,r2))
-    return (arg1*m+arg2*m)/m
+function accAdd(arg1, arg2) {
+    var r1, r2, m;
+    try {
+        r1 = arg1.toString().split(".")[1].length
+    } catch (e) {
+        r1 = 0
+    }
+    try {
+        r2 = arg2.toString().split(".")[1].length
+    } catch (e) {
+        r2 = 0
+    }
+    m = Math.pow(10, Math.max(r1, r2))
+    return (arg1 * m + arg2 * m) / m
 }
 
 //确定订单
@@ -310,7 +326,7 @@ if (Flg) {
             alert("订单编号不能为空");
             return;
         }
-        if (!addressId) {
+        if (deliverType == "1" && !addressId) {
             goAddr();
             return;
         }
@@ -326,16 +342,18 @@ if (Flg) {
             alert("配送方式未选择");
             return;
         }
-        if (deliverType == "1" &&  !freightAmt){
+        if (deliverType == "1" && !freightAmt) {
             alert("收货地址不能为空");
             return;
         }
+
         // var size = [],
         //     num = [];
         // $(".payment-list dd").each(function(index, element) {
         //     size.push($(this).attr("data-value"));
         //     num.push($(this).find(".show-count").text());
         // });
+        addressId = deliverType == "2" ? "0" : addressId;
         var freightAmt = $("#freightAmt").text() * 100;
         util.sendAjax({
             url: g_baseUrl + "confirmOrder",
