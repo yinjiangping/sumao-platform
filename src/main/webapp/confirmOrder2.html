@@ -93,6 +93,7 @@
             <select style="height:1.44rem;color: #7C6CB7;background: url('images/arrow.png') no-repeat scroll right center transparent;padding-right:12px;"
                     class="fr" name="shop" id="shopId">
             </select>
+            <span class="fr" style="line-height: 0.46rem; font-size: 10px;color: cornflowerblue" id="shopDesc"></span>
         </div>
         <div class="money"><em class="fl">运费</em><span class="fr">元</span><span class="fr" id="freightAmt">10.00</span>
         </div>
@@ -215,12 +216,16 @@ var init = (function () {
             });
             //设置默认门店
             $("#shopId option[value='3']").attr("selected", true);
+            $('#shopId').change();
         }
     }).fail(function () {
         layer.msg("网络繁忙，请稍候再试！");
     });
 })();
 
+$('#shopId').change(function () {
+    $("#shopDesc").text($(this).children('option:selected').attr("title"))
+})
 $('#deliverType').change(function () {
     var choiceValue = $(this).children('option:selected').val();
     if (choiceValue == "1") {
