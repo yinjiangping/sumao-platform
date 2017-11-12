@@ -36,12 +36,13 @@
                 if (json.state == "支付成功") {
                     $("#beginMade").css('display', '');
                 }
-                var htmlContext = "<br><br><table class='result-tab' width='100%'>"
-                var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td><td>操作</td></tr>"
+                var htmlContext = "<br><br><table class='result-tab' width='100%'><tbody  id='img_list'>"
+                var htmlContext = htmlContext + "<tr><td>图片地址</td><td>图片名称</td><td>图片单价</td><td>图片尺寸</td><td>图片数量</td><td>操作</td></tr>"
                 $.each(json.imagesResList, function (index, item) {
-                    htmlContext += "<tr><td><img style='width:70px;height:50px;' src='" + item.img + "' /></td><td>" + item.price + "</td><td>" + item.picSize + "</td><td>" + item.number + "</td><td><input class='btn btn4 border-back text-big input-big' onclick= downloadImage('" + item.img + "') value='下载' type=button /></td></tr>"
+                    var imgUrl = item.img;
+                    htmlContext += "<tr><td><img style='width:70px;height:50px;' src='" + imgUrl + "' /></td><td>"+imgUrl.substring(imgUrl.lastIndexOf('/')+1)+"</td><td>" + item.price + "</td><td>" + item.picSize + "</td><td>" + item.number + "</td><td><input class='btn btn4 border-back text-big input-big' onclick= downloadImage('" + item.img + "') value='下载' type=button /></td></tr>"
                 });
-                $("#list").html(htmlContext);
+                $("#list").html("</tbody>"+htmlContext);
             },
             error: function () {
                 return;
@@ -66,18 +67,39 @@
         a.remove();
     }
 
-    function updateOrder() {
-        var processKey = "状态";
-        var processValue = "正在制作";
-        var requestParams = "?orderNo=" + '${paramMaps.orderNo}' + "&cType=cz" + "&processKey=" + encodeURI(processKey) + "&processValue=" + encodeURI(processValue);
-        htmlobj = $.ajax({url: '${pageContext.request.contextPath}/orderDelivery' + requestParams, async: false, cache:false});
-        if (htmlobj.responseJSON == true) {
-            showData('${paramMaps.orderNo}');
-        } else {
-            $("#showData").html(processKey + ":" + "接单失败");
-            $("#beginMade").css('display', 'none');
+    function batchDownload() {
+        var imgArray = new Array();
+        var trList = $("#img_list").children("tr")
+        for (var i = 1; i < trList.length; i++) {
+            var tdArr = trList.eq(i).find("td");
+            var imgUrl = tdArr.eq(0).find('img').attr("src"); //图片地址
+            imgArray[ i - 1 ] = imgUrl;
         }
+        var dNum = 0;
+        imgArray.map(function (i) {
+            var a = document.createElement('a');
+            a.setAttribute('download', '');
+            a.href = i;
+            document.body.appendChild(a);
+            a.click();
+            dNum ++;
+            });
+        alert("列表共"+imgArray.length+"张图片，已批量下载"+dNum+"张图片");
     }
+
+
+        function updateOrder() {
+            var processKey = "状态";
+            var processValue = "正在制作";
+            var requestParams = "?orderNo=" + '${paramMaps.orderNo}' + "&cType=cz" + "&processKey=" + encodeURI(processKey) + "&processValue=" + encodeURI(processValue);
+            htmlobj = $.ajax({url: '${pageContext.request.contextPath}/orderDelivery' + requestParams, async: false, cache: false});
+            if (htmlobj.responseJSON == true) {
+                showData('${paramMaps.orderNo}');
+            } else {
+                $("#showData").html(processKey + ":" + "接单失败");
+                $("#beginMade").css('display', 'none');
+            }
+        }
 </script>
 <div class="main-wrap">
 
@@ -167,7 +189,11 @@
                 <br>
                 <H5 align="center"><input class="btn btn4 border-back text-big input-big" id="beginMade"
                                           style="display: none" onclick="updateOrder()"
-                                          value="接单制作" type="button">&nbsp;&nbsp;<input
+                                          value="接单制作" type="button">&nbsp;&nbsp;
+                    <input
+                        class="btn btn4 border-back text-big input-big"
+                        onclick="batchDownload()"
+                        value="批量下载" type="button">&nbsp;&nbsp;<input
                         class="btn btn4 border-back text-big input-big" onclick="history.go(-1)"
                         value="返回" type="button"></H5>
             </form>
